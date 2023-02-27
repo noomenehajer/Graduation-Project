@@ -5,7 +5,8 @@ import { UserLayoutComponent } from './layouts/user-layout/user-layout.component
 
 const routes: Routes = [
 {path:'admin',component:AdminLayoutComponent},
-{path:'',component:UserLayoutComponent}
+{path:'',component:UserLayoutComponent},
+
 
 ];
 
