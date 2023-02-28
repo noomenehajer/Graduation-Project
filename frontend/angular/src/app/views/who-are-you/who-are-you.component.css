@@ -1,0 +1,10 @@
+body{
+  overflow-y:hidden !important;
+}
+.row{
+  margin-left: 260px;
+  margin-top: 50px;
+}
+#services{
+ height:740px !important;
+}
