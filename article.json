@@ -1,0 +1,14 @@
+[
+  {
+    "title": "First Article",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales, sapien non lacinia gravida, nibh nibh suscipit nunc, ac convallis risus nisi non velit."
+  },
+  {
+    "title": "Second Article",
+    "content": "Proin aliquam turpis sit amet ultrices molestie. Integer ac tincidunt metus. Vestibulum in ante in erat interdum faucibus."
+  },
+  {
+    "title": "Third Article",
+    "content": "Donec maximus semper metus, eget tincidunt ipsum. Suspendisse eget rutrum mauris, a bibendum mauris. Suspendisse potenti."
+  }
+]

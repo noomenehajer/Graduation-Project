@@ -1,0 +1,48 @@
+<div class="container mt-2">
+  <h2>Add Article</h2>
+  <hr>
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" >
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" formControlName="title">
+      <div *ngIf="articleForm.get('title')?.invalid && (articleForm.get('title')?.dirty || articleForm.get('title')?.touched)">
+        <div class="text-danger" *ngIf="articleForm.get('title')?.errors?.['required']">Title is required</div>
+        <div class="text-danger" *ngIf="articleForm.get('title')?.errors?.['minlength']">Title must be at least 5 characters long</div>
+        <div class="text-danger" *ngIf="articleForm.get('title')?.errors?.['maxlength']">Title cannot be more than 50 characters long</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea class="form-control" id="content" rows="5" formControlName="content"></textarea>
+      <div *ngIf="articleForm.get('content')?.invalid && (articleForm.get('content')?.dirty || articleForm.get('content')?.touched)">
+        <div class="text-danger" *ngIf="articleForm.get('content')?.errors?.['required']">Content is required</div>
+        <div class="text-danger" *ngIf="articleForm.get('content')?.errors?.['minlength']">Content must be at least 10 characters long</div>
+        <div class="text-danger" *ngIf="articleForm.get('content')?.errors?.['maxlength']">Content cannot be more than 500 characters long</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" class="form-control-file" id="image" (change)="onFileSelected($event)">
+      <div *ngIf="articleForm.get('image')?.invalid && (articleForm.get('image')?.dirty || articleForm.get('image')?.touched)">
+        <div class="text-danger" *ngIf="articleForm.get('image')?.errors?.['required']">Image is required</div>
+        <div class="text-danger" *ngIf="articleForm.get('image')?.errors?.['maxSize']">Maximum allowed size is 1 MB</div>
+        <div class="text-danger" *ngIf="articleForm.get('image')?.errors?.['type']">Only JPEG and PNG formats are allowed</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="articleForm.invalid || !onFileSelected">Add Article</button>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

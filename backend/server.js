@@ -1,45 +1,39 @@
-// const express = require('express')
-// const app = express()
-// const server = require('http').Server(app)
-// const io = require('socket.io')(server)
-// const { v4: uuidV4 } = require('uuid')
-
-// app.set('view engine', 'ejs')
-// app.use(express.static('public'))
-
-// app.get('/', (req, res) => {
-//   res.redirect(`/${uuidV4()}`)
-// })
-
-// app.get('/:room', (req, res) => {
-//   res.render('room', { roomId: req.params.room })
-// })
-
-// io.on('connection', socket => {
-//   socket.on('join-room', (roomId, userId) => {
-//     socket.join(roomId)
-//     socket.to(roomId).broadcast.emit('user-connected', userId)
-
-//     socket.on('disconnect', () => {
-//       socket.to(roomId).broadcast.emit('user-disconnected', userId)
-//     })
-//   })
-// })
-
-// server.listen(3000)
-// import './config/database'
 const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const articleRoutes = require('./routes/article.route');
+// Configuration du port d'écoute
+const PORT = process.env.PORT || 3000;
+// Initialiser l'application Express
 const app = express();
 
+// Middleware pour parser le corps des requêtes HTTP
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 
-app.post('/',(req,res)=>{
-    res.send("you can post to this endpoint");
-})
+// Autoriser les requêtes Cross-Origin Resource Sharing (CORS)
+app.use(cors());
 
-
-const port = process.env.PORT || 3000;
-app.listen(port ,()=>{
-console.log(`App running on port ${port}...`);
+//Se connecter à la base de données MongoDB
+mongoose.set('strictQuery', false);
+mongoose.connect('mongodb://localhost:27017/myappdb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
+const db = mongoose.connection;
+
+db.on('error', (error) => {
+  console.error('Error connecting to database:', error);
+});
+
+db.once('open', () => {
+  console.log('Connected to database');
+});
+app.use('/api', articleRoutes);
+app.use('/uploads', express.static('uploads'));
+
+// Démarrer le serveur
+app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));

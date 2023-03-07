@@ -1,8 +1,8 @@
 // const mongoose = require('mongoose');
 
-// const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/myappdb';
+// // const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/myappdb';
 
-// mongoose.connect(mongoURI, {
+// mongoose.connect('mongodb://localhost:27017/myappdb', {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 //   useCreateIndex: true,
@@ -13,4 +13,4 @@
 //   console.log('Database connection error:', error);
 // });
 
-// module.exports = mongoose.connection;
+// module.exports = mongoose;

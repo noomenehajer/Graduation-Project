@@ -1,0 +1,71 @@
+<button
+  [routerLink]="['/admin/article/add']"
+  class="btn "
+  style="margin-bottom: 10px;background-color: #4B49AC;color: white;"
+>
+  <i class="bi bi-plus-circle"></i> Add Article
+</button>
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-title mb-0">Articles</p>
+        <div class="table-responsive">
+          <table class="table table-striped table-borderless">
+            <thead>
+              <tr>
+                <th>            </th>
+                <th>Article title</th>
+                <th>Created at :</th>
+                <th>Updated at :</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article of Articles">
+                <td>  <img
+                  [src]="'http://localhost:3000/uploads/' +article.image"
+                  alt="Article Image"
+                  class="img-fluid"
+                  /></td>
+                <td class="font-weight-bold">{{ article.title }}</td>
+                <td class="font-weight-bold">{{ article.createdAt }}</td>
+                <td>{{article.updatedAt}}</td>
+
+                <td class="font-weight-medium">
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                  >
+                    <button
+                      [routerLink]="['/admin/article/detail', article._id]"
+                      type="button"
+                      class="btn btn-outline-secondary"
+                    >
+                      <i class="bi bi-chat-right-quote-fill"></i>
+                    </button>
+                    <button
+                      [routerLink]="['/admin/article/edit', article._id]"
+                      type="button"
+                      class="btn btn-outline-secondary"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="onDeleteArticle(article._id)"
+                    >
+                      <i class="bi bi-trash-fill"></i>Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
