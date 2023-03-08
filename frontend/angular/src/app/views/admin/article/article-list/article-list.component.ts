@@ -23,6 +23,14 @@ export class ArticleListComponent implements OnInit{
 
 
 }
+shortenText(text: string, maxChars: number): string {
+  if (text.length <= maxChars) {
+    return text;
+  }
+  const shortened = text.substr(0, maxChars);
+  return `${shortened.substr(0, shortened.lastIndexOf(' '))}...`;
+}
+
 getAllArticles(): void {
   this.articleService.getAllArticles()
     .subscribe(
