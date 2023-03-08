@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ArticleDetailComponent } from './views/admin/article/article-detail/article-detail.component';
 import { EditArticleComponent } from './views/admin/article/edit-article/edit-article.component';
 import { AddArticleComponent } from './views/admin/article/add-article/add-article.component';
+import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AddArticleComponent } from './views/admin/article/add-article/add-artic
     ArticleListComponent,
     ArticleDetailComponent,
     EditArticleComponent,
-    AddArticleComponent
+    AddArticleComponent,
+    QuestionnairesComponent
 
   ],
   imports: [
