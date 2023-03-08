@@ -1,18 +1,1 @@
-<mat-card *ngFor="let questionnaire of questionnaires">
-    <mat-card-title>{{ questionnaire.title }}</mat-card-title>
-    <mat-card-content>
-      {{ questionnaire.description }}
-      <ul>
-        <li *ngFor="let question of questionnaire.questions">
-          {{ question.text }} ({{ question.type }})
-          <ul *ngIf="question.type === 'single' || question.type === 'multiple'">
-            <li *ngFor="let option of question.options">{{ option }}</li>
-          </ul>
-        </li>
-      </ul>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="warn" (click)="deleteQuestionnaire(questionnaire._id)">Supprimer</button>
-    </mat-card-actions>
-  </mat-card>
-  
+

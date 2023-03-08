@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./questionnaires.component.css']
 })
 export class QuestionnairesComponent implements OnInit {
-  questionnaires: any[];
+  questionnaires: any[]= [];
 
   constructor(private http: HttpClient) { }
 

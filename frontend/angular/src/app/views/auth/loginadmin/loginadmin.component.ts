@@ -8,8 +8,8 @@ import { AdminService } from '../../../services/admin.service';
 })
 
 export class LoginadminComponent {
-  email: string;
-  password: string;
+  email: string= '';
+  password: string= '';
   
   constructor(private adminService: AdminService) {}
   
