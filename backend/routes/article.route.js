@@ -76,7 +76,7 @@ router.use((err, req, res, next) => {
 });
 
   
-router.patch('/articles/edit/:id', getArticle, async (req, res) => {
+router.patch('/articles/edit/:id', upload.single('image'), getArticle, async (req, res) => {
   if (req.body.title != null) {
     res.article.title = req.body.title;
   }
@@ -86,13 +86,14 @@ router.patch('/articles/edit/:id', getArticle, async (req, res) => {
   if (req.body.updatedAt != null) {
     res.article.updatedAt = req.body.updatedAt;
   }
-  if (req.body.image != null) {
-    res.article.image = req.body.image;
+  if (req.file != null) {
+    res.article.image = req.file.filename;
   }
 
   try {
     const updatedArticle = await res.article.save();
-    res.json(updatedArticle);
+    const imageUrl = req.file ? req.file.filename : res.article.image;
+    res.json({ ...updatedArticle.toObject(), imageUrl });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

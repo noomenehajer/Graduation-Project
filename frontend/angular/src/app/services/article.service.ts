@@ -26,7 +26,7 @@ export class ArticleService {
     }
 
 
-    editArticle(id: string, article: Article): Observable<any> {
+    editArticle(id: string, article: FormData): Observable<any> {
       return this.http.patch(`${this.baseUrl}/edit/${id}`, article);
     }
 
