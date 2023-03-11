@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Article } from 'src/app/services/Article';
+import { Article } from 'src/app/models/Article';
 import { ArticleService } from 'src/app/services/article.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 @Component({

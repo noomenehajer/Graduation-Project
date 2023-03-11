@@ -1,14 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArticleRoutingModule } from './article-routing.module';
+import { RouterModule } from '@angular/router';
+import { ArticleListComponent } from './article-list/article-list.component';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
+import { EditArticleComponent } from './edit-article/edit-article.component';
+import { AddArticleComponent } from './add-article/add-article.component';
 // import { AddArticleComponent } from './add-article/add-article.component';
 // import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 
 @NgModule({
   declarations: [
-    // ArticleDetailComponent
+    ArticleListComponent,
+    ArticleDetailComponent,
+    EditArticleComponent,
+    AddArticleComponent,
 
 
 
@@ -16,7 +24,9 @@ import { ArticleRoutingModule } from './article-routing.module';
   imports: [
     CommonModule,
     ArticleRoutingModule,
-    FormsModule
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class ArticleModule { }

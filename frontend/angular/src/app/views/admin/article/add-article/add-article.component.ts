@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { ArticleService } from 'src/app/services/article.service';
-import { Article } from 'src/app/services/Article';
+import { Article } from 'src/app/models/Article';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
