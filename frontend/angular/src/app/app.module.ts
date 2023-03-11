@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 
-import { QuestionComponent } from './question/question.component'
 
 @NgModule({
   declarations: [
@@ -28,7 +27,7 @@ import { QuestionComponent } from './question/question.component'
     ArticleDetailComponent,
     EditArticleComponent,
     AddArticleComponent,
-    
+
 
   ],
   imports: [
