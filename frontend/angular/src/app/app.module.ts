@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { Question } from './models/question';
+import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +13,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { ArticleDetailComponent } from './views/admin/article/article-detail/article-detail.component';
 import { EditArticleComponent } from './views/admin/article/edit-article/edit-article.component';
 import { AddArticleComponent } from './views/admin/article/add-article/add-article.component';
-import { QuestionnairesComponent } from './questionnaires/questionnaires.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+
+import { QuestionComponent } from './question/question.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +28,7 @@ import { QuestionnairesComponent } from './questionnaires/questionnaires.compone
     ArticleDetailComponent,
     EditArticleComponent,
     AddArticleComponent,
-    QuestionnairesComponent
+    
 
   ],
   imports: [
@@ -35,8 +39,8 @@ import { QuestionnairesComponent } from './questionnaires/questionnaires.compone
     AppRoutingModule,
     AuthModule,
     HttpClientModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

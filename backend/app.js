@@ -20,8 +20,5 @@ app.use(bodyParser.json());
 app.use('/admin', adminRoutes);
 
 app.use(express.json());
-//questionnaire
-const questionnaireRouter = require('./routes/questionnaire.route');
-app.use('/questionnaires', questionnaireRouter);
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

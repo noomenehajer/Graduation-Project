@@ -1,0 +1,23 @@
+import { FormsModule } from '@angular/forms';
+<div>
+    <label>Question:</label>
+    <input type="text" [(ngModel)]="question.text">
+  </div>
+  <div>
+    <label>Type:</label>
+    <select [(ngModel)]="question.type">
+      <option value="checkbox">Checkbox</option>
+      <option value="radio">Radio</option>
+      <option value="text">Text</option>
+      <option value="textarea">Textarea</option>
+    </select>
+  </div>
+  <div *ngIf="question.type === 'checkbox' || question.type === 'radio'">
+    <label>Options:</label>
+    <div *ngFor="let option of question.options; let i = index">
+      <input type="text" [(ngModel)]="question.options[i]">
+      <button type="button" (click)="onDeleteOption(i)">Delete</button>
+    </div>
+    <button type="button" (click)="onAddOption()">Add Option</button>
+  </div>
+  
