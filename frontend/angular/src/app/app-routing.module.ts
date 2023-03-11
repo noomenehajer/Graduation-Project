@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { ArticleRoutingModule } from './views/admin/article/article-routing.module';
+import { AuthRoutingModule } from './views/auth/auth-routing.module';
 // import { ArticleModule } from './views/admin/article/article.module';
 import { LoginadminComponent } from './views/auth/loginadmin/loginadmin.component';
 import { LoginuserComponent } from './views/auth/loginuser/loginuser.component';
@@ -16,9 +17,12 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: '', loadChildren: () => import('./views/admin/article/article.module').then(m => m.ArticleModule) },
-      { path: 'loginadmin', component: LoginadminComponent }
+      { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
+
     ]
   },
+  { path: 'loginadmin', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
+
   {
     path: '',
     component: UserLayoutComponent,
@@ -32,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),ArticleRoutingModule],
+  imports: [RouterModule.forRoot(routes),ArticleRoutingModule,AuthRoutingModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

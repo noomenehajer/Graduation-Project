@@ -11,7 +11,7 @@ import { WhoAreYouComponent } from './views/who-are-you/who-are-you.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ArticleModule } from './views/admin/article/article.module';
-
+import { UsersModule } from './views/admin/users/users.module';
 
 
 @NgModule({
@@ -33,7 +33,8 @@ import { ArticleModule } from './views/admin/article/article.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ArticleModule
+    ArticleModule,
+    UsersModule
 
   ],
   providers: [],
