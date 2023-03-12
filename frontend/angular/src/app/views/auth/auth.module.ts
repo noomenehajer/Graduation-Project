@@ -6,7 +6,8 @@ import { SignupAdminComponent } from './signup-admin/signup-admin.component';
 import { LoginuserComponent } from './loginuser/loginuser.component';
 import { SignupUserComponent } from './signup-user/signup-user.component';
 import { RouterModule } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
 
 
 

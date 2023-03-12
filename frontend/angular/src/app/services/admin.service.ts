@@ -11,8 +11,9 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password });
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
+
 
   changePassword(email: string, oldPassword: string, newPassword: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/change-password`, { email, oldPassword, newPassword });
