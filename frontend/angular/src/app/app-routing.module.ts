@@ -27,7 +27,8 @@ const routes: Routes = [
     path: '',
     component: UserLayoutComponent,
     children: [
-      { path: '', component: HomeComponent }
+      { path: '', component: HomeComponent },
+      {path:'userlogin',component:LoginuserComponent}
     ]
   },
   { path: 'home', component: WhoAreYouComponent },

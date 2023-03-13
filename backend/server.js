@@ -50,9 +50,8 @@ db.once('open', () => {
   console.log('Connected to database');
 });
 app.use('/api', articleRoutes);
-app.use('/admin',admin_psyRoutes,adminRoutes,admin_etudiantRoutes);
-// app.use('/student',);
+app.use('/admin',adminRoutes,admin_psyRoutes,admin_etudiantRoutes);
 app.use('/uploads', express.static('uploads'));
-// app.use('/admin', );
+
 // Démarrer le serveur
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));

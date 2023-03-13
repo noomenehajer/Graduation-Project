@@ -1,4 +1,4 @@
 module.exports = {
-    secret: 'mysecretkey'
+    secret: process.env.JWT_SECRET
   };
   

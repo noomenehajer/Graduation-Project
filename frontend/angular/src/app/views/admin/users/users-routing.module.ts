@@ -4,12 +4,14 @@ import { AdminAddPsyComponent } from './admin-add-psy/admin-add-psy.component';
 import { AdminAddStudentComponent } from './admin-add-student/admin-add-student.component';
 import { AdminListPsyComponent } from './admin-list-psy/admin-list-psy.component';
 import { AdminListStudentsComponent } from './admin-list-students/admin-list-students.component';
+import { DetailStudentComponent } from './detail-student/detail-student.component';
 
 const routes: Routes = [
   {path:'add-psy',component:AdminAddPsyComponent},
-  {path:'add-student',component:AdminAddStudentComponent},
+  {path:'add',component:AdminAddStudentComponent},
   {path:'',component:AdminListStudentsComponent},
   {path:'list-psy',component:AdminListPsyComponent},
+  {path:'detail/:id',component:DetailStudentComponent},
 
 ];
 

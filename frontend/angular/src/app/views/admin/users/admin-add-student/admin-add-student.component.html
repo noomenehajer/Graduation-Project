@@ -1,1 +1,21 @@
-<p>admin-add-student works!</p>
+<h2>Add Student</h2>
+
+<form (ngSubmit)="onSubmit()" #studentForm="ngForm">
+  <div class="form-group">
+    <label for="nom">Nom</label>
+    <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="newStudent.nom" required>
+  </div>
+  <div class="form-group">
+    <label for="prenom">Prenom</label>
+    <input type="text" class="form-control" id="prenom" name="prenom" [(ngModel)]="newStudent.prenom" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="newStudent.email" required>
+  </div>
+  <div class="form-group">
+    <label for="motDePasse">Mot de passe</label>
+    <input type="password" class="form-control" id="motDePasse" name="motDePasse" [(ngModel)]="newStudent.motDePasse" required>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!studentForm.valid">Submit</button>
+</form>
