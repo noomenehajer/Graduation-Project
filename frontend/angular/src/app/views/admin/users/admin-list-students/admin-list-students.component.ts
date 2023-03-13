@@ -9,7 +9,8 @@ import { StudentService } from 'src/app/services/student.service';
 })
 export class AdminListStudentsComponent implements OnInit{
   Students: Student[]=[];
-  editMode: boolean = false;
+  // editMode: boolean = false;
+  errorMessage!: string;
 
   constructor(private studentService: StudentService) { }
 
@@ -38,10 +39,31 @@ getAllStudents(): void {
       },
       (error) => {
         console.log(error);
+        this.errorMessage = error.message;
       }
 
       );
 }
+
+// onValidate(student: Student): void {
+//   this.studentService.validateStudent(student)
+//     .subscribe(() => {
+//       this.getAllStudents();
+//     });
+// }
+validateStudent(id: string, student: Student): void {
+  this.studentService.validateStudent(id, student)
+    .subscribe(
+      (updatedStudent: Student) => {
+        console.log('Student validated:', updatedStudent);
+      },
+      (error: any) => {
+        console.error(error);
+        this.errorMessage = error.message;
+      }
+    );
+}
+
 
 
 }

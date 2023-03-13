@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Psychologue } from 'src/app/models/Psychologue';
 import { PsyService } from 'src/app/services/psy.service';
@@ -9,7 +9,7 @@ import { PsyService } from 'src/app/services/psy.service';
   templateUrl: './detail-psy.component.html',
   styleUrls: ['./detail-psy.component.css']
 })
-export class DetailPsyComponent {
+export class DetailPsyComponent implements OnInit{
 
   psychologue!: Psychologue;
 

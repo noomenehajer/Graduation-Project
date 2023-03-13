@@ -89,4 +89,42 @@ async function getStudent(req, res, next) {
   next();
 }
 
+router.put('/students/edit/:id', async (req, res) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) {
+    return res.status(404).json({ message: 'Student not found' });
+  }
+
+  // Update the student object with new values
+  student.nom = req.body.nom || student.nom;
+  student.prenom = req.body.prenom || student.prenom;
+  student.email = req.body.email || student.email;
+  student.motDePasse = req.body.motDePasse || student.motDePasse;
+  student.estSuspendu = req.body.estSuspendu || student.estSuspendu;
+  student.estValide = req.body.estValide || student.estValide;
+
+  try {
+    const updatedStudent = await student.save();
+    res.json(updatedStudent);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+
+
+
+// Supprimer un article existant
+router.delete('/articles/:id', async (req, res) => {
+  try {
+    const article = await Article.findByIdAndDelete(req.params.id);
+    if (!article) {
+      return res.status(404).json({ message: 'Article non trouvé' });
+    }
+    res.json({ message: 'Article supprimé' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

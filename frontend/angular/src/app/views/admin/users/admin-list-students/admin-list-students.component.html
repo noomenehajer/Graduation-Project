@@ -20,12 +20,26 @@
         <tbody>
           <tr *ngFor="let student of Students">
             <td>{{ student._id }}</td>
-            <td>{{ student.nom }}</td>
+            <td>{{ student?.nom }}</td>
             <td>{{ student.prenom }}</td>
             <td>{{ student.email }}</td>
             <td>
               <a [routerLink]="['/detail', student._id]">Détails</a>
               <a [routerLink]="['/edit', student._id]">Modifier</a>
+              <!-- <button *ngIf="!student.estValide" (click)="onValidate(student)">validate</button> -->
+            </td>
+            <td [ngClass]="{'text-success': student.estValide, 'text-danger': !student.estValide}">
+              {{ student.estValide ? 'Oui' : 'Non' }}
+            </td>
+            <td>
+              <button class="btn btn-success"
+                      [class.disabled]="student.estValide"
+                      [disabled]="student.estValide"
+                      *ngIf="!student.estValide"
+                      (click)="validateStudent(student._id, student)">
+                Valider
+              </button>
+              <span *ngIf="student.estValide" class="text-success">Validé</span>
             </td>
           </tr>
         </tbody>

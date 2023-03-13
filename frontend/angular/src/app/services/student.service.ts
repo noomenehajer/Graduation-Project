@@ -25,10 +25,21 @@ export class StudentService {
     return this.http.get<Student>(url);
   }
 
-  editArticle(id: string, student: Student): Observable<any> {
+  editStudent(id: string, student: Student): Observable<any> {
     return this.http.patch(`${this.apiUrl}/edit/${id}`, student);
   }
   addStudent(student: Student): Observable<Student> {
     return this.http.post<Student>(`${this.apiUrl}/add`, student);
   }
+
+  validateStudent(id: string, student: Student): Observable<Student> {
+    student.estValide = true;
+    return this.http.patch<Student>(`${this.apiUrl}/edit/${id}`, student);
+  }
+
+  // updateStudent(student: Student): Observable<Student> {
+  //   const url = `${this.apiUrl}/edit/${student._id}`;
+  //   return this.http.put<Student>(url, student);
+  // }
+
 }

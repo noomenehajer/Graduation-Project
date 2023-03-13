@@ -9,6 +9,7 @@ import { AdminListPsyComponent } from './admin-list-psy/admin-list-psy.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DetailStudentComponent } from './detail-student/detail-student.component';
 import { DetailPsyComponent } from './detail-psy/detail-psy.component';
+import { EditStudentComponent } from './edit-student/edit-student.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DetailPsyComponent } from './detail-psy/detail-psy.component';
     AdminListStudentsComponent,
     AdminListPsyComponent,
     DetailStudentComponent,
-    DetailPsyComponent
+    DetailPsyComponent,
+    EditStudentComponent
   ],
   imports: [
     CommonModule,
