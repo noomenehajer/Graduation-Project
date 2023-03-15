@@ -1,0 +1,7 @@
+.mat-tab-label-active {
+  color: purple !important;
+}
+.mat-row:first-child {
+  background-color: purple;
+  color: white;
+}

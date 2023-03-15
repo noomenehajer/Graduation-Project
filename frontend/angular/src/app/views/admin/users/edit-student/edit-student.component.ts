@@ -46,4 +46,9 @@ export class EditStudentComponent implements OnInit{
         }
       );
   }
+
+  
+
+
+
 }

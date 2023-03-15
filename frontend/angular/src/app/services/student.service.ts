@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Student } from '../models/Student';
@@ -14,7 +14,19 @@ export class StudentService {
 
 
   getAllStudents() : Observable<Student[]>{
-    return this.http.get<Student[]>(this.apiUrl);  }
+    // return this.http.get<Student[]>(this.apiUrl);
+    const url = `${this.apiUrl}?estValide=true`;
+    return this.http.get<Student[]>(this.apiUrl);
+
+  }
+
+
+
+      getNonValidStudents(): Observable<Student[]> {
+        const url = `${this.apiUrl}/invalid`;
+        return this.http.get<Student[]>(url);
+      }
+
 
   getStudent(id: string): Observable<Student> {
     if (!id) {
@@ -24,22 +36,29 @@ export class StudentService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Student>(url);
   }
-
-  editStudent(id: string, student: Student): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/edit/${id}`, student);
+  editStudent(id: string, student: Student): Observable<Student> {
+    const url = `${this.apiUrl}/edit/${id}`;
+    return this.http.patch<Student>(url, student);
   }
+
+
+
   addStudent(student: Student): Observable<Student> {
     return this.http.post<Student>(`${this.apiUrl}/add`, student);
   }
 
-  validateStudent(id: string, student: Student): Observable<Student> {
-    student.estValide = true;
-    return this.http.patch<Student>(`${this.apiUrl}/edit/${id}`, student);
-  }
-
-  // updateStudent(student: Student): Observable<Student> {
-  //   const url = `${this.apiUrl}/edit/${student._id}`;
-  //   return this.http.put<Student>(url, student);
+  // getStudentsWithPagination(page: number, limit: number): Observable<Student[]> {
+  //   const url = `${this.apiUrl}?page=${page}&limit=${limit}`;
+  //   return this.http.get<Student[]>(url);
   // }
+
+  getStudentsWithPagination(page: number, pageSize: number): Observable<Student[]> {
+    const options = {
+      params: new HttpParams()
+        .set('page', page.toString())
+        .set('pageSize', pageSize.toString())
+    };
+    return this.http.get<Student[]>(`${this.apiUrl}/students`, options);
+  }
 
 }

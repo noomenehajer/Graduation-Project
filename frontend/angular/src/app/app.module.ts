@@ -12,19 +12,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ArticleModule } from './views/admin/article/article.module';
 import { UsersModule } from './views/admin/users/users.module';
-
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCommonModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    WhoAreYouComponent,
+    WhoAreYouComponent
+
 
 
 
   ],
   imports: [
     BrowserModule,
+    MatCommonModule,
     AppRoutingModule,
     FormsModule,
     LayoutsModule,
@@ -32,9 +38,12 @@ import { UsersModule } from './views/admin/users/users.module';
     AuthModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,
     ArticleModule,
-    UsersModule
+    UsersModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatStepperModule
 
   ],
   providers: [],

@@ -1,7 +1,7 @@
 <mat-stepper headerPosition="bottom" #stepper>
   <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup" >
-      <ng-template matStepLabel>Fill out your name</ng-template>
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Fill out psy name</ng-template>
       <mat-form-field>
         <input matInput placeholder="Last name" formControlName="nomCtrl" required>
       </mat-form-field>
@@ -30,7 +30,7 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Confirm and submit</ng-template>
-    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="psyForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <input matInput placeholder="Last name" formControlName="nom" required>
       </mat-form-field>

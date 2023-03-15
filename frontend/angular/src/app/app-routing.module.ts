@@ -4,7 +4,6 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { ArticleRoutingModule } from './views/admin/article/article-routing.module';
 import { AuthRoutingModule } from './views/auth/auth-routing.module';
-// import { ArticleModule } from './views/admin/article/article.module';
 import { LoginadminComponent } from './views/auth/loginadmin/loginadmin.component';
 import { LoginuserComponent } from './views/auth/loginuser/loginuser.component';
 import { HomeComponent } from './views/user/home/home.component';
@@ -18,6 +17,7 @@ const routes: Routes = [
     children: [
       { path: '', loadChildren: () => import('./views/admin/article/article.module').then(m => m.ArticleModule) },
       { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
+      {path:'psy',loadChildren:()=>import('./views/admin/psy/psy.module').then(m=>m.PsyModule)},
 
     ]
   },

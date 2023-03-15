@@ -11,7 +11,7 @@ export class AdminListStudentsComponent implements OnInit{
   Students: Student[]=[];
   // editMode: boolean = false;
   errorMessage!: string;
-
+  displayedColumns: string[] = ['_id', 'nom', 'prenom', 'email'];
   constructor(private studentService: StudentService) { }
 
   ngOnInit(): void {
@@ -44,26 +44,6 @@ getAllStudents(): void {
 
       );
 }
-
-// onValidate(student: Student): void {
-//   this.studentService.validateStudent(student)
-//     .subscribe(() => {
-//       this.getAllStudents();
-//     });
-// }
-validateStudent(id: string, student: Student): void {
-  this.studentService.validateStudent(id, student)
-    .subscribe(
-      (updatedStudent: Student) => {
-        console.log('Student validated:', updatedStudent);
-      },
-      (error: any) => {
-        console.error(error);
-        this.errorMessage = error.message;
-      }
-    );
-}
-
 
 
 }

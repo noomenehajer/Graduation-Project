@@ -1,49 +1,85 @@
-<button
-  [routerLink]="['/admin/users/add']"
-  class="btn "
-  style="margin-bottom: 10px;background-color: #4B49AC;color: white;">Add</button>
-<div class="container">
+<div  style="margin-top: -50px;">
+  <mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <!-- <mat-icon>menu</mat-icon> -->
+    </button>
+    <span style="text-align: center;">Liste des Etudiants</span>
+    <span class="example-spacer"></span>
+    <button
+      [routerLink]="['/admin/users/add']"
+      class="btn btn-primary  example-icon ml-auto"
+      style="background-color: #ffffffdd; color:blueviolet;font-weight: 700px;"
+    >
+      Add
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <!-- <mat-icon>share</mat-icon> -->
+    </button>
+  </mat-toolbar>
 
-   <h2>Liste des étudiants</h2>
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of Students">
-            <td>{{ student._id }}</td>
-            <td>{{ student?.nom }}</td>
-            <td>{{ student.prenom }}</td>
-            <td>{{ student.email }}</td>
-            <td>
-              <a [routerLink]="['/detail', student._id]">Détails</a>
-              <a [routerLink]="['/edit', student._id]">Modifier</a>
-              <!-- <button *ngIf="!student.estValide" (click)="onValidate(student)">validate</button> -->
-            </td>
-            <td [ngClass]="{'text-success': student.estValide, 'text-danger': !student.estValide}">
-              {{ student.estValide ? 'Oui' : 'Non' }}
-            </td>
-            <td>
-              <button class="btn btn-success"
-                      [class.disabled]="student.estValide"
-                      [disabled]="student.estValide"
-                      *ngIf="!student.estValide"
-                      (click)="validateStudent(student._id, student)">
-                Valider
-              </button>
-              <span *ngIf="student.estValide" class="text-success">Validé</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+
+  <!-- <h2>Liste des étudiants</h2> -->
+  <mat-tab-group animationDuration="200ms" class="mat-tab-group" >
+    <mat-tab class="mat-tab-label-active" label="Validé">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="mat-elevation-z8">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Email</th>
+                  <th>Validation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of Students">
+                  <td>{{ student._id }}</td>
+                  <td>{{ student.nom }}</td>
+                  <td>{{ student.prenom }}</td>
+                  <td>{{ student.email }}</td>
+                  <td>
+                    <!-- <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                  >
+                    <button
+                      [routerLink]="['/admin/article/detail', article._id]"
+                      type="button"
+                      class="btn btn-outline-secondary"
+                    >
+                      <i class="bi bi-chat-right-quote-fill"></i>
+                    </button>
+                    <button
+                      [routerLink]="['/admin/article/edit', article._id]"
+                      type="button"
+                      class="btn btn-outline-secondary"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="onDeleteArticle(article._id)"
+                    >
+                      <i class="bi bi-trash-fill"></i>
+                    </button> -->
+                  <!-- </div> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Non Validé">
+      <app-non-valid-student></app-non-valid-student>
+    </mat-tab>
+  </mat-tab-group>
 </div>

@@ -42,7 +42,8 @@ router.post('/students/add', async (req, res) => {
         nom,
         prenom,
         email,
-        motDePasse: hashedPassword
+        motDePasse: hashedPassword,
+        estValide: true,
       });
 
       // Save the new student
@@ -54,23 +55,29 @@ router.post('/students/add', async (req, res) => {
   }
 });
 
-// GET request to get all students
+// GET request to get all valid students
 router.get('/students', async (req, res) => {
-  // Check if the user is authenticated
-  // const authData = verifyToken(req, res);
-  // if (authData === null) {
-  //   res.status(403).send({ error: 'Unauthorized access' });
-  // } else {
-    try {
-      // Get all the students
-      const students = await Student.find({});
-      res.send(students);
-    } catch (err) {
-      res.status(400).send(err);
-    }
+  try {
+    // Get all the valid students
+    const students = await Student.find({ estValide: true });
+    res.send(students);
+  } catch (err) {
+    res.status(400).send(err);
   }
-// }
-);
+});
+
+// GET request to get students with estValide set to false
+router.get('/students/invalid', async (req, res) => {
+  try {
+    // Get all the invalid students
+    const students = await Student.find({ estValide: false });
+    res.send(students);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
 router.get('/students/:id', getStudent, (req, res) => {
   res.json(res.student);
 });
@@ -89,28 +96,38 @@ async function getStudent(req, res, next) {
   next();
 }
 
-router.put('/students/edit/:id', async (req, res) => {
-  const student = await Student.findById(req.params.id);
-  if (!student) {
-    return res.status(404).json({ message: 'Student not found' });
-  }
-
-  // Update the student object with new values
-  student.nom = req.body.nom || student.nom;
-  student.prenom = req.body.prenom || student.prenom;
-  student.email = req.body.email || student.email;
-  student.motDePasse = req.body.motDePasse || student.motDePasse;
-  student.estSuspendu = req.body.estSuspendu || student.estSuspendu;
-  student.estValide = req.body.estValide || student.estValide;
-
+router.patch('/students/edit/:id', async (req, res) => {
   try {
-    const updatedStudent = await student.save();
-    res.json(updatedStudent);
+    const { nom, prenom, email, motDePasse, estValide } = req.body;
+
+    // Check if the email is already registered
+    const emailExists = await Student.findOne({ email });
+    if (emailExists && emailExists._id.toString() !== req.params.id) {
+      res.status(400).send({ error: 'Email already exists' });
+    } else {
+      const student = await Student.findById(req.params.id);
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+
+      student.nom = nom || student.nom;
+      student.prenom = prenom || student.prenom;
+      student.email = email || student.email;
+      student.estValide = estValide || student.estValide;
+      if (motDePasse) {
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(motDePasse, salt);
+        student.motDePasse = hashedPassword;
+      }
+
+      const updatedStudent = await student.save();
+      res.send(updatedStudent);
+    }
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).send(err);
   }
 });
-
 
 
 
