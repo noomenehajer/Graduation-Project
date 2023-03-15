@@ -1,0 +1,112 @@
+<div *ngIf="error">{{ error }}</div>
+
+<div class="list-group">
+  <h2>Listes des questionnaire :</h2>
+  <button type="button" class="list-group-item list-group-item-action" *ngFor="let form of forms"
+    [class.active]="form === selectedForm" (click)="selectedForm = form; getQuestions(form._id)">
+    {{ form.title }}
+    <button type="button" class="btn btn-info btn-sm ml-2" (click)="selectedForm = form; updateForm(form._id)">Modifier</button>
+    <button type="button" class="btn btn-danger btn-sm ml-2" (click)="deleteForm(form._id)">Supprimer</button>
+  </button>
+</div>
+
+<div class="row">
+  
+    <div class="list-group">
+      <h2>Listes des questions :</h2>
+      <ul>
+        <li *ngFor="let question of questions">
+          <div>{{ question.text }}</div>
+            <div *ngIf="question.type === 'checkbox' || question.type === 'radio'">
+             <div *ngFor="let option of question.options">
+              <p>{{option}}</p>
+             </div>
+            </div> 
+            <button class="btn btn-info btn-sm ml-2" >Modifier question</button>
+          <button class="btn btn-danger btn-sm ml-2" (click)="deleteQuestion(question._id)">Supprimer question</button>
+        </li>
+      </ul>
+
+
+      <div *ngIf="!selectedForm">
+        <h2>Questionnaire :</h2>
+        <ul>
+          <li *ngFor="let form of forms" (click)="selectedForm = form; getQuestions(form._id)">
+            {{ form.title }}
+            {{ form.questions }}
+          </li>
+        </ul>
+      </div>
+
+      <h2>Créer un nouveau questionnaire</h2>
+      <form [formGroup]="newFormForm" (ngSubmit)="createForm()">
+        <div class="form-group">
+          <label>Title</label>
+          <input class="form-control" formControlName="title" type="text">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" formControlName="description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Questionnaire</button>
+      </form>
+
+      <h2>Créer une nouvelle question</h2>
+      <div class="col-md-8">
+        <h4 *ngIf="selectedForm">{{ selectedForm.title }}</h4>
+        <p *ngIf="selectedForm">{{ selectedForm.description }}</p>
+        <hr *ngIf="selectedForm">
+        <form [formGroup]="newQuestionForm" (ngSubmit)="createQuestion()">
+          <div>
+            <label>Écrivez votre question ici :</label>
+            <input type="text" id="question-text" class="form-control" formControlName="text">
+          </div>
+          <div>
+            <label>Choisissez le type de réponse :</label>
+            <select formControlName="type" class="form-control">
+              <option value="checkbox">Case à cocher</option>
+              <option value="radio">Choix multiple</option>
+              <option value="text">Réponse courte</option>
+              <option value="textarea">Paragraphe</option>
+            </select>
+          </div>
+          <div
+            *ngIf="newQuestionForm.controls['type'].value === 'checkbox' || newQuestionForm.controls['type'].value === 'radio'">
+            <label>Options</label>
+            <textarea class="form-control" formControlName="options"></textarea>
+            <button type="button" class="btn btn-primary" (click)="addOption()">Ajouter une option</button>
+            <div *ngFor="let option of options; let i = index">
+              <p>{{option}}</p>
+              <button type="button" class="btn btn-danger" (click)="removeOption(i)">Supprimer une option</button>
+            </div>
+            <button type="button" class="btn btn-danger" (click)="removeAllOptions()">Supprimer tout </button>
+
+          </div>
+          <br>
+          <button class="btn btn-primary" type="submit">Create question</button>
+
+        </form>
+
+
+      </div>
+    </div>
+  
+</div>
+
+<div class="container">
+  <h2>Update Form</h2>  
+  <ng-container *ngFor="let form of forms">
+  <form [formGroup]="newFormForm" (ngSubmit)="updateForm(form._id)">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" formControlName="title" id="title" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea formControlName="description" id="description" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="newFormForm.invalid">Update Form</button>
+  </form>
+</ng-container>
+</div>
+

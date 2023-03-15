@@ -1,10 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const formSchema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String },
-  questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
+const questionSchema = new Schema({
+  text: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    enum: ['checkbox', 'multiple', 'short', 'paragraph'],
+    required: true
+  },
+  options: [String],
+  form: {
+    type: Schema.Types.ObjectId,
+    ref: 'Form'
+  }
 });
 
-module.exports = mongoose.model('Form', formSchema);
+module.exports = mongoose.model('Question', questionSchema);
