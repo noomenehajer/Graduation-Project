@@ -6,7 +6,7 @@ import { DetailPsyComponent } from './detail-psy/detail-psy.component';
 import { EditPsyComponent } from './edit-psy/edit-psy.component';
 
 const routes: Routes = [
-  {path:'add-psy',component:AdminAddPsyComponent},
+  {path:'add',component:AdminAddPsyComponent},
   {path:'',component:AdminListPsyComponent},
   {path:'detail-psy/:id',component:DetailPsyComponent},
   {path:'edit/:id',component:EditPsyComponent},
