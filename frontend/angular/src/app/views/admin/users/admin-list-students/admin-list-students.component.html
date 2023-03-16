@@ -31,7 +31,7 @@
                   <th>Nom</th>
                   <th>Prénom</th>
                   <th>Email</th>
-                  <th>Validation</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,33 +41,33 @@
                   <td>{{ student.prenom }}</td>
                   <td>{{ student.email }}</td>
                   <td>
-                    <!-- <div
+                    <div
                     class="btn-group"
                     role="group"
                     aria-label="Basic example"
                   >
                     <button
-                      [routerLink]="['/admin/article/detail', article._id]"
+                      [routerLink]="['/admin/users/detail', student._id]"
                       type="button"
                       class="btn btn-outline-secondary"
                     >
                       <i class="bi bi-chat-right-quote-fill"></i>
                     </button>
                     <button
-                      [routerLink]="['/admin/article/edit', article._id]"
+                      [routerLink]="['/admin/users/edit', student._id]"
                       type="button"
                       class="btn btn-outline-secondary"
                     >
                       <i class="bi bi-pencil-square"></i>
                     </button>
-                    <button
+                    <a
                       type="button"
                       class="btn btn-outline-secondary"
-                      (click)="onDeleteArticle(article._id)"
+                      (click)="onDeleteStudent(student._id)"
                     >
                       <i class="bi bi-trash-fill"></i>
-                    </button> -->
-                  <!-- </div> -->
+                  </a>
+                   </div>
                   </td>
                 </tr>
               </tbody>

@@ -43,5 +43,18 @@ getAllPsychologues(): void {
       );
 }
 
+onDeletePsy(id: string) {
+  if (confirm("Are you sure you want to delete this psychologue?")) {
+    this.psyService.deletePsy(id).subscribe(
+      () => {
+        this.Psychologues = this.Psychologues.filter(a => a._id !== id);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+}
+
 
 }

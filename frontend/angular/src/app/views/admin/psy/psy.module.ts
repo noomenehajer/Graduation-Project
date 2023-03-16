@@ -15,10 +15,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { AdminAddPsyComponent } from './admin-add-psy/admin-add-psy.component';
+import { AdminListPsyComponent } from './admin-list-psy/admin-list-psy.component';
+import { EditPsyComponent } from './edit-psy/edit-psy.component';
+import { DetailPsyComponent } from './detail-psy/detail-psy.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AdminAddPsyComponent,
+    AdminListPsyComponent,
+    EditPsyComponent,
+    DetailPsyComponent
+  ],
   imports: [
     CommonModule,
     PsyRoutingModule,

@@ -36,8 +36,9 @@
             <td>{{ psy.prenom }}</td>
             <td>{{ psy.email }}</td>
             <td>
-              <a [routerLink]="['/admin/users/detail-psy', psy._id]" class="btn btn-primary mr-1">Détails</a>
-              <a [routerLink]="['/admin/users/edit', psy._id]" class="btn btn-secondary">Modifier</a>
+              <a [routerLink]="['/admin/psy/detail-psy', psy._id]" class="btn btn-primary mr-1">Détails</a>
+              <a [routerLink]="['/admin/psy/edit', psy._id]" class="btn btn-secondary">Modifier</a>
+              <a   (click)="onDeletePsy(psy._id)" class="btn btn-secondary">Supprimer</a>
             </td>
           </tr>
         </tbody>

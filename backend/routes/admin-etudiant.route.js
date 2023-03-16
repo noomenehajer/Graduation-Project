@@ -114,6 +114,7 @@ router.patch('/students/edit/:id', async (req, res) => {
       student.prenom = prenom || student.prenom;
       student.email = email || student.email;
       student.estValide = estValide || student.estValide;
+      student.estSuspendu = estSuspendu || student.estSuspendu;
       if (motDePasse) {
         // Hash the new password
         const salt = await bcrypt.genSalt(10);
@@ -131,17 +132,38 @@ router.patch('/students/edit/:id', async (req, res) => {
 
 
 
-// Supprimer un article existant
-router.delete('/articles/:id', async (req, res) => {
+// Supprimer un etudiant existant
+router.delete('/students/:id', async (req, res) => {
   try {
-    const article = await Article.findByIdAndDelete(req.params.id);
-    if (!article) {
-      return res.status(404).json({ message: 'Article non trouvé' });
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'etudiant non trouvé' });
     }
-    res.json({ message: 'Article supprimé' });
+    res.json({ message: 'etudiant supprimé' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+router.put('/students/suspend/:id', async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Etudiant non trouvé' });
+    }
+
+    student.estSuspendu = !student.estSuspendu;
+    await student.save();
+
+    return res.json(student);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'Erreur du serveur' });
+  }
+});
+
+
+
+
 
 module.exports = router;

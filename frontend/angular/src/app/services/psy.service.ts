@@ -31,4 +31,8 @@ export class PsyService {
     return this.http.post<Psychologue>(`${this.apiUrl}/add`, psychologue);
   }
 
+  deletePsy(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
 }

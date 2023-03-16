@@ -61,4 +61,15 @@ export class StudentService {
     return this.http.get<Student[]>(`${this.apiUrl}/students`, options);
   }
 
+  deleteStudent(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+ 
+  toggleSuspendAccount(id: string): Observable<Student> {
+    const url = `${this.apiUrl}/suspend/${id}`;
+    return this.http.put<Student>(url, {});
+  }
+
+
 }

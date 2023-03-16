@@ -17,8 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCommonModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatStepperModule } from '@angular/material/stepper';
-import { QuestionnaireComponent } from './views/admin/questionnaire/questionnaire.component';
-import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +42,9 @@ import { AdminPasswordComponent } from './views/admin/admin-password/admin-passw
     MatInputModule,
     BrowserAnimationsModule,
     MatTabsModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCardModule,
+    MatIconModule,
 
   ],
   providers: [],

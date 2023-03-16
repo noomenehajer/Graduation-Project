@@ -136,6 +136,18 @@ async function getPsychologue(req, res, next) {
   next();
 }
 
+router.delete('/psychologues/:id', async (req, res) => {
+  try {
+    const psy = await Psychologue.findByIdAndDelete(req.params.id);
+    if (!psy) {
+      return res.status(404).json({ message: 'Psychologue non trouvé' });
+    }
+    res.json({ message: 'Psychologue supprimé' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 
 

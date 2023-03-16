@@ -33,7 +33,7 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      {path:'userlogin',component:LoginuserComponent}
+      {path:'userlogin',component:LoginuserComponent},
     ]
   },
   { path: 'home', component: WhoAreYouComponent },
