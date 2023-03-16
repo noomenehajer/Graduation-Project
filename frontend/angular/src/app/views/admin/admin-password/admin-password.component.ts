@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PasswordService } from 'src/app/services/adminPassword.service';
+import { PasswordService } from '../../../services/adminPassword.service';
 
 @Component({
   selector: 'app-admin-password',
