@@ -79,6 +79,25 @@ router.delete('/:id/questions/:questionId', getForm, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+//update question
+router.put('/:id/questions/:questionId', getForm, async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.questionId);
+    if (req.body.text != null) {
+      question.text = req.body.text;
+    }
+    if (req.body.type != null) {
+      question.type = req.body.type;
+    }
+    if (req.body.options != null) {
+      question.options = req.body.options;
+    }
+    const updatedQuestion = await question.save();
+    res.json(updatedQuestion);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }     
+});
 
 // Create a question for a form
 router.post('/:id/questions', getForm, async (req, res) => {
