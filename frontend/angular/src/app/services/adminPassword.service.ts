@@ -7,14 +7,13 @@ import { Admin } from '../models/admin';
   providedIn: 'root'
 })
 export class PasswordService {
-  private apiUrl = 'http://localhost:3000';
+  private passwordUrl = 'http://localhost:3000/password/';
 
   constructor(private http: HttpClient) { }
 
-  changePassword(email: string, password: string, newPassword: string): Observable<void> {
-    const url = `${this.apiUrl}/password`;
-    const body = { email,password, newPassword };
-    return this.http.post<void>(url, body);
+  changePassword(email: string, currentPassword: string, newPassword: string): Observable<any> {
+    const body = { email, currentPassword, newPassword };
+    return this.http.post(this.passwordUrl, body);
   }
   
 }
