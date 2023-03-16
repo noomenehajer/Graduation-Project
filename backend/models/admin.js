@@ -13,7 +13,6 @@ const adminSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
 );
 
 adminSchema.pre('save', async function (next) {

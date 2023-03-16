@@ -29,17 +29,17 @@ mongoose.connect('mongodb://localhost:27017/myappdb', {
 });
 
 const db = mongoose.connection;
-// // creation d'un admin 
-// async function seed() {
-//   const email = 'admin@gmail.com';
-//   const password = 'admin';
-//   const admin = new Admin({ email, password });
-//   await admin.save();
-//   console.log('Admin created:', admin);
-// //  mongoose.connection.close();
-// }
-// seed();
 
+// creation d'un admin 
+/*  async function seed() {
+   const email = 'admin@exemple.com';
+   const password = 'admin';
+   const admin = new Admin({ email, password });
+   await admin.save();
+  console.log('Admin created:', admin);
+ //  mongoose.connection.close();
+ }
+ seed(); */
 
 
 db.on('error', (error) => {
