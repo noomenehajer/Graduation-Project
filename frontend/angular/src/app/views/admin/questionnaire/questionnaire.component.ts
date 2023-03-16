@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormControl, FormBuilder, Validators , FormArray} from '@angular/forms';
 import { Form } from 'src/app/models/form';
 import { Question } from 'src/app/models//question';
-import { QuestionnaireService } from 'src/app/services/questionnaire.service';
+import { QuestionnaireService } from '../../../services/questionnaire.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -81,7 +81,7 @@ export class QuestionnaireComponent implements OnInit {
       error => this.error = error.message
     );
   }
-  
+
   //updateForm
   updateForm(formId: string): void {
     const { title, description } = this.newFormForm.value;
@@ -103,7 +103,7 @@ export class QuestionnaireComponent implements OnInit {
       error => this.error = error.message
     );
   }
-  
+
 
   deleteQuestion(questionId: string): void {
     this.questionnaireService.deleteQuestion(this.selectedForm._id, questionId).subscribe(
