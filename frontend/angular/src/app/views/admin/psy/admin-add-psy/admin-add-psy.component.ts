@@ -55,7 +55,7 @@ export class AdminAddPsyComponent implements OnInit {
       .subscribe(
         (psychologue: Psychologue) => {
           console.log('Psychologue added:', psychologue);
-          this.router.navigate(['/admin/users/list-psy']);
+          this.router.navigate(['/admin/psy']);
           // Clear the form
           this.psyForm.reset({
             nom: '',
