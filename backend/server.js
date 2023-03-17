@@ -23,7 +23,7 @@ app.use(cors());
 
 //Se connecter à la base de données MongoDB
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://127.0.0.1:27017/myappdb', {
+mongoose.connect('mongodb://localhost:27017/myappdb', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
