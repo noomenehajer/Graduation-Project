@@ -8,8 +8,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./non-valid-student.component.css']
 })
 export class NonValidStudentComponent implements OnInit{
-  students: Student[] = [];
-
+  students: Student[]=[];
+  errorMessage!:'';
+  displayedColumns: string[] = ['_id', 'nom', 'prenom', 'email'];
   constructor(private studentService: StudentService) { }
 
   ngOnInit(): void {
@@ -45,7 +46,7 @@ export class NonValidStudentComponent implements OnInit{
       },
       (error: any) => {
         console.error(error);
-        // this.errorMessage = error.message;
+        this.errorMessage = error.message;
       }
     );
   }

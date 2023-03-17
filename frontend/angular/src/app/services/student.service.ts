@@ -65,7 +65,7 @@ export class StudentService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
- 
+
   toggleSuspendAccount(id: string): Observable<Student> {
     const url = `${this.apiUrl}/suspend/${id}`;
     return this.http.put<Student>(url, {});

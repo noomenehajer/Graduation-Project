@@ -98,37 +98,40 @@ async function getStudent(req, res, next) {
 
 router.patch('/students/edit/:id', async (req, res) => {
   try {
-    const { nom, prenom, email, motDePasse, estValide } = req.body;
+    const { nom, prenom, email, motDePasse, estValide, estSuspendu } = req.body;
 
-    // Check if the email is already registered
-    const emailExists = await Student.findOne({ email });
-    if (emailExists && emailExists._id.toString() !== req.params.id) {
-      res.status(400).send({ error: 'Email already exists' });
-    } else {
-      const student = await Student.findById(req.params.id);
-      if (!student) {
-        return res.status(404).json({ message: 'Student not found' });
-      }
-
-      student.nom = nom || student.nom;
-      student.prenom = prenom || student.prenom;
-      student.email = email || student.email;
-      student.estValide = estValide || student.estValide;
-      student.estSuspendu = estSuspendu || student.estSuspendu;
-      if (motDePasse) {
-        // Hash the new password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(motDePasse, salt);
-        student.motDePasse = hashedPassword;
-      }
-
-      const updatedStudent = await student.save();
-      res.send(updatedStudent);
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
     }
+
+    if (email !== student.email) {
+      // Check if the email is already registered
+      const emailExists = await Student.findOne({ email });
+      if (emailExists) {
+        return res.status(400).send({ error: 'Email already exists' });
+      }
+    }
+
+    student.nom = nom || student.nom;
+    student.prenom = prenom || student.prenom;
+    student.email = email || student.email;
+    student.estValide = estValide || student.estValide;
+    student.estSuspendu = estSuspendu || student.estSuspendu;
+    if (motDePasse) {
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(motDePasse, salt);
+      student.motDePasse = hashedPassword;
+    }
+
+    const updatedStudent = await student.save();
+    res.send(updatedStudent);
   } catch (err) {
     res.status(400).send(err);
   }
 });
+
 
 
 
