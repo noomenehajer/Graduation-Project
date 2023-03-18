@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Loginresponse } from 'src/app/models/Loginresponse';
 import { AuthService } from 'src/app/services/auth.service';
 // import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -26,7 +27,6 @@ export class LoginuserComponent {
   ) {}
 
   onSubmit(): void {
-    console.log("hi");
     if (this.form.invalid) {
       return;
     }
@@ -40,13 +40,15 @@ export class LoginuserComponent {
     }
 
     this.authService.loginStudent(email, motDePasse).subscribe(
-      (res) => {
+      (res: Loginresponse) => {
         localStorage.setItem('authToken', res.token);
-        if (res.estValide===false) {
-          console.log("hello")
+        const user = res.user;
+        user.estValide = Boolean(user.estValide);
+        if (!user.estValide) {
+          // console.log('hi');
           this.snackBar.open('You are not authorized yet.', 'OK', {
-            duration: 5000, // 5 seconds
-            verticalPosition: 'top' // Positioning the snackbar on top
+            duration: 5000,
+            verticalPosition: 'top'
           });
         } else {
           this.router.navigateByUrl('/home');
@@ -54,7 +56,14 @@ export class LoginuserComponent {
       },
       (error) => {
         console.error(error);
+        // this.snackBar.open('An error occurred while logging in.', 'OK', {
+        this.snackBar.open('You are not authorized yet.', 'OK', {
+          duration: 5000,
+          verticalPosition: 'top'
+        });
       }
     );
+
   }
+
 }

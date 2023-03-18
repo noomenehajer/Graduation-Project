@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Loginresponse } from '../models/Loginresponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class AuthService {
     return this.http.post(`${this.authUrl}/signup`, body);
   }
 
-  loginStudent(email: string, motDePasse: string): Observable<any> {
+  loginStudent(email: string, motDePasse: string): Observable<Loginresponse> {
     const body = { email, motDePasse };
-    return this.http.post(`${this.authUrl}/loginstudent`, body);
+    return this.http.post<Loginresponse>(`${this.authUrl}/loginstudent`, body);
   }
 
 
