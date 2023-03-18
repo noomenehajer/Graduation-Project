@@ -1,9 +1,44 @@
-<p>signup-user works!
-  hhhhhh
-  hhhhhhhhhhhhh
-  hhhhhhhhhhhhh
-  hhhhhhhhhhhhhhhhh
-  hhhhhhhhhhhhhhhhhh
 
-</p>
-<!-- -->
+<div class="container">
+  <h2>Sign Up</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nom">Nom:</label>
+      <input type="text" formControlName="nom" class="form-control" id="nom">
+      <div *ngIf="form.get('nom')?.invalid && (form.get('nom')?.dirty || form.get('nom')?.touched)" class="alert alert-danger">
+        <div *ngIf="form.get('nom')?.errors?.['required']">Nom is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="prenom">Prenom:</label>
+      <input type="text" formControlName="prenom" class="form-control" id="prenom">
+      <div *ngIf="form.get('prenom')?.invalid && (form.get('prenom')?.dirty || form.get('prenom')?.touched)" class="alert alert-danger">
+        <div *ngIf="form.get('prenom')?.errors?.['required']">Prenom is required</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" formControlName="email" class="form-control" id="email">
+      <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="alert alert-danger">
+        <div *ngIf="form.get('email')?.errors?.['required']">Email is required</div>
+        <div *ngIf="form.get('email')?.errors?.['minlength']">Invalid email format</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="motDePasse">Password:</label>
+      <input type="password" formControlName="motDePasse" class="form-control" id="motDePasse">
+      <div *ngIf="form.get('motDePasse')?.invalid && (form.get('motDePasse')?.dirty || form.get('motDePasse')?.touched)" class="alert alert-danger">
+        <div *ngIf="form.get('motDePasse')?.errors?.['required']">Password is required</div>
+        <div *ngIf="form.get('motDePasse')?.errors?.['minlength']">Password must be at least 6 characters long</div>
+      </div>
+    </div>
+    <!-- <div class="form-group">
+      <label for="motDePasseConfirm">Confirm Password:</label>
+      <input type="password" formControlName="motDePasseConfirm" class="form-control" id="motDePasseConfirm">
+      <div *ngIf="form.get('motDePasseConfirm').invalid && (form.get('motDePasseConfirm').dirty || form.get('motDePasseConfirm').touched)" class="alert alert-danger">
+        <div *ngIf="form.get('motDePasseConfirm').errors.required">Confirm Password is required</div>
+      </div>
+    </div> -->
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>

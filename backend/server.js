@@ -7,6 +7,7 @@ const articleRoutes = require('./routes/article.route');
 const admin_psyRoutes= require('./routes/admin-psy.route');
 const admin_etudiantRoutes= require('./routes/admin-etudiant.route');
 const adminRoutes=require('./routes/admin.route');
+const authRoutes=require('./routes/auth.route');
 const Admin =require('./models/admin');
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
@@ -51,6 +52,7 @@ db.once('open', () => {
 });
 app.use('/api', articleRoutes);
 app.use('/admin',adminRoutes,admin_psyRoutes,admin_etudiantRoutes);
+app.use('/',authRoutes);
 app.use('/uploads', express.static('uploads'));
 //changer password///////
 const adminPasswordRoutes = require('./routes/admin-password.route');

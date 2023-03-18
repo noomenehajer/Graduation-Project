@@ -8,8 +8,21 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
   private apiUrl = 'http://localhost:3000/admin';
+  private authUrl="http://localhost:3000";
 
   constructor(private http: HttpClient) { }
+
+  signupStudent(nom: string, prenom: string, email: string, motDePasse: string): Observable<any> {
+    const body = { nom, prenom, email, motDePasse, estValide: false };
+    return this.http.post(`${this.authUrl}/signup`, body);
+  }
+
+  loginStudent(email: string, motDePasse: string): Observable<any> {
+    const body = { email, motDePasse };
+    return this.http.post(`${this.authUrl}/loginstudent`, body);
+  }
+
+
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password });

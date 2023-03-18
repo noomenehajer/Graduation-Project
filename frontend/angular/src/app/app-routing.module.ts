@@ -10,6 +10,7 @@ import { HomeComponent } from './views/user/home/home.component';
 import { WhoAreYouComponent } from './views/who-are-you/who-are-you.component';
 import { QuestionnaireComponent } from './views/admin/questionnaire/questionnaire.component';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
+import { SignupUserComponent } from './views/auth/signup-user/signup-user.component';
 
 
 const routes: Routes = [
@@ -28,13 +29,14 @@ const routes: Routes = [
   },
   { path: 'loginadmin', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
   { path: 'adminpassword', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
-
+  // { path: 'signup', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
   {
     path: '',
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      {path:'userlogin',component:LoginuserComponent},
+      {path:'signup',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+      {path:'loginuser',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
     ]
   },
   { path: 'home', component: WhoAreYouComponent },
