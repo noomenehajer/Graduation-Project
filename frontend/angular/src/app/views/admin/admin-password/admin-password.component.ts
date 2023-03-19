@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PasswordService } from '../../../services/adminPassword.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-admin-password',
@@ -12,13 +12,12 @@ export class AdminPasswordComponent implements OnInit {
 
   passwordForm!: FormGroup;
   submitted = false;
-  loading = false;
   errorMessage = '';
 
   constructor(
     private formBuilder: FormBuilder,
-    private changePasswordService: PasswordService,
-    private router: Router
+    private PasswordService: AuthService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -39,18 +38,17 @@ export class AdminPasswordComponent implements OnInit {
     if (this.passwordForm.invalid) {
       return;
     }
-
-    this.loading = true;
     const email = this.passwordForm.get('email')?.value;
     const currentPassword = this.passwordForm.get('currentPassword')?.value;
     const newPassword = this.passwordForm.get('newPassword')?.value;
-    this.changePasswordService.changePassword(email, currentPassword, newPassword).subscribe(
+    this.PasswordService.changePassword(email, currentPassword, newPassword).subscribe(
       response => {
+        alert("Password changed successfully!");
         this.router.navigate(['/admin']);
       },
       error => {
+        alert("check your login data!");
         this.errorMessage = error.error.message;
-        this.loading = false;
       }
     );
   }

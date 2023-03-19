@@ -23,8 +23,6 @@ export class AuthService {
     return this.http.post<Loginresponse>(`${this.authUrl}/loginstudent`, body);
   }
 
-
-
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
@@ -35,6 +33,11 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return localStorage.getItem('currentUser') !== null;
+  }
+
+  changePassword(email: string, currentPassword: string, newPassword: string): Observable<any> {
+    const body = { email, currentPassword, newPassword };
+    return this.http.post(`${this.authUrl}/password`, body);
   }
 
   // getCurrentUser(): any {
