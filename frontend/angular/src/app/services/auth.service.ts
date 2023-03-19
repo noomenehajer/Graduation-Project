@@ -8,7 +8,6 @@ import { Loginresponse } from '../models/Loginresponse';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3000/admin';
   private authUrl="http://localhost:3000";
 
   constructor(private http: HttpClient) { }
@@ -24,7 +23,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
+    return this.http.post<any>(`${this.authUrl}/login`, { email, password });
   }
 
   logout(): void {
