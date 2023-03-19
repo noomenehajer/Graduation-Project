@@ -10,7 +10,10 @@ export class HomeComponent {
 
   constructor(private router: Router) {}
   onGetStartedClick(): void {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/signup']);
+  }
+  onGetLoginClick(): void {
+    this.router.navigate(['/loginuser']);
   }
 
 
