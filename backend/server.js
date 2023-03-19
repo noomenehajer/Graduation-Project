@@ -55,9 +55,7 @@ app.use('/api', articleRoutes);
 app.use('/admin',adminRoutes,admin_psyRoutes,admin_etudiantRoutes);
 app.use('/',authRoutes);
 app.use('/uploads', express.static('uploads'));
-//changer password///////
-const adminPasswordRoutes = require('./routes/admin-password.route');
-app.use('/password', adminPasswordRoutes);
+
 //questionnaire/////////////
 const formsRouter = require('./routes/form');
 app.use('/forms', formsRouter);

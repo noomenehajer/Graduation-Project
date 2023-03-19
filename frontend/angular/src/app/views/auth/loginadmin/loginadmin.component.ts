@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AdminService } from '../../../services/admin.service';
+import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-loginadmin',
   templateUrl: './loginadmin.component.html',
@@ -11,7 +11,7 @@ import { AdminService } from '../../../services/admin.service';
 export class LoginadminComponent implements OnInit{
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private adminService: AdminService , private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private adminService: AuthService , private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({

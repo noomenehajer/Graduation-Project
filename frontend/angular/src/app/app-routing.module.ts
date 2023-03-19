@@ -28,7 +28,7 @@ const routes: Routes = [
     ]
   },
   { path: 'loginadmin', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
-  { path: 'adminpassword', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
+//  { path: 'adminpassword', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
   // { path: 'signup', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
   {
     path: '',
