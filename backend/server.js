@@ -6,7 +6,6 @@ const cors = require('cors');
 const articleRoutes = require('./routes/article.route');
 const admin_psyRoutes= require('./routes/admin-psy.route');
 const admin_etudiantRoutes= require('./routes/admin-etudiant.route');
-const adminRoutes=require('./routes/admin.route');
 const authRoutes=require('./routes/auth.route');
 const Admin =require('./models/admin');
 // Configuration du port d'écoute
@@ -52,13 +51,9 @@ db.once('open', () => {
   console.log('Connected to database');
 });
 app.use('/api', articleRoutes);
-app.use('/admin',adminRoutes,admin_psyRoutes,admin_etudiantRoutes);
+app.use('/admin',admin_psyRoutes,admin_etudiantRoutes);
 app.use('/',authRoutes);
 app.use('/uploads', express.static('uploads'));
-
-//questionnaire/////////////
-const formsRouter = require('./routes/form');
-app.use('/forms', formsRouter);
 
 // Démarrer le serveur
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));

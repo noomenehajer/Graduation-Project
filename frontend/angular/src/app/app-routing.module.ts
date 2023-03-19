@@ -8,7 +8,6 @@ import { LoginadminComponent } from './views/auth/loginadmin/loginadmin.componen
 import { LoginuserComponent } from './views/auth/loginuser/loginuser.component';
 import { HomeComponent } from './views/user/home/home.component';
 import { WhoAreYouComponent } from './views/who-are-you/who-are-you.component';
-import { QuestionnaireComponent } from './views/admin/questionnaire/questionnaire.component';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
 import { SignupUserComponent } from './views/auth/signup-user/signup-user.component';
 
@@ -22,13 +21,12 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./views/admin/article/article.module').then(m => m.ArticleModule) },
       { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
       {path:'psy',loadChildren:()=>import('./views/admin/psy/psy.module').then(m=>m.PsyModule)},
-      { path: 'questionnaire', component: QuestionnaireComponent },
       { path: 'password', component: AdminPasswordComponent }
 
     ]
   },
   { path: 'loginadmin', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
-//  { path: 'adminpassword', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
+  { path: 'logout', loadChildren:()=>import('./layouts/layouts.module').then(m => m.LayoutsModule)},
   // { path: 'signup', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
   {
     path: '',

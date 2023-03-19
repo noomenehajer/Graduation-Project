@@ -31,6 +31,10 @@ export class AuthService {
     localStorage.removeItem('currentUser');
   }
 
+  logoutAdmin(): Observable<any> {
+    return this.http.post(`${this.authUrl}/logout`, {});
+    }
+
   isLoggedIn(): boolean {
     return localStorage.getItem('currentUser') !== null;
   }

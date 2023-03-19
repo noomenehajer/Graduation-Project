@@ -9,13 +9,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 @NgModule({
   declarations: [
     LoginadminComponent,
     SignupAdminComponent,
     LoginuserComponent,
-    SignupUserComponent
+    SignupUserComponent,
   ],
   imports: [
     CommonModule,

@@ -19,15 +19,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
-import { QuestionnaireComponent } from './views/admin/questionnaire/questionnaire.component';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     WhoAreYouComponent,
-    QuestionnaireComponent,
-    AdminPasswordComponent
+    AdminPasswordComponent,
 
   ],
   imports: [

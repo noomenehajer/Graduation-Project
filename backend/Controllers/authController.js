@@ -2,9 +2,28 @@ const User=require('../models/etudiant');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Admin = require('../models/admin');
+const config = require('../config/config');
 
+exports.loginAdmin =async (req, res, next) => {
+  const { email, password } = req.body;
 
+  try {
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
 
+    const isMatch = await admin.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign({ id: admin._id }, config.secret);
+    return res.json({ token });
+  } catch (error) {
+    return next(error);
+  }
+}
 
 exports.signupStudent = async (req, res) => {
   try {
@@ -71,8 +90,13 @@ exports.verifyStudentToken = async (req, res, next) => {
   }
 };
 
-// changer admin password
+//logout
+exports.logoutAdmin = (req, res) => {
+  res.clearCookie('token');
+  res.status(200).send({ message: 'Logout successful' });
+};
 
+// changer admin password
 exports.changeAdminPassword = (req, res) => {
   const { email, currentPassword, newPassword } = req.body;
 
