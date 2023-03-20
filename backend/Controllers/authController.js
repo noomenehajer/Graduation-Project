@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Admin = require('../models/admin');
 const config = require('../config/config');
+const Notification = require('../models/notification');
+const saltRounds = 12;
 
 exports.loginAdmin =async (req, res, next) => {
   const { email, password } = req.body;
@@ -25,6 +27,7 @@ exports.loginAdmin =async (req, res, next) => {
   }
 }
 
+
 exports.signupStudent = async (req, res) => {
   try {
     const { nom, prenom, email, motDePasse } = req.body;
@@ -35,9 +38,24 @@ exports.signupStudent = async (req, res) => {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
 
-    // Create new user object and save to database with estvalide set to false
-    const newUser = new User({ nom, prenom, email, motDePasse, estValide: false });
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(motDePasse, saltRounds);
+
+    // Create new user object and save to database with estValide set to false
+    const newUser = new User({ nom, prenom, email, motDePasse: hashedPassword, estValide: false });
     await newUser.save();
+
+    // Get admin account and create a notification for the new student signup
+    const admin = await Admin.findOne();
+    const newNotification = new Notification({ 
+      receiverId: admin._id,
+      senderId: newUser._id,
+      message: `New student signed up with email ${email}`
+    });
+    await newNotification.save();
+
+    admin.notifications.push(newNotification);
+    await admin.save();
 
     return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {

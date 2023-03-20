@@ -1,5 +1,5 @@
 <!-- Section: Design Block -->
-<section class="background-radial-gradient overflow-hidden" style="height: 713px !important;" >
+<section class="background-radial-gradient overflow-hidden"  >
   <style>
     .background-radial-gradient {
       background-color: hsl(218, 41%, 15%);
@@ -65,12 +65,11 @@
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
-              <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="row">
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
-                    <label class="form-label" for="nom">First name</label>
-                    <input type="text" id="nom"  formControlName="nom" class="form-control" />
+                    <label for="nom">Nom:</label>
+                    <input type="text" id="nom" formControlName="nom" class="form-control">
                     <div *ngIf="form.get('nom')?.invalid && (form.get('nom')?.dirty || form.get('nom')?.touched)" class="alert alert-danger">
                       <div *ngIf="form.get('nom')?.errors?.['required']">Nom is required</div>
                     </div>
@@ -78,8 +77,8 @@
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
-                    <label class="form-label" for="prenom">Last name</label>
-                    <input type="text" id="prenom" formControlName="prenom" class="form-control" />
+                    <label for="prenom" class="form-label">Prénom:</label>
+                    <input type="text" id="prenom" formControlName="prenom" class="form-control">
                     <div *ngIf="form.get('prenom')?.invalid && (form.get('prenom')?.dirty || form.get('prenom')?.touched)" class="alert alert-danger">
                       <div *ngIf="form.get('prenom')?.errors?.['required']">Prenom is required</div>
                     </div>
@@ -89,8 +88,8 @@
 
               <!-- Email input -->
               <div class="form-outline mb-4">
-                <label class="form-label" for="email">Email address</label>
-                <input type="email" id="email" formControlName="email" class="form-control" />
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" formControlName="email" class="form-control">
                 <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="alert alert-danger">
                   <div *ngIf="form.get('email')?.errors?.['required']">Email is required</div>
                   <div *ngIf="form.get('email')?.errors?.['minlength']">Invalid email format</div>
@@ -99,46 +98,22 @@
 
               <!-- Password input -->
               <div class="form-outline mb-4">
-                <label class="form-label" for="motDePasse">Password</label>
-                <input type="password" id="motDePasse" class="form-control" />
+                <label for="motDePasse" class="form-label">Mot de passe:</label>
+                <input type="password" id="motDePasse" formControlName="motDePasse" class="form-control">
                 <div *ngIf="form.get('motDePasse')?.invalid && (form.get('motDePasse')?.dirty || form.get('motDePasse')?.touched)" class="alert alert-danger">
                   <div *ngIf="form.get('motDePasse')?.errors?.['required']">Password is required</div>
                   <div *ngIf="form.get('motDePasse')?.errors?.['minlength']">Password must be at least 6 characters long</div>
                 </div>
               </div>
 
-              <!-- Checkbox -->
-              <!-- <div class="form-check d-flex justify-content-center mb-4">
-                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                <label class="form-check-label" for="form2Example33">
-                  Subscribe to our newsletter
-                </label>
-              </div> -->
+
 
               <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block mb-4">
+              <button type="submit" class="btn btn-primary btn-block mb-4" [disabled]="form.invalid">
                 Sign up
               </button>
 
-              <!-- Register buttons -->
-              <div class="text-center">
-                <p>or sign up with:</p>
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-facebook-f"></i>
-                </button>
 
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-google"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-twitter"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-github"></i>
-                </button>
-              </div>
             </form>
           </div>
         </div>
@@ -147,3 +122,7 @@
   </div>
 </section>
 <!-- Section: Design Block -->
+
+
+
+
