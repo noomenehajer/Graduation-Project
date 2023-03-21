@@ -1,6 +1,6 @@
 export interface Loginresponse {
   token: string;
-  estValide: boolean;
+  // estValide: boolean;
   user: {
     nom: string;
     prenom: string;

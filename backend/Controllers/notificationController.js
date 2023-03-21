@@ -1,14 +1,37 @@
 const Notification = require('../models/notification');
+const jwt = require('jsonwebtoken');
 
 exports.getNotifications = async (req, res) => {
-  try {
-    const notifications = await Notification.find({ receiverId: req.user._id });
-    return res.status(200).json(notifications);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-};
+    try {
+      const notifications = await Notification.find({ receiverId: req.user._id })
+        .populate('senderId', 'username')
+        .sort('-createdAt')
+        .exec();
+  
+      res.status(200).json(notifications);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  };
+
+
+  exports.authenticateUser = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+      req.user = user;
+      next();
+    });
+  };
+  
+  
 
 exports.markNotificationAsRead = async (req, res) => {
   try {

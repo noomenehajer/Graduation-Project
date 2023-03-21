@@ -13,7 +13,7 @@ export class SignupUserComponent implements OnInit{
     nom: ['', Validators.required],
     prenom: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    motDePasse: ['', [Validators.required, Validators.minLength(6)]],
+    motDePasse: ['', [Validators.required, Validators.minLength(8)]],
     // motDePasseConfirm: ['', [Validators.required]],
   });
 

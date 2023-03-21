@@ -34,6 +34,7 @@ exports.signupStudent = async (req, res) => {
 
     // Check if user already exists with same email
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
@@ -70,16 +71,26 @@ exports.loginStudent = async (req, res) => {
 
     // Find user with given email
     const user = await User.findOne({ email });
+    // console.log(user);
+    // console.log(user.estValide);
+    // console.log(typeof(user.estValide));
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     // Check if password is correct
     const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
+    console.log(isMatch);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
+     // Check if user is validated
+     if (!user.estValide) {
+      console.log("hi");
+      return res.status(401).json({ message: 'compte pas active ' });
+    }
+    
     // Generate JWT token for user
     const token = jwt.sign({ userId: user._id }, process.env.STUDENT_JWT_SECRET);
 

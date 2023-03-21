@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Loginresponse } from '../models/Loginresponse';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,12 @@ export class AuthService {
     return this.http.post(`${this.authUrl}/signup`, body);
   }
 
-  loginStudent(email: string, motDePasse: string): Observable<Loginresponse> {
+  loginStudent(email: string, motDePasse: string): Observable<any> {
     const body = { email, motDePasse };
-    return this.http.post<Loginresponse>(`${this.authUrl}/loginstudent`, body);
+    // console.log(body);
+    return this.http.post(`${this.authUrl}/loginstudent`, body);
   }
+
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.authUrl}/login`, { email, password });

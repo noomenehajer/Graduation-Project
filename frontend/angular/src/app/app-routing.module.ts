@@ -10,6 +10,7 @@ import { HomeComponent } from './views/user/home/home.component';
 import { WhoAreYouComponent } from './views/who-are-you/who-are-you.component';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
 import { SignupUserComponent } from './views/auth/signup-user/signup-user.component';
+import { NotificationComponent } from './views/admin/notification/notification.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./views/admin/article/article.module').then(m => m.ArticleModule) },
       { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
       {path:'psy',loadChildren:()=>import('./views/admin/psy/psy.module').then(m=>m.PsyModule)},
-      { path: 'password', component: AdminPasswordComponent }
+      { path: 'password', component: AdminPasswordComponent },
+      {path:'notifications',component:NotificationComponent},
 
     ]
   },

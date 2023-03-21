@@ -17,9 +17,15 @@ export class NotificationComponent implements OnInit{
   }
 
   loadNotifications(): void {
-    this.notificationService.getNotifications().subscribe((notifications: any[]) => {
-      this.notifications = notifications;
-    });
+    this.notificationService.getNotifications().subscribe(
+      (notifications: any[]) => {
+        this.notifications = notifications;
+      },
+      (error) => {
+        console.log(error);
+        // Handle error here, e.g. show an error message to the user
+      }
+    );
   }
 
   markAsRead(notificationId: string): void {

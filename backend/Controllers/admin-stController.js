@@ -55,12 +55,12 @@ exports.editStudent= async (req, res) => {
     student.email = email || student.email;
     student.estValide = estValide || student.estValide;
     student.estSuspendu = estSuspendu || student.estSuspendu;
-    if (motDePasse) {
-      // Hash the new password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(motDePasse, salt);
-      student.motDePasse = hashedPassword;
-    }
+    // if (motDePasse) {
+    //   // Hash the new password
+    //   const salt = await bcrypt.genSalt(10);
+    //   const hashedPassword = await bcrypt.hash(motDePasse, salt);
+    //   student.motDePasse = hashedPassword;
+    // }
 
     const updatedStudent = await student.save();
     res.send(updatedStudent);

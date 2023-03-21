@@ -7,7 +7,8 @@ const articleRoutes = require('./routes/article.route');
 const admin_psyRoutes= require('./routes/admin-psy.route');
 const admin_etudiantRoutes= require('./routes/admin-etudiant.route');
 const authRoutes=require('./routes/auth.route');
-const Admin =require('./models/admin');
+const notificationRoute=require('./routes/notification.route');
+
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
 // Initialiser l'application Express
@@ -51,7 +52,7 @@ db.once('open', () => {
   console.log('Connected to database');
 });
 app.use('/api', articleRoutes);
-app.use('/admin',admin_psyRoutes,admin_etudiantRoutes);
+app.use('/admin',admin_psyRoutes,admin_etudiantRoutes,notificationRoute);
 app.use('/',authRoutes);
 app.use('/uploads', express.static('uploads'));
 
