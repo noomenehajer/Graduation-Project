@@ -5,7 +5,7 @@ const notificationController = require('../Controllers/notificationController');
 
 
 
-router.get('/notifications',notificationController.authenticateUser,notificationController.getNotifications);
+router.get('/notifications',notificationController.getNotifications,notificationController.markNotificationAsRead);
 
 
 

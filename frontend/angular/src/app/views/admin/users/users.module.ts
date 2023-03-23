@@ -19,7 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatExpansionModule} from '@angular/material/expansion'
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NotificationComponent } from '../notification/notification.component';
+import { NotificationComponent } from '../../../layouts/notification/notification.component';
 @NgModule({
   declarations: [
     AdminAddStudentComponent,
@@ -27,7 +27,7 @@ import { NotificationComponent } from '../notification/notification.component';
     DetailStudentComponent,
     EditStudentComponent,
     NonValidStudentComponent,
-    NotificationComponent
+    // NotificationComponent
   ],
   imports: [
     CommonModule,

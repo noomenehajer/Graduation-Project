@@ -1,0 +1,13 @@
+<!-- <div  class="   position-static" aria-labelledby="notificationDropdown"  class="dropdown">
+  <div  type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown" >
+      <i    class="icon-bell mx-0"></i>
+      <span   class="count"></span>
+    </a> -->
+    <div class="dropdown-menu position-absolute" style="margin-left: -500px;margin-top: 10px; left: 0; top: 100%;width:500px" >
+      <div class="dropdown-item" href="#" *ngFor="let notification of notifications" routerLink="/admin/users">{{ notification.message }}</div>
+
+    </div>
+  <!-- </div> -->
+
+<!-- </div> -->

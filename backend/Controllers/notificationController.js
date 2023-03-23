@@ -2,18 +2,25 @@ const Notification = require('../models/notification');
 const jwt = require('jsonwebtoken');
 
 exports.getNotifications = async (req, res) => {
-    try {
-      const notifications = await Notification.find({ receiverId: req.user._id })
-        .populate('senderId', 'username')
-        .sort('-createdAt')
-        .exec();
+  //   try {
+  //     const notifications = await Notification.find({ receiverId: req.user._id })
+  //       .populate('senderId', 'username')
+  //       .sort('-createdAt')
+  //       .exec();
   
-      res.status(200).json(notifications);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server Error' });
-    }
-  };
+  //     res.status(200).json(notifications);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ message: 'Server Error' });
+  //   }
+  // };
+  try {
+    const notifications = await Notification.find({});
+    res.json(notifications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 
   exports.authenticateUser = (req, res, next) => {

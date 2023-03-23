@@ -51,7 +51,7 @@ exports.signupStudent = async (req, res) => {
     const newNotification = new Notification({ 
       receiverId: admin._id,
       senderId: newUser._id,
-      message: `New student signed up with email ${email}`
+      message: `${email} want to valid his account `
     });
     await newNotification.save();
 
