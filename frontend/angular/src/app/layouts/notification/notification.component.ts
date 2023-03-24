@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Route } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -15,6 +16,11 @@ export class NotificationComponent implements OnInit{
   ngOnInit(): void {
     this.loadNotifications();
   }
+
+
+  // redirectToHome() {
+  //   this.router.navigate(['/home']);
+  // }
 
   loadNotifications(): void {
     this.notificationService.getNotifications().subscribe(

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Loginresponse } from '../models/Loginresponse';
 import { tap } from 'rxjs/operators';
+import { Psychologue } from '../models/Psychologue';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,22 @@ export class AuthService {
     return this.http.post(`${this.authUrl}/signup`, body);
   }
 
+  signupPsy(nom: string, prenom: string, email: string, motDePasse: string): Observable<Psychologue> {
+    const body = { nom, prenom, email, motDePasse};
+    return this.http.post<Psychologue>(`${this.authUrl}/signupPsy`, body);
+  }
+
   loginStudent(email: string, motDePasse: string): Observable<any> {
     const body = { email, motDePasse };
     // console.log(body);
     return this.http.post(`${this.authUrl}/loginstudent`, body);
   }
 
+  loginPsy(email: string, motDePasse: string): Observable<any> {
+    const body = { email, motDePasse };
 
+    return this.http.post(`${this.authUrl}/loginPsy`, body);
+  }
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.authUrl}/login`, { email, password });
   }

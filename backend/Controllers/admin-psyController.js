@@ -18,6 +18,16 @@ exports.getAllPsychologues = async (req, res) => {
     }
   }
 
+  exports.getNonValidPsy= async (req, res) => {
+    try {
+      // Get all the invalid psy
+      const psychologues = await Psychologue.find({ estValide: false });
+      res.send(psychologues);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  };
+
   exports.addPsychologue = async (req, res) => {
   try {
     const { nom, prenom, email, motDePasse } = req.body;
@@ -36,7 +46,8 @@ exports.getAllPsychologues = async (req, res) => {
         nom,
         prenom,
         email,
-        motDePasse: hashedPassword
+        motDePasse: hashedPassword,
+        estValide: true,
       });
 
       // Save the new psy

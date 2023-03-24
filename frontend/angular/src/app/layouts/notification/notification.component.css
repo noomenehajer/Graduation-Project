@@ -1,0 +1,19 @@
+.dropdown-toggle {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+
+}
+
+.dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  white-space: normal;
+}
+
+.notification.read {
+  background-color: #f8f9fa;
+}

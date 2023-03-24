@@ -1,9 +1,0 @@
-<ul>
-  <li *ngFor="let notification of notifications">
-    <div class="notification" [class.read]="notification.read">
-      <p>{{ notification.message }}</p>
-      <button *ngIf="!notification.read" (click)="markAsRead(notification._id)">Mark as read</button>
-    </div>
-  </li>
-</ul>
-

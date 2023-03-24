@@ -19,6 +19,7 @@ import { AdminAddPsyComponent } from './admin-add-psy/admin-add-psy.component';
 import { AdminListPsyComponent } from './admin-list-psy/admin-list-psy.component';
 import { EditPsyComponent } from './edit-psy/edit-psy.component';
 import { DetailPsyComponent } from './detail-psy/detail-psy.component';
+import { PsyNonValideComponent } from './psy-non-valide/psy-non-valide.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { DetailPsyComponent } from './detail-psy/detail-psy.component';
     AdminAddPsyComponent,
     AdminListPsyComponent,
     EditPsyComponent,
-    DetailPsyComponent
+    DetailPsyComponent,
+    PsyNonValideComponent
   ],
   imports: [
     CommonModule,
