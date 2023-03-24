@@ -24,6 +24,11 @@ export class PsyService {
     return this.http.get<Psychologue>(url);
   }
 
+  getNonValidPsy(): Observable<Psychologue[]> {
+    const url = `${this.apiUrl}/invalidPsy`;
+    return this.http.get<Psychologue[]>(url);
+  }
+
   editPsychologue(id: string, psychologue: Psychologue): Observable<any> {
     return this.http.patch(`${this.apiUrl}/edit/${id}`, psychologue);
   }

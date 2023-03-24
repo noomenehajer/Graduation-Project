@@ -53,6 +53,7 @@ exports.editStudent= async (req, res) => {
     student.nom = nom || student.nom;
     student.prenom = prenom || student.prenom;
     student.email = email || student.email;
+    student.motDePasse = motDePasse || student.motDePasse;
     student.estValide = estValide || student.estValide;
     student.estSuspendu = estSuspendu || student.estSuspendu;
     // if (motDePasse) {
@@ -93,6 +94,9 @@ exports.getNonValidStudents= async (req, res) => {
     res.status(400).send(err);
   }
 };
+
+
+
 
 
 // POST request to add a new student

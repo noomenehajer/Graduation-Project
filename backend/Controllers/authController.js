@@ -1,4 +1,5 @@
 const User=require('../models/etudiant');
+const Psy = require('../models/psy');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Admin = require('../models/admin');
@@ -88,7 +89,7 @@ exports.loginStudent = async (req, res) => {
      // Check if user is validated
      if (!user.estValide) {
       console.log("hi");
-      return res.status(401).json({ message: 'compte pas active ' });
+      return res.status(401).json({ message: 'you arenot authorized yet ' });
     }
     
     // Generate JWT token for user
@@ -166,4 +167,62 @@ exports.changeAdminPassword = (req, res) => {
       });
     });
   });
+};
+
+
+exports.signupPsy = async (req, res) => {
+  try {
+    const { nom, prenom, email, motDePasse } = req.body;
+
+    // Check if user already exists with same email
+    const existingPsy = await Psy.findOne({ email });
+
+    if (existingPsy) {
+      return res.status(400).json({ message: 'Psychologue already exists with this email' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(motDePasse, saltRounds);
+
+    // Create new user object and save to database with estValide set to false
+    const newPsy = new Psy({ nom, prenom, email, motDePasse: hashedPassword ,estValide: false});
+    await newPsy.save();
+    return res.status(201).json({ message: 'Psychologist created successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
+exports.loginPsy = async (req, res) => {
+  try {
+    const { email, motDePasse } = req.body;
+
+    // Find user with given email
+    const psy = await Psy.findOne({ email });
+    if (!psy) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+    // Check if password is correct
+    const isMatch = await bcrypt.compare(motDePasse, psy.motDePasse);
+    console.log(isMatch);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    //  Check if user is validated
+     if (!psy.estValide) {
+       return res.status(401).json({ message: 'you arenot authorized yet ' });
+    }
+    // Generate JWT token for user
+    const token = jwt.sign({ psyId: psy._id }, process.env.JWT_SECRET);
+
+    // Return token and user data
+    return res.status(200).json({ token, psy: { nom: psy.nom, prenom: psy.prenom, email: psy.email ,estValide:psy.estValide } });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 };

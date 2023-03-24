@@ -9,12 +9,16 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SignupPsyComponent } from './signup-psy/signup-psy.component';
+import { LoginPsyComponent } from './login-psy/login-psy.component';
 @NgModule({
   declarations: [
     LoginadminComponent,
     SignupAdminComponent,
     LoginuserComponent,
     SignupUserComponent,
+    SignupPsyComponent,
+    LoginPsyComponent,
   ],
   imports: [
     CommonModule,

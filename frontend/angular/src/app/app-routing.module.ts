@@ -22,6 +22,7 @@ const routes: Routes = [
       { path: '', loadChildren: () => import('./views/admin/article/article.module').then(m => m.ArticleModule) },
       { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
       {path:'psy',loadChildren:()=>import('./views/admin/psy/psy.module').then(m=>m.PsyModule)},
+      // {path:'invalid'}
       { path: 'password', component: AdminPasswordComponent },
       // {path:'notifications',component:NotificationComponent},
 
@@ -36,7 +37,9 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       {path:'signup',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+      {path:'signupPsy',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'loginuser',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+      {path:'loginPsy',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
     ]
   },
   { path: 'home', component: WhoAreYouComponent },
