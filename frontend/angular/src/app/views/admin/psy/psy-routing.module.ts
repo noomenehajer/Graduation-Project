@@ -11,7 +11,7 @@ const routes: Routes = [
   {path:'',component:AdminListPsyComponent},
   {path:'detail-psy/:id',component:DetailPsyComponent},
   {path:'edit/:id',component:EditPsyComponent},
-  {path:'invalidPsy',component:PsyNonValideComponent},
+  {path:'invalidpsy',component:PsyNonValideComponent},
 ];
 
 @NgModule({

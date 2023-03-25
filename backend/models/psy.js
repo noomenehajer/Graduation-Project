@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-
+// const ObjectId = mongoose.Types.ObjectId;
 const psychologueSchema = new mongoose.Schema({
+ 
   nom: { type: String, required: true },
+
   prenom: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   motDePasse: { type: String, required: true },

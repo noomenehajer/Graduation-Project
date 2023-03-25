@@ -8,12 +8,14 @@ const adminPsyController= require('../Controllers/admin-psyController');
 
 
 router.get('/psychologues',adminPsyController.getAllPsychologues);
+router.get('/psychologues/invalidpsy',adminPsyController.getNonValidPsy);
 router.post('/psychologues/add',adminPsyController.addPsychologue);
 router.delete('/psychologues/:id',adminPsyController.deletePsy);
 router.get('/psychologues/:id',adminPsyController.getPsychologue);
-router.get('/psychologues/invalidPsy',adminPsyController.getNonValidPsy);
+router.patch('/psychologues/edit/:id',adminPsyController.editPsy);
 
-
-
+router.put('/psychologues/suspend/:id',adminPsyController.toggleSuspendAcc, (req, res) => {
+    res.json(res.psy);
+  });
 
 module.exports = router;

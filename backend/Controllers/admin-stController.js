@@ -133,7 +133,7 @@ exports.addStudent= async (req, res) => {
 
 
 
-    // Middleware function to get article by ID
+    // Middleware function to get student by ID
    exports.getStudent = async(req, res) =>{
        try {
          

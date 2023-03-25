@@ -13,7 +13,9 @@ export class PsyService {
 
 
   getAllPsychologues() : Observable<Psychologue[]>{
-    return this.http.get<Psychologue[]>(this.apiUrl);  }
+    return this.http.get<Psychologue[]>(this.apiUrl);
+   }
+
 
   getPsychologue(id: string): Observable<Psychologue> {
     if (!id) {
@@ -24,13 +26,10 @@ export class PsyService {
     return this.http.get<Psychologue>(url);
   }
 
-  getNonValidPsy(): Observable<Psychologue[]> {
-    const url = `${this.apiUrl}/invalidPsy`;
-    return this.http.get<Psychologue[]>(url);
-  }
 
-  editPsychologue(id: string, psychologue: Psychologue): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/edit/${id}`, psychologue);
+
+  editPsychologue(id: string, psychologue: Psychologue): Observable<Psychologue> {
+    return this.http.patch<Psychologue>(`${this.apiUrl}/edit/${id}`, psychologue);
   }
   addPsychologue(psychologue: Psychologue): Observable<Psychologue> {
     return this.http.post<Psychologue>(`${this.apiUrl}/add`, psychologue);
@@ -40,4 +39,9 @@ export class PsyService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+
+   getNonValidPsy(): Observable<Psychologue[]> {
+      const url = `${this.apiUrl}/invalidpsy`;
+  return this.http.get<Psychologue[]>(url);
+    }
 }

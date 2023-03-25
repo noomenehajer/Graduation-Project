@@ -18,9 +18,11 @@ export class PsyNonValideComponent implements OnInit{
   }
 
   getNonValidPsy() {
+    // console.log('hi')
     this.psyService.getNonValidPsy().subscribe(
-      (psychologues: Psychologue[]) => {
-        this.psychologues = psychologues;
+      (data: Psychologue[]) => {
+        this.psychologues = data;
+
       },
       (error: any) => {
         console.log(error);

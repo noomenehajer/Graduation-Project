@@ -53,6 +53,7 @@ db.once('open', () => {
 });
 app.use('/api', articleRoutes);
 app.use('/admin',admin_psyRoutes,admin_etudiantRoutes,notificationRoute);
+
 app.use('/',authRoutes);
 app.use('/uploads', express.static('uploads'));
 
