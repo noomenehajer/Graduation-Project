@@ -5,6 +5,7 @@ import { UserLayoutComponent } from './user-layout/user-layout.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NotificationComponent } from './notification/notification.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 // import { SidebarComponent } from './sidebar/sidebar.component';
@@ -15,7 +16,8 @@ import { NotificationComponent } from './notification/notification.component';
   declarations: [
     AdminLayoutComponent,
     UserLayoutComponent,
-   NotificationComponent
+   NotificationComponent,
+   NavbarComponent
   ],
   imports: [
     CommonModule,

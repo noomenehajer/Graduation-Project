@@ -25,6 +25,10 @@ export class ArticleService {
       return this.http.post(`${this.baseUrl}/add`, article);
     }
 
+    addReply(reply: { content: string, parent: string }): Observable<any> {
+      return this.http.post(`${this.baseUrl}/add-reply`, reply);
+    }
+
 
     editArticle(id: string, article: FormData): Observable<any> {
       return this.http.patch(`${this.baseUrl}/edit/${id}`, article);

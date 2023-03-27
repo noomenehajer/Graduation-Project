@@ -20,6 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
+import { StArticlesModule } from './views/user/st-articles/st-articles.module';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { AdminPasswordComponent } from './views/admin/admin-password/admin-passw
     DashboardComponent,
     WhoAreYouComponent,
     AdminPasswordComponent,
+
 
   ],
   imports: [
@@ -47,6 +50,7 @@ import { AdminPasswordComponent } from './views/admin/admin-password/admin-passw
     MatStepperModule,
     MatCardModule,
     MatIconModule,
+
 
   ],
   providers: [],

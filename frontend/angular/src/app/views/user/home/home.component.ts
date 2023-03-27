@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,11 @@ export class HomeComponent {
   onGetLoginClick(): void {
     this.router.navigate(['/loginuser']);
   }
+
+
+
+
+
 
 
 }

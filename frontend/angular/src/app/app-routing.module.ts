@@ -12,6 +12,8 @@ import { AdminPasswordComponent } from './views/admin/admin-password/admin-passw
 import { SignupUserComponent } from './views/auth/signup-user/signup-user.component';
 import { NotificationComponent } from './layouts/notification/notification.component';
 import { PsyNonValideComponent } from './views/admin/psy/psy-non-valide/psy-non-valide.component';
+import { ListArticlesStComponent } from './views/user/st-articles/list-articles-st/list-articles-st.component';
+import { NavbarComponent } from './layouts/navbar/navbar.component';
 
 
 const routes: Routes = [
@@ -24,7 +26,8 @@ const routes: Routes = [
       { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
       {path:'psy',loadChildren:()=>import('./views/admin/psy/psy.module').then(m=>m.PsyModule)},
       { path: 'password', component: AdminPasswordComponent },
-       
+      // {path:'notifications',component:NotificationComponent}
+
 
     ]
   },
@@ -40,10 +43,14 @@ const routes: Routes = [
       {path:'signupPsy',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'loginuser',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'loginPsy',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+
     ]
   },
-  { path: 'home', component: WhoAreYouComponent },
+  // { path: 'home', component: WhoAreYouComponent },
+{path:'home',component:NavbarComponent,children:[
+  {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
 
+]}
 
 ];
 
