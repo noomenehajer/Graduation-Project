@@ -16,15 +16,17 @@ export class AuthGuard implements CanActivateChild {
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       return new Promise((resolve,reject)=>{
-        if(this.aus.isAuthenticated()==true){
+        if(this.aus.isAuthenticated()){
           resolve(true)
         }
         else{
           this.router.navigate(['/loginuser'],{queryParams:{returnUrl:state.url}})
-          reject(false)
+          reject('Not authenticated')
         }
       })
-    }
+  }
+
+
   // canActivateChild(): boolean {
   //   if (this.aus.isAuthenticated()) {
   //     return true;

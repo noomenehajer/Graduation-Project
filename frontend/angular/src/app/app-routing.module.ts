@@ -35,11 +35,8 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      {path:'',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
-      {path:'',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
-      {path:'',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
-      {path:'',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
-      {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
+      {path:'loginuser',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+      {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule),canActivateChild:[AuthGuard]},
 
     ]
   },
@@ -51,7 +48,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),ArticleRoutingModule,AuthRoutingModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 
 })
