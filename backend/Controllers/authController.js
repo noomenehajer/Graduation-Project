@@ -28,7 +28,7 @@ exports.loginAdmin =async (req, res, next) => {
   }
 }
 
-
+// *********************************************student***************************************************//
 exports.signupStudent = async (req, res) => {
   try {
     const { nom, prenom, email, motDePasse } = req.body;
@@ -81,7 +81,7 @@ exports.loginStudent = async (req, res) => {
 
     // Check if password is correct
     const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
-    console.log(isMatch);
+    // console.log(isMatch);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
@@ -89,7 +89,7 @@ exports.loginStudent = async (req, res) => {
      // Check if user is validated
      if (!user.estValide) {
       console.log("hi");
-      return res.status(401).json({ message: 'you arenot authorized yet ' });
+      return res.status(401).json({ message: 'you are not authorized yet ' });
     }
     
     // Generate JWT token for user
@@ -103,22 +103,60 @@ exports.loginStudent = async (req, res) => {
   }
 };
 
-exports.verifyStudentToken = async (req, res, next) => {
+exports.isAuthenticated = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    if (!token) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: 'Unauthorized access' });
-    
     }
 
+    const token = authHeader.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.STUDENT_JWT_SECRET);
     req.userId = decodedToken.userId;
+
+    // Find user by ID and check if user is validated
+    const user = await User.findById(req.userId);
+    if (!user || !user.estValide) {
+      return res.status(401).json({ message: 'Unauthorized access' });
+    }
+
     next();
   } catch (error) {
     console.error(error);
     return res.status(401).json({ message: 'Unauthorized access' });
   }
 };
+
+
+
+
+// ***********************************************************admin****************************************//
+
+
+exports.verifyAdminToken = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Unauthorized access' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.STUDENT_JWT_SECRET);
+    req.userId = decodedToken.userId;
+
+    // Find user by ID and check if user is validated
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(401).json({ message: 'Unauthorized access' });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ message: 'Unauthorized access' });
+  }
+};
+
 
 //logout
 exports.logoutAdmin = (req, res) => {
@@ -169,7 +207,7 @@ exports.changeAdminPassword = (req, res) => {
   });
 };
 
-
+//**********************************************psychologue*****************************************//
 exports.signupPsy = async (req, res) => {
   try {
     const { nom, prenom, email, motDePasse } = req.body;
@@ -226,3 +264,18 @@ exports.loginPsy = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+// exports.isAuthenticated = async (userId) => {
+//   try {
+//     // Find user by ID and check if user is validated
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return false;
+//     }
+
+//     return true;
+//   } catch (error) {
+//     console.error(error);
+//     return false;
+//   }
+// };

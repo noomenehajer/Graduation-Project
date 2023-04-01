@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Etudiant =require('../models/etudiant');
 const articleSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -24,8 +24,17 @@ const articleSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  }
-
+  },
+  replies: [{
+    content: {
+      type: String,
+      required: true
+    },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Etudiant'
+    }
+  }]
 });
 
 const Article = mongoose.model('Article', articleSchema);

@@ -5,22 +5,7 @@ const config = require('../config/config');
 
 
 
-// Middleware function to verify the token
-// function verifyToken(req, res, next) {
-//   const authHeader = req.headers.authorization;
-//   if (authHeader) {
-//     const token = authHeader.split(' ')[1];
-//     try {
-//       const decoded = jwt.verify(token, config.secret);
-//       req.user = decoded;
-//       next();
-//     } catch (err) {
-//       res.status(403).send({ error: 'Invalid token' });
-//     }
-//   } else {
-//     res.status(401).send({ error: 'Missing authorization header' });
-//   }
-// }
+
 
 // GET request to get all valid students
 exports.getAllStudents = async (req, res) => {
@@ -56,13 +41,7 @@ exports.editStudent= async (req, res) => {
     student.motDePasse = motDePasse || student.motDePasse;
     student.estValide = estValide || student.estValide;
     student.estSuspendu = estSuspendu || student.estSuspendu;
-    // if (motDePasse) {
-    //   // Hash the new password
-    //   const salt = await bcrypt.genSalt(10);
-    //   const hashedPassword = await bcrypt.hash(motDePasse, salt);
-    //   student.motDePasse = hashedPassword;
-    // }
-
+    
     const updatedStudent = await student.save();
     res.send(updatedStudent);
   } catch (err) {

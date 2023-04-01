@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../../guards/auth.guard';
 import { DetailArticleStComponent } from './detail-article-st/detail-article-st.component';
 import { ListArticlesStComponent } from './list-articles-st/list-articles-st.component';
 
