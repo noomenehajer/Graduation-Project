@@ -17,7 +17,8 @@ export class EditArticleComponent implements OnInit  {
     content: '',
     createdAt: new Date(),
     updatedAt: new Date(),
-    image:''
+    image:'',
+    replies: []
   };
   id: string = '';
   imageFile: File | null = null;

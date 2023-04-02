@@ -15,18 +15,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginuserComponent  {
 
-  // form: FormGroup;
-
-  // constructor(
-  //   private formBuilder: FormBuilder,
-  //   private authService: AuthService,
-  //   private router: Router
-  // ) {
-  //   this.form = this.formBuilder.group({
-  //     email: ['', [Validators.required, Validators.email]],
-  //     motDePasse: ['', Validators.required]
-  //   });
-  // }
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     motDePasse: ['', [Validators.required, Validators.minLength(8)]],
@@ -41,7 +29,7 @@ export class LoginuserComponent  {
   ) {}
 
   onSubmit(): void {
-    // console.log('hi');
+
     if (this.form.invalid) {
       return;
     }
@@ -58,45 +46,25 @@ export class LoginuserComponent  {
 
     this.authService.loginStudent(email, motDePasse).subscribe(
       (res) => {
-          localStorage.setItem('authToken', res.token);
-          localStorage.setItem('authToken', res.user);
-
-          this.router.navigateByUrl('/home');
+        localStorage.setItem('authToken', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        console.log(res.user);
+        this.router.navigate(['/articlest']);
       },
       (error) => {
-          this.snackBar.open(error.error.message, 'OK', {
-              duration: 5000,
-              verticalPosition: 'top'
-          });
-
-          console.log(error);
+        this.snackBar.open(error.error.message, 'Close', {
+          duration: 5000,
+          verticalPosition: 'top',
+        });
       }
-  );
+    );
+
     }
 //
 
 
 
 
-  // onSubmit() {
-  //   if (this.form.valid) {
-  //     const { email, motDePasse } = this.form.value;
-  //     this.authService.loginStudent(email, motDePasse).subscribe(
-  //       (response: Loginresponse) => {
-  //         this.router.navigate(['/dashboard']);
-  //       },
-  //       (error) => {
-  //         console.error(error);
-  //         if (error.message === 'You are not authorized yet') {
-  //           this.form.setErrors({ invalid: true });
-  //           // TODO: Display a message to the user informing them they are not authorized yet
-  //         } else {
-  //           // TODO: Display a generic error message to the user
-  //         }
-  //       }
-  //     );
-  //   }
-  // }
 
 
 }

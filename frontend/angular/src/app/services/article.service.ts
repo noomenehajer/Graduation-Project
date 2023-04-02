@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Article } from '../models/Article';
+import { Reply } from '../models/reply';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,8 +26,15 @@ export class ArticleService {
       return this.http.post(`${this.baseUrl}/add`, article);
     }
 
-    addReply(reply: { content: string, parent: string }): Observable<any> {
-      return this.http.post(`${this.baseUrl}/add-reply`, reply);
+
+    createReply(articleId: string, reply: Reply): Observable<Reply> {
+      return this.http.post<Reply>(`${this.baseUrl}/${articleId}/addreply`, reply);
+    }
+
+
+    getReplies(articleId: string): Observable<any> {
+      const url = `${this.baseUrl}/${articleId}/getreply`;
+      return this.http.get(url);
     }
 
 

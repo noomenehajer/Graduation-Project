@@ -4,18 +4,15 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { ArticleRoutingModule } from './views/admin/article/article-routing.module';
 import { AuthRoutingModule } from './views/auth/auth-routing.module';
-import { LoginadminComponent } from './views/auth/loginadmin/loginadmin.component';
-import { LoginuserComponent } from './views/auth/loginuser/loginuser.component';
 import { HomeComponent } from './views/user/home/home.component';
 import { WhoAreYouComponent } from './views/who-are-you/who-are-you.component';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
-import { SignupUserComponent } from './views/auth/signup-user/signup-user.component';
-import { NotificationComponent } from './layouts/notification/notification.component';
-import { PsyNonValideComponent } from './views/admin/psy/psy-non-valide/psy-non-valide.component';
-import { ListArticlesStComponent } from './views/user/st-articles/list-articles-st/list-articles-st.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { QuestionnaireRoutingModule } from './views/psychologue/questionnaire/questionnaire-routing.module';
 import { PsyLayoutComponent } from './layouts/psy-layout/psy-layout.component';
+import { AuthGuard } from './views/guards/auth.guard';
+import { AuthStGuard } from './views/guards/auth-st.guard';
+
 
 const routes: Routes = [
 
@@ -40,17 +37,13 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      {path:'signup',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
-      {path:'signupPsy',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'loginuser',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
-      {path:'loginPsy',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+      {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
 
     ]
   },
   // { path: 'home', component: WhoAreYouComponent },
-{path:'home',component:NavbarComponent,children:[
-  {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
-]},
+//{path:'home',component:NavbarComponent,children:[
 
  {path:'psy',
 component:PsyLayoutComponent,
@@ -58,10 +51,15 @@ children:[
 { path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
 ]}
 
+// ]},
+  // {path:'**',component:ErrorComponent};
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes),ArticleRoutingModule,AuthRoutingModule,QuestionnaireRoutingModule],
   exports: [RouterModule]
+/*   imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule], */
+
 })
 export class AppRoutingModule { }

@@ -241,6 +241,11 @@ body{margin-top:20px;}
   color: #fc5356;
   margin: 0;
 }
+
+.article-img{
+  display: flex;
+  justify-content: center;
+}
 .article .article-content blockquote .blockquote-footer {
   color: #20247b;
   font-size: 16px;
@@ -400,4 +405,14 @@ img {
     -ms-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+header {
+  background-color: #64529b;
+  color: #fff;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 36px;
+  margin: 0;
 }
