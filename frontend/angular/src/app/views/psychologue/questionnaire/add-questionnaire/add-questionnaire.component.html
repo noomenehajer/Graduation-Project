@@ -1,1 +1,46 @@
-<p>add-questionnaire works!</p>
+<div class="container mt-3">
+  <h2 style="text-align: center;">Add Questionnaire </h2>
+<form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" id="title" class="form-control" formControlName="title">
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" class="form-control" formControlName="description"></textarea>
+    </div>
+    <div formArrayName="questions">
+      <div *ngFor="let question of questions.controls; let i=index" [formGroupName]="i">
+        <h4>Question {{ i + 1 }}</h4>
+        <div class="form-group">
+          <label for="text">Text:</label>
+          <input type="text" id="text" class="form-control" formControlName="text">
+        </div>
+        <div class="form-group">
+          <label for="type">Type:</label>
+          <select id="type" class="form-control" formControlName="type">
+            <option value="checkbox">Checkboxes</option>
+            <option value="multipleChoice">Multiple Choice</option>
+            <option value="shortAnswer">Short Answer</option>
+            <option value="paragraph">Paragraph</option>
+          </select>
+        </div>
+        <div *ngIf="question.get('type')?.value === 'checkbox' || question.get('type')?.value === 'multipleChoice'" class="form-group">
+            <label for="options">Options:</label>
+            <div formArrayName="options">
+              <div *ngFor="let option of question.get('options')?.value; let j=index">
+                <div [formGroupName]="j">
+                  <input type="text" class="form-control" formControlName="text">
+                  <button type="button" (click)="deleteOption(i, j)" class="btn btn-danger">Delete Option</button>
+                </div>
+            </div>
+        </div>
+            <button type="button" (click)="addOption(i)" class="btn btn-primary">Add Option</button>
+          </div>          
+        <button type="button" (click)="deleteQuestion(i)" class="btn btn-danger">Delete Question</button>
+      </div>
+    </div>
+    <button type="button" (click)="addQuestion()" class="btn btn-primary">Add Question</button>
+    <button type="submit" [disabled]="questionnaireForm.invalid" class="btn btn-success">Submit</button>
+  </form>
+</div>  

@@ -1,1 +1,29 @@
-<p>list-questionnaire works!</p>
+<div class="container">
+  <br>
+    <h2 style="text-align: center;">Questionnaires</h2>
+    <hr>
+    <div class="mb-3">
+      <button class="btn btn-primary" (click)="onAdd()"><i class="bi bi-plus-circle"></i> Add Questionnaire</button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let questionnaire of questionnaires">
+          <td>{{ questionnaire.title }}</td>
+          <td>{{ questionnaire.description }}</td>
+          <td>
+            <button class="btn btn-info" [routerLink]="['/psy/questionnaire/detail', questionnaire._id]"><i class="bi bi-file-earmark-text"></i></button>
+            <button class="btn btn-warning" [routerLink]="['/psy/questionnaire/edit', questionnaire._id]"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-danger" (click)="onDelete(questionnaire)"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

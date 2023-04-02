@@ -8,6 +8,7 @@ const admin_psyRoutes= require('./routes/admin-psy.route');
 const admin_etudiantRoutes= require('./routes/admin-etudiant.route');
 const authRoutes=require('./routes/auth.route');
 const notificationRoute=require('./routes/notification.route');
+const questionnaireRoute = require('./routes/questionnaire.route');
 
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
@@ -43,7 +44,6 @@ const db = mongoose.connection;
  }
  seed(); */
 
-
 db.on('error', (error) => {
   console.error('Error connecting to database:', error);
 });
@@ -56,6 +56,9 @@ app.use('/admin',admin_psyRoutes,admin_etudiantRoutes,notificationRoute);
 
 app.use('/',authRoutes);
 app.use('/uploads', express.static('uploads'));
+
+//questionnaire
+app.use('/questionnaires', questionnaireRoute);
 
 // Démarrer le serveur
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));

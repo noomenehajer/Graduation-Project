@@ -1,53 +1,62 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Form } from '../models/form';
-import { Question } from '../models/question';
+import { Questionnaire, Question  } from '../models/questionnaire';
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionnaireService {
-  private formsUrl = 'http://localhost:3000/forms';
+  apiUrl = 'http://localhost:3000/questionnaires';
 
   constructor(private http: HttpClient) { }
 
-  getForms(): Observable<Form[]> {
-    return this.http.get<Form[]>(this.formsUrl);
+  getQuestionnaires(): Observable<Questionnaire[]> {
+    return this.http.get<Questionnaire[]>(this.apiUrl);
   }
 
-  getForm(id: string): Observable<Form> {
-    return this.http.get<Form>(`${this.formsUrl}/${id}`);
+  getQuestionnaireById(id: string): Observable<Questionnaire> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Questionnaire>(url);
   }
 
-  createForm(title: string, description: string): Observable<Form> {
-    return this.http.post<Form>(this.formsUrl, { title, description });
+  createQuestionnaire(questionnaire: Questionnaire): Observable<Questionnaire> {
+    return this.http.post<Questionnaire>(this.apiUrl, questionnaire);
   }
 
+  updateQuestionnaire(questionnaire: Questionnaire): Observable<Questionnaire> {
+    const url = `${this.apiUrl}/${questionnaire._id}`;
+    return this.http.put<Questionnaire>(url, questionnaire);
+  }
+
+  deleteQuestionnaire(id: string): Observable<Questionnaire> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete<Questionnaire>(url);
+  }
+
+  createQuestion(questionnaireId: string, question: Question): Observable<Questionnaire> {
+    const url = `${this.apiUrl}/${questionnaireId}/questions`;
+    return this.http.post<Questionnaire>(url, question);
+  }
+
+  updateQuestion(questionnaireId: string, questionId: string, question: Question): Observable<Questionnaire> {
+    const url = `${this.apiUrl}/${questionnaireId}/questions/${questionId}`;
+    return this.http.put<Questionnaire>(url, question);
+  }
+
+  deleteQuestion(questionnaireId: string, questionId: string): Observable<Questionnaire> {
+    const url = `${this.apiUrl}/${questionnaireId}/questions/${questionId}`;
+    return this.http.delete<Questionnaire>(url);
+  }
   
-  updateForm(id: string): Observable<Form> {
-    const updatedForm = { title: 'new title', description: 'new description' }; // sample data, replace with your own
-    return this.http.put<Form>(`${this.formsUrl}/${id}`, updatedForm);
-  }
-  
-
-  deleteForm(id: string): Observable<any> {
-    return this.http.delete(`${this.formsUrl}/${id}`);
+  getOptions(questionnaireId: string, questionId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${questionnaireId}/questions/${questionId}/options`);
   }
 
-  getQuestions(formId: string): Observable<Question[]> {
-    return this.http.get<Question[]>(`${this.formsUrl}/${formId}/questions`);
+  addOption(questionnaireId: string, questionId: string, option: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${questionnaireId}/questions/${questionId}/options`, option);
   }
 
-  createQuestion(formId: string, text: string, type: string, options?: string[]): Observable<Question> {
-    return this.http.post<Question>(`${this.formsUrl}/${formId}/questions`, { text, type, options });
+  deleteOption(questionnaireId: string, questionId: string, optionId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${questionnaireId}/questions/${questionId}/options/${optionId}`);
   }
-
-  updateQuestion(formId: string, questionId: string, text: string, type: string, options?: string[]): Observable<Question> {
-    return this.http.put<Question>(`${this.formsUrl}/${formId}/questions/${questionId}`, { text, type, options });
-  }
-
-  deleteQuestion(formId: string, questionId: string): Observable<any> {
-    return this.http.delete(`${this.formsUrl}/${formId}/questions/${questionId}`);
-  }
-
 }

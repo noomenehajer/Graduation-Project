@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AdminPasswordComponent } from './views/admin/admin-password/admin-password.component';
 import { StArticlesModule } from './views/user/st-articles/st-articles.module';
-
+import { QuestionnaireModule } from './views/psychologue/questionnaire/questionnaire.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ import { StArticlesModule } from './views/user/st-articles/st-articles.module';
     MatStepperModule,
     MatCardModule,
     MatIconModule,
-
+    QuestionnaireModule
 
   ],
   providers: [],

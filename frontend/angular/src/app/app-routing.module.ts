@@ -14,7 +14,8 @@ import { NotificationComponent } from './layouts/notification/notification.compo
 import { PsyNonValideComponent } from './views/admin/psy/psy-non-valide/psy-non-valide.component';
 import { ListArticlesStComponent } from './views/user/st-articles/list-articles-st/list-articles-st.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
-
+import { QuestionnaireRoutingModule } from './views/psychologue/questionnaire/questionnaire-routing.module';
+import { PsyLayoutComponent } from './layouts/psy-layout/psy-layout.component';
 
 const routes: Routes = [
 
@@ -49,13 +50,18 @@ const routes: Routes = [
   // { path: 'home', component: WhoAreYouComponent },
 {path:'home',component:NavbarComponent,children:[
   {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
+]},
 
+ {path:'psy',
+component:PsyLayoutComponent,
+children:[ 
+{ path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
 ]}
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),ArticleRoutingModule,AuthRoutingModule],
+  imports: [RouterModule.forRoot(routes),ArticleRoutingModule,AuthRoutingModule,QuestionnaireRoutingModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

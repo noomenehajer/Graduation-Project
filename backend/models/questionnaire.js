@@ -1,23 +1,20 @@
 const mongoose = require('mongoose');
-const Question = require('./question');
+const { Schema } = mongoose;
 
-const questionnaireSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String },
-  isPublic: { type: Boolean, default: true },
-  questions: [Question.schema],
-  recipients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Etudiant' }],
-  responses: [
-    {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: 'Etudiant' },
-      answers: [
-        {
-          question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-          answer: String,
-        },
-      ],
-    },
-  ],
+const QuestionSchema = new Schema({
+  text: String,
+  type: String,
+  options: [{
+    text: String,
+    value: String
+  }],
+  answer: String
 });
 
-module.exports = mongoose.model('Questionnaire', questionnaireSchema);
+const QuestionnaireSchema = new Schema({
+  title: String,
+  description: String,
+  questions: [QuestionSchema]
+});
+
+module.exports = mongoose.model('Questionnaire', QuestionnaireSchema);
