@@ -6,7 +6,8 @@ const Admin = require('../models/admin');
 const config = require('../config/config');
 const Notification = require('../models/notification');
 const saltRounds = 12;
-
+const catchAsync= require('../utilities/catchAsync');
+const AppError =require('../utilities/AppError');
 exports.loginAdmin =async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -66,6 +67,49 @@ exports.signupStudent = async (req, res) => {
   }
 };
 
+exports.protect= catchAsync(async(req,res,next)=>{
+  // 1)getting token and check of it's there 
+  let token;
+  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+   token = req.headers.authorization.split(' ')[1];
+   console.log(token);
+  }
+
+if(!token){
+  return next(
+    new AppError('you are not logged in ! please logged in to get access. ',401));
+}
+
+  // 2) verification token
+
+  const decoded = await promisify(jwt.verify)(token,process.env.STUDENT_JWT_SECRET);
+  // console.log(decoded);
+
+
+  /// 3) Check if user still exists
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
+    return next(
+      new AppError(
+        'The user belonging to this token does no longer exist.',
+        401
+      )
+    );
+  }
+
+  // 4) Check if user changed password after the token was issued
+  // if (currentUser.changedPasswordAfter(decoded.iat)) {
+  //   return next(
+  //     new AppError('User recently changed password! Please log in again.', 401)
+  //   );
+  // }
+
+  // GRANT ACCESS TO PROTECTED ROUTE
+  req.user = currentUser;
+  res.locals.user = currentUser;
+  next();
+});
+
 exports.loginStudent = async (req, res) => {
   try {
     const { email, motDePasse } = req.body;
@@ -94,7 +138,7 @@ exports.loginStudent = async (req, res) => {
     
     // Generate JWT token for user
     const token = jwt.sign({ userId: user._id }, process.env.STUDENT_JWT_SECRET);
-
+    console.log(token);
     // Return token and user data
     return res.status(200).json({ token, user: { nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide } });
   } catch (error) {
@@ -112,6 +156,7 @@ exports.isAuthenticated = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.STUDENT_JWT_SECRET);
+    
     req.userId = decodedToken.userId;
 
     // Find user by ID and check if user is validated

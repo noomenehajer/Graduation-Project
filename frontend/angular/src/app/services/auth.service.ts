@@ -31,22 +31,40 @@ export class AuthService {
   }
 
   public isAuthenticated() {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    let token= localStorage.getItem('token');
+    console.log(token);
+    if(token){
+      return true;
+    }else{
       return false;
     }
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const now = new Date().getTime() / 1000;
-    return now < payload.exp;
   }
 
 
-  getCurrentUser(): any {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      return JSON.parse(currentUser);
+  // getCurrentUser(): any {
+  //   const currentUser = localStorage.getItem('currentUser');
+  //   if (currentUser) {
+  //     return JSON.parse(currentUser);
+  //   }
+  //   return null;
+  // }
+
+
+  getUserData(){
+
+    let token = localStorage.getItem('token');
+
+    if(token){
+
+      let data = JSON.parse( window.atob( token.split('.')[1] ) )
+      //console.log('vbjjj');
+
+      console.log(data);
+
+      return data;
+
+
     }
-    return null;
   }
 // *****************************************psy********************************//
   signupPsy(nom: string, prenom: string, email: string, motDePasse: string): Observable<Psychologue> {

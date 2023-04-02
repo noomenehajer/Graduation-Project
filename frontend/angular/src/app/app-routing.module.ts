@@ -47,7 +47,7 @@ const routes: Routes = [
 
  {path:'psy',
 component:PsyLayoutComponent,
-children:[ 
+children:[
 { path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
 ]}
 
@@ -56,10 +56,8 @@ children:[
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes),ArticleRoutingModule,AuthRoutingModule,QuestionnaireRoutingModule],
-  exports: [RouterModule]
-/*   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule], */
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 
 })
 export class AppRoutingModule { }

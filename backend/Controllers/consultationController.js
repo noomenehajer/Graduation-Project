@@ -1,0 +1,1 @@
+const consultation = require('../models/consultation');

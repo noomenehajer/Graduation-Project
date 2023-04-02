@@ -55,7 +55,7 @@ import { QuestionnaireModule } from './views/psychologue/questionnaire/questionn
     QuestionnaireModule
 
   ],
-  providers: [],
+  providers: [AuthGuard,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
