@@ -31,13 +31,4 @@ const etudiantSchema = new mongoose.Schema({
   estSuspendu: { type: Boolean, default: false },
 });
 
-
-etudiantSchema.pre('save',async function(next){
-  
-  if(!this.isModified('motDePasse')) return next();
-  this.motDePasse= await bcrypt.hash(this.motDePasse,saltRounds)
-  next();
-});
-
-
 module.exports = mongoose.model("Etudiant", etudiantSchema);

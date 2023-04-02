@@ -46,7 +46,7 @@ export class LoginuserComponent  {
 
     this.authService.loginStudent(email, motDePasse).subscribe(
       (res) => {
-        localStorage.setItem('token', res.token);
+        localStorage.setItem('authToken', res.token);
         localStorage.setItem('user', JSON.stringify(res.user));
         console.log(res.user);
         this.router.navigate(['/articlest']);

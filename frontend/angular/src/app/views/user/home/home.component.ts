@@ -11,10 +11,10 @@ export class HomeComponent {
 
   constructor(private router: Router) {}
   onGetStartedClick(): void {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/auth/signup']);
   }
   onGetLoginClick(): void {
-    this.router.navigate(['/loginuser']);
+    this.router.navigate(['/auth/loginuser']);
   }
 
 
