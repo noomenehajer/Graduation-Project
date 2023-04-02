@@ -31,27 +31,33 @@ exports.loginAdmin =async (req, res, next) => {
 }
 
 // *********************************************student***************************************************//
-exports.signupStudent = catchAsync(async(req,res,next)=>{
-  const newUser= await User.create({
-    nom: req.body.nom,
-    prenom:req.body.prenom,
-    email: req.body.email,
-    motDePasse: req.body.motDePasse,
-    estValide:req.body.estValide
-  });
-  
-  const token= jwt.sign({id: newUser._id},process.env.STUDENT_JWT_SECRET,{
-    expiresIn:process.env.JWT_EXPIRES_IN
-  });
-  //  Get admin account and create a notification for the new student signup
+exports.signupStudent = async (req, res) => {
+  try {
+    const { nom, prenom, email, motDePasse } = req.body;
+
+    // Check if user already exists with same email
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists with this email' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(motDePasse, saltRounds);
+
+    // Create new user object and save to database with estValide set to false
+    const newUser = new User({ nom, prenom, email, motDePasse: hashedPassword, estValide: false });
+    await newUser.save();
+
+    // Get admin account and create a notification for the new student signup
     const admin = await Admin.findOne();
     const newNotification = new Notification({ 
       receiverId: admin._id,
       senderId: newUser._id,
-      message: `${newUser.email} want to valid his account `
+      message: `${email} want to valid his account `
     });
     await newNotification.save();
-  
+
     admin.notifications.push(newNotification);
     await admin.save();
 
