@@ -24,6 +24,7 @@ import { StArticlesModule } from './views/user/st-articles/st-articles.module';
 import { AuthGuard } from './views/guards/auth.guard';
 import { AuthService } from './services/auth.service';
 import { QuestionnaireModule } from './views/psychologue/questionnaire/questionnaire.module';
+import { ArticleService } from './services/article.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { QuestionnaireModule } from './views/psychologue/questionnaire/questionn
     QuestionnaireModule
 
   ],
-  providers: [AuthGuard,AuthService],
+  providers: [AuthGuard,AuthService,ArticleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

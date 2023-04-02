@@ -37,7 +37,7 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      {path:'loginuser',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
+      {path:'auth',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
 
     ]
@@ -56,7 +56,7 @@ children:[
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),AuthRoutingModule,ArticleRoutingModule],
   exports: [RouterModule],
 
 })

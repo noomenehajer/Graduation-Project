@@ -30,148 +30,144 @@ exports.loginAdmin =async (req, res, next) => {
 }
 
 // *********************************************student***************************************************//
-exports.signupStudent = async (req, res) => {
-  try {
-    const { nom, prenom, email, motDePasse } = req.body;
-
-    // Check if user already exists with same email
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists with this email' });
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(motDePasse, saltRounds);
-
-    // Create new user object and save to database with estValide set to false
-    const newUser = new User({ nom, prenom, email, motDePasse: hashedPassword, estValide: false });
-    await newUser.save();
-
-    // Get admin account and create a notification for the new student signup
+exports.signupStudent = catchAsync(async(req,res,next)=>{
+  const newUser= await User.create({
+    nom: req.body.nom,
+    prenom:req.body.prenom,
+    email: req.body.email,
+    motDePasse: req.body.motDePasse,
+    estValide:req.body.estValide
+  });
+  
+  const token= jwt.sign({id: newUser._id},process.env.STUDENT_JWT_SECRET,{
+    expiresIn:process.env.JWT_EXPIRES_IN
+  });
+  //  Get admin account and create a notification for the new student signup
     const admin = await Admin.findOne();
     const newNotification = new Notification({ 
       receiverId: admin._id,
       senderId: newUser._id,
-      message: `${email} want to valid his account `
+      message: `${newUser.email} want to valid his account `
     });
     await newNotification.save();
-
+  
     admin.notifications.push(newNotification);
     await admin.save();
-
-    return res.status(201).json({ message: 'User created successfully' });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-exports.protect= catchAsync(async(req,res,next)=>{
-  // 1)getting token and check of it's there 
-  let token;
-  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-   token = req.headers.authorization.split(' ')[1];
-   console.log(token);
-  }
-
-if(!token){
-  return next(
-    new AppError('you are not logged in ! please logged in to get access. ',401));
-}
-
-  // 2) verification token
-
-  const decoded = await promisify(jwt.verify)(token,process.env.STUDENT_JWT_SECRET);
-  // console.log(decoded);
-
-
-  /// 3) Check if user still exists
-  const currentUser = await User.findById(decoded.id);
-  if (!currentUser) {
+  res.status(201).json({
+    status :'success',
+    token,
+    data:{
+      user:newUser
+    }
+  })
+  
+  });
+  
+  
+  exports.loginStudent = async (req, res) => {
+    try {
+      const { email, motDePasse } = req.body;
+  
+      // Find user with given email
+      const user = await User.findOne({ email }).select('+motDePasse');
+      // console.log(typeof(user.estValide));
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      // Check if password is correct
+      const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
+      // console.log(isMatch);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+       // Check if user is validated
+       if (!user.estValide) {
+        // console.log("hi");
+        return res.status(401).json({ message: 'you are not authorized yet ' });
+      }
+      
+      // Generate JWT token for user
+      const token = jwt.sign({ userId: user._id }, process.env.STUDENT_JWT_SECRET);
+  
+      // Return token and user data
+      return res.status(200).json({ token, user: { nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide } });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+  
+ 
+  
+  exports.protect= catchAsync(async(req,res,next)=>{
+    // 1)getting token and check of it's there 
+    let token;
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+     token = req.headers.authorization.split(' ')[1];
+     console.log(token);
+    }
+  
+  if(!token){
     return next(
-      new AppError(
-        'The user belonging to this token does no longer exist.',
-        401
-      )
-    );
+      new AppError('you are not logged in ! please logged in to get access. ',401));
   }
-
-  // 4) Check if user changed password after the token was issued
-  // if (currentUser.changedPasswordAfter(decoded.iat)) {
-  //   return next(
-  //     new AppError('User recently changed password! Please log in again.', 401)
-  //   );
-  // }
-
-  // GRANT ACCESS TO PROTECTED ROUTE
-  req.user = currentUser;
-  res.locals.user = currentUser;
-  next();
-});
-
-exports.loginStudent = async (req, res) => {
-  try {
-    const { email, motDePasse } = req.body;
-
-    // Find user with given email
-    const user = await User.findOne({ email });
-    // console.log(user);
-    // console.log(user.estValide);
-    // console.log(typeof(user.estValide));
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+  
+    // 2) verification token
+  
+    const decoded = await promisify(jwt.verify)(token,process.env.STUDENT_JWT_SECRET);
+    // console.log(decoded);
+  
+  
+    /// 3) Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next(
+        new AppError(
+          'The user belonging to this token does no longer exist.',
+          401
+        )
+      );
     }
-
-    // Check if password is correct
-    const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
-    // console.log(isMatch);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-
-     // Check if user is validated
-     if (!user.estValide) {
-      console.log("hi");
-      return res.status(401).json({ message: 'you are not authorized yet ' });
-    }
-    
-    // Generate JWT token for user
-    const token = jwt.sign({ userId: user._id }, process.env.STUDENT_JWT_SECRET);
-    console.log(token);
-    // Return token and user data
-    return res.status(200).json({ token, user: { nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide } });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-exports.isAuthenticated = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'Unauthorized access' });
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.STUDENT_JWT_SECRET);
-    
-    req.userId = decodedToken.userId;
-
-    // Find user by ID and check if user is validated
-    const user = await User.findById(req.userId);
-    if (!user || !user.estValide) {
-      return res.status(401).json({ message: 'Unauthorized access' });
-    }
-
+  
+    // GRANT ACCESS TO PROTECTED ROUTE
+    req.user = currentUser;
+    res.locals.user = currentUser;
     next();
-  } catch (error) {
-    console.error(error);
-    return res.status(401).json({ message: 'Unauthorized access' });
-  }
-};
-
+  });
+  
+  // Only for rendered pages, no errors!
+  exports.isLoggedIn = async (req, res, next) => {
+    if (req.cookies.jwt) {
+      try {
+        // 1) verify token
+        const decoded = await promisify(jwt.verify)(
+          req.cookies.jwt,
+          process.env.JWT_SECRET
+        );
+  
+        // 2) Check if user still exists
+        const currentUser = await User.findById(decoded.id);
+        if (!currentUser) {
+          return next();
+        }
+  
+        // 3) Check if user changed password after the token was issued
+        if (currentUser.changedPasswordAfter(decoded.iat)) {
+          return next();
+        }
+  
+        // THERE IS A LOGGED IN USER
+        res.locals.user = currentUser;
+        return next();
+      } catch (err) {
+        return next();
+      }
+    }
+    next();
+  };
+  
 
 
 

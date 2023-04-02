@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+saltRounds=12;
 const validator = require('validator');
 const etudiantSchema = new mongoose.Schema({
   nom: { type: String, required: true },
@@ -29,5 +30,14 @@ const etudiantSchema = new mongoose.Schema({
   estValide: { type: Boolean, default: false },
   estSuspendu: { type: Boolean, default: false },
 });
+
+
+etudiantSchema.pre('save',async function(next){
+  
+  if(!this.isModified('motDePasse')) return next();
+  this.motDePasse= await bcrypt.hash(this.motDePasse,saltRounds)
+  next();
+});
+
 
 module.exports = mongoose.model("Etudiant", etudiantSchema);
