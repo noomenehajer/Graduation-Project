@@ -8,7 +8,7 @@ import { SignupUserComponent } from './signup-user/signup-user.component';
 
 const routes: Routes = [
 {path:'loginadmin',component:LoginadminComponent},
-{path:'loginuser',component:LoginuserComponent},
+{path:'',component:LoginuserComponent},
 {path:'loginPsy',component:LoginPsyComponent},
 {path:'signup',component:SignupUserComponent},
 {path:'signupPsy',component:SignupPsyComponent},
