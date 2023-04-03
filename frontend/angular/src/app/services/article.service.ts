@@ -1,17 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Article } from '../models/Article';
 import { Reply } from '../models/reply';
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
   private baseUrl = 'http://localhost:3000/api/articles';
   constructor(private http: HttpClient) { }
-  getAllArticles() : Observable<Article[]>{
-    return this.http.get<Article[]>(this.baseUrl);  }
+    authToken:any;
 
+    getAllArticles(): Observable<Article[]> {
+      this.loadToken();
+
+      const headers = new HttpHeaders({
+        'Authorization': this.authToken,
+        'Content-Type': 'application/json'
+      });
+
+      return this.http.get<Article[]>(this.baseUrl, { headers }).pipe(
+        map((res: Article[]) => res)
+      );
+    }
+      loadToken(){
+        const token =localStorage.getItem('token');
+        this.authToken=token;
+      }
 
     getArticle(id: string): Observable<Article> {
       if (!id) {

@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.get('/articles',protect,articleController.getArticles);
+router.get('/articles',articleController.getArticles);
 router.get('/articles/:id',articleController.getArticleById, (req, res) => {
   res.json(res.article);
 });
