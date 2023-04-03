@@ -45,11 +45,11 @@ const routes: Routes = [
   // { path: 'home', component: WhoAreYouComponent },
 //{path:'home',component:NavbarComponent,children:[
 
- {path:'psy',
-component:PsyLayoutComponent,
-children:[
+//{path:'psy',
+//component:PsyLayoutComponent,
+//children:[
 { path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
-]}
+//]}
 
 // ]},
   // {path:'**',component:ErrorComponent};

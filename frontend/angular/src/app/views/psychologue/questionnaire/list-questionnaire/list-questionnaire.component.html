@@ -8,22 +8,28 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Description</th>
+          <th>Num</th>
+          <th>Title</th>     
+          <th>Actions</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let questionnaire of questionnaires">
+        <tr *ngFor="let questionnaire of questionnaires; let i=index" >
+          <td>{{i+1}}</td>
           <td>{{ questionnaire.title }}</td>
-          <td>{{ questionnaire.description }}</td>
           <td>
-            <button class="btn btn-info" [routerLink]="['/psy/questionnaire/detail', questionnaire._id]"><i class="bi bi-file-earmark-text"></i></button>
-            <button class="btn btn-warning" [routerLink]="['/psy/questionnaire/edit', questionnaire._id]"><i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-danger" (click)="onDelete(questionnaire)"><i class="bi bi-trash3"></i></button>
+            <button class="btn btn-info" [routerLink]="['/psy/questionnaire/detail', questionnaire._id]"><i class="bi bi-eye"></i></button>
+            <button style="margin-left: 5px;" class="btn btn-warning" [routerLink]="['/psy/questionnaire/edit', questionnaire._id]"><i class="bi bi-pencil-square"></i></button>
+            <button style="margin-left: 5px;" class="btn btn-danger" (click)="onDelete(questionnaire)"><i class="bi bi-trash3"></i></button>
+          </td> 
+          <td>
+            <button class="btn btn-success"><i class="bi bi-send"></i></button>
+            <button style="margin-left: 5px;" class="btn btn-dark"><i class="bi bi-person-vcard"></i></button>
           </td>
         </tr>
       </tbody>
     </table>
+    <br><br>
   </div>
   

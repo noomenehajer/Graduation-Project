@@ -1,11 +1,46 @@
-<div class="container">
+<div class="container"><br>
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
         <div class="card-header"> <h2 style="text-align: center;">Questionnaire Details</h2></div>
         <div class="card-body">
           <h3>Title : {{ questionnaire.title }}</h3>
-          <p>Desscription : {{ questionnaire.description }}</p>
+          <p>Description : {{ questionnaire.description }}</p>
+          <hr>
+          <div *ngFor="let question of questionnaire.questions; let i=index">
+            <h4>Question {{i+1}}. :{{ question.text }}</h4>
+            <div *ngIf="question.type == 'checkbox'">
+              <ul>
+                <li *ngFor="let option of question.options">
+                  <input type="checkbox" disabled>
+                  {{ option.text }}
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="question.type === 'multipleChoice'">
+              <ul>
+                <li *ngFor="let option of question.options">
+                  <input type="radio" disabled>
+                  {{ option.text }}
+                </li>
+              </ul>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container"><br>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header"> <h2 style="text-align: center;">Questionnaire Details</h2></div>
+        <div class="card-body">
+          <h3>Title : {{ questionnaire.title }}</h3>
+          <p>Description : {{ questionnaire.description }}</p>
           <hr>
           <div *ngFor="let question of questionnaire.questions; let i=index">
             <h4>Question {{i+1}}. :{{ question.text }}</h4>
@@ -38,3 +73,4 @@
     </div>
   </div>
 </div>
+ -->

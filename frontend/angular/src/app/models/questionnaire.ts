@@ -1,5 +1,4 @@
 export interface Option {
-  _id: string;
   text: string;
   value:string;
 } 
@@ -8,7 +7,7 @@ export interface Question {
   _id: string;
   text: string;
   type: string;
-  options?: string[];
+  options?: Option[];
   answer?: string;
 }
 
