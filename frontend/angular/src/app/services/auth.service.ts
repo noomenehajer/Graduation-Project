@@ -23,11 +23,12 @@ export class AuthService {
   }
 
 
+
   loginStudent(email: string, motDePasse: string): Observable<any> {
     const body = { email, motDePasse };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // console.log(body);
-    return this.http.post(`${this.authUrl}/loginstudent`, body, {headers});
+    return this.http.post(`${this.authUrl}/loginstudent`, body);
   }
 
   public isAuthenticated() {

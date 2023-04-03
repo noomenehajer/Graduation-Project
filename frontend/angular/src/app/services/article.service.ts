@@ -13,17 +13,27 @@ export class ArticleService {
   constructor(private http: HttpClient) { }
     authToken:any;
 
-    getAllArticles(): Observable<Article[]> {
-      this.loadToken();
+    // getAllArticles(): Observable<Article[]> {
+    //   this.loadToken();
 
-      const headers = new HttpHeaders({
-        'Authorization': this.authToken,
-        'Content-Type': 'application/json'
-      });
+    //   const headers = new HttpHeaders({
+    //     'Authorization': this.authToken,
+    //     'Content-Type': 'application/json'
+    //   });
 
-      return this.http.get<Article[]>(this.baseUrl, { headers }).pipe(
-        map((res: Article[]) => res)
-      );
+    //   return this.http.get<Article[]>(this.baseUrl, { headers }).pipe(
+    //     map((res: Article[]) => res)
+    //   );
+    // }
+
+
+    getAllArticles(): Observable<any> {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + localStorage.getItem('token') // replace with your token implementation
+        })
+      };
+      return this.http.get<any>(this.baseUrl, httpOptions);
     }
       loadToken(){
         const token =localStorage.getItem('token');
@@ -45,7 +55,12 @@ export class ArticleService {
 
 
     createReply(articleId: string, reply: Reply): Observable<Reply> {
-      return this.http.post<Reply>(`${this.baseUrl}/${articleId}/addreply`, reply);
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + localStorage.getItem('token') // replace with your token implementation
+        })
+      };
+      return this.http.post<Reply>(`${this.baseUrl}/${articleId}/addreply`, reply,httpOptions);
     }
 
 
