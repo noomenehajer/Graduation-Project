@@ -48,7 +48,7 @@ export class EditQuestionnaireComponent  implements OnInit {
       const options = question.options ? this.fb.array(
         question.options.map(option => {
           return this.fb.group({
-            text: [option, Validators.required]
+            text: [option.text, Validators.required]
           });
         })
       ) : this.fb.array([]);
