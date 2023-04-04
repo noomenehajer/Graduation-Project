@@ -6,7 +6,7 @@ import { DetailArticleStComponent } from './detail-article-st/detail-article-st.
 import { ListArticlesStComponent } from './list-articles-st/list-articles-st.component';
 
 const routes: Routes = [
-  {path:'',component:ListArticlesStComponent,canActivate:[AuthStGuard]},
+  {path:'',component:ListArticlesStComponent},
   {path:'detail/:id',component:DetailArticleStComponent}
 ];
 

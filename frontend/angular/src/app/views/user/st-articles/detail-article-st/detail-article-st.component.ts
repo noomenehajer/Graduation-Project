@@ -5,6 +5,7 @@ import { Article } from 'src/app/models/Article';
 import { Reply } from 'src/app/models/reply';
 import { ArticleService } from 'src/app/services/article.service';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail-article-st',
@@ -44,22 +45,40 @@ export class DetailArticleStComponent implements OnInit {
 
   createReply(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    const etudiant = this.authService.getUserData();
+    if (!etudiant) {
+      Swal.fire({
+        title: 'Vous devez vous connecter pour répondre à un article',
+        icon: 'warning',
+        showCancelButton: true, // add this line to show cancel button
+        confirmButtonText: 'Login',
+        cancelButtonText: 'Cancel' // add this line to set cancel button text
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/auth/loginuser']);
+        }
+      });
+
+      return;
+    }
 
     if (id !== null) {
       const reply: Reply = {
         content: this.replyContent,
         student: {
-          _id: 'your_student_id',
-          nom: 'your_student_nom',
-          prenom: 'your_student_prenom'
+          _id: etudiant._id,
+          nom: etudiant.nom,
+          prenom: etudiant.prenom
         }
       };
 
       this.articleService.createReply(id, reply).subscribe((newReply) => {
+        reply.student._id = etudiant._id;
+        reply.student.nom=etudiant.nom;
+        reply.student.prenom=etudiant.prenom;
         this.replies.push(newReply);
         this.replyContent = '';
       });
-
     }
   }
 

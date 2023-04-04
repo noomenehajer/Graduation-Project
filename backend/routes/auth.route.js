@@ -10,5 +10,6 @@ router.post('/loginPsy', authController.loginPsy);
 router.post('/password', authController.changeAdminPassword);
 router.post('/login', authController.loginAdmin);
 router.post('/logout', authController.logoutAdmin);
+router.post('/logoutuser', authController.logoutUser);
 
 module.exports = router;
