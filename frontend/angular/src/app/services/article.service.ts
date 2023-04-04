@@ -41,12 +41,17 @@ export class ArticleService {
       }
 
     getArticle(id: string): Observable<Article> {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer ' + localStorage.getItem('token') // replace with your token implementation
+        })
+      };
       if (!id) {
         // Gérer l'erreur ici, comme renvoyer un Observable avec une erreur 404 ou une valeur par défaut
         return throwError("ID not provided");
       }
       const url = `${this.baseUrl}/${id}`;
-      return this.http.get<Article>(url);
+      return this.http.get<Article>(url,httpOptions);
     }
 
     addArticle(article: FormData): Observable<any> {
@@ -54,19 +59,30 @@ export class ArticleService {
     }
 
 
-    createReply(articleId: string, reply: Reply): Observable<Reply> {
+    createReply(articleId: string, reply: Reply): Observable<any> {
       const httpOptions = {
         headers: new HttpHeaders({
           'Authorization': 'Bearer ' + localStorage.getItem('token') // replace with your token implementation
         })
       };
-      return this.http.post<Reply>(`${this.baseUrl}/${articleId}/addreply`, reply,httpOptions);
+
+      const payload = {
+        content: reply.content,
+        student: {
+          _id: reply.student._id,
+          nom: reply.student.nom,
+          prenom: reply.student.prenom,
+        }
+      };
+
+      return this.http.post<any>(`${this.baseUrl}/${articleId}/addreply`, payload, httpOptions);
     }
+
 
 
     getReplies(articleId: string): Observable<any> {
       const url = `${this.baseUrl}/${articleId}/getreply`;
-      return this.http.get(url);
+      return this.http.get<any>(url);
     }
 
 

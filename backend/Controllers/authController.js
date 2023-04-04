@@ -173,7 +173,10 @@ exports.isAuthenticated = async (req, res, next) => {
   }
 };
 
-
+exports.logoutUser = (req, res) => {
+  res.clearCookie('token');
+  res.status(200).send({ message: 'Logout successful' });
+};
 
 
 // ***********************************************************admin****************************************//

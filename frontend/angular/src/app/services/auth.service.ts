@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Psychologue } from '../models/Psychologue';
 
 @Injectable({
@@ -17,7 +17,9 @@ export class AuthService {
   // };
   constructor(private http: HttpClient) { }
 // *******************************************student*******************************************//
-  signupStudent(nom: string, prenom: string, email: string, motDePasse: string): Observable<any> {
+
+
+signupStudent(nom: string, prenom: string, email: string, motDePasse: string): Observable<any> {
     const body = { nom, prenom, email, motDePasse, estValide: false };
     return this.http.post(`${this.authUrl}/signup`, body);
   }
@@ -67,6 +69,10 @@ export class AuthService {
 
     }
   }
+  logoutUser(): Observable<any> {
+    return this.http.post(`${this.authUrl}/logoutuser`, {});
+    }
+
 // *****************************************psy********************************//
   signupPsy(nom: string, prenom: string, email: string, motDePasse: string): Observable<Psychologue> {
     const body = { nom, prenom, email, motDePasse};

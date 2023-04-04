@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get('/articles',articleController.getArticles);
+// router.post('/articles/:articleId/addreply',protect,repliesController.createReply);
 router.get('/articles/:id',articleController.getArticleById, (req, res) => {
   res.json(res.article);
 });
