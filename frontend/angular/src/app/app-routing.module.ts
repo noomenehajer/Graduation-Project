@@ -12,7 +12,7 @@ import { QuestionnaireRoutingModule } from './views/psychologue/questionnaire/qu
 import { PsyLayoutComponent } from './layouts/psy-layout/psy-layout.component';
 import { AuthGuard } from './views/guards/auth.guard';
 import { AuthStGuard } from './views/guards/auth-st.guard';
-
+import { ProfileComponent } from './views/user/profile/profile.component';
 
 const routes: Routes = [
 
@@ -39,7 +39,7 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
       {path:'auth',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
-
+      {path:'profile',loadChildren:()=>import('./views/user/profile/profile.module').then(m=>m.ProfileModule)}
     ]
   },
   // { path: 'home', component: WhoAreYouComponent },

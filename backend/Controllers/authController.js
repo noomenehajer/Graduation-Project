@@ -68,7 +68,7 @@ exports.signupStudent = async (req, res) => {
   }
 };
 
-exports.protect= catchAsync(async(req,res,next)=>{
+/* exports.protect= catchAsync(async(req,res,next)=>{
   // 1)getting token and check of it's there 
   let token;
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
@@ -109,7 +109,7 @@ if(!token){
   req.user = currentUser;
   res.locals.user = currentUser;
   next();
-});
+}); */
 
 exports.loginStudent = async (req, res) => {
   try {

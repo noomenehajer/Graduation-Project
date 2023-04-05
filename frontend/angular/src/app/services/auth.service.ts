@@ -69,6 +69,11 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
 
     }
   }
+/*   setUserData(data: any) {
+    // Convert data to string and store in local storage
+    localStorage.setItem('token', window.btoa(JSON.stringify(data)));
+  } */
+
   logoutUser(): Observable<any> {
     return this.http.post(`${this.authUrl}/logoutuser`, {});
     }

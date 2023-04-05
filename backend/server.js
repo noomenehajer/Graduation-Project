@@ -9,6 +9,8 @@ const admin_etudiantRoutes= require('./routes/admin-etudiant.route');
 const authRoutes=require('./routes/auth.route');
 const notificationRoute=require('./routes/notification.route');
 const questionnaireRoute = require('./routes/questionnaire.route');
+const etudiantProfileRoute = require("./routes/etudiant.route");
+const authController = require("./Controllers/authController");
 
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
@@ -59,6 +61,7 @@ app.use('/uploads', express.static('uploads'));
 
 //questionnaire
 app.use('/questionnaires', questionnaireRoute);
+app.use("/etudiant", authController.isAuthenticated, etudiantProfileRoute);
 
 // Démarrer le serveur
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
