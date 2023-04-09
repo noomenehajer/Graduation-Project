@@ -84,11 +84,20 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     return this.http.post<Psychologue>(`${this.authUrl}/signupPsy`, body);
   }
   loginPsy(email: string, motDePasse: string): Observable<any> {
-    const body = { email, motDePasse };
+    const body = {email, motDePasse };
 
     return this.http.post(`${this.authUrl}/loginPsy`, body);
   }
 
+  public isAuthenticatedPsy() {
+    let token= localStorage.getItem('token');
+    // console.log(token);
+    if(token){
+      return true;
+    }else{
+      return false;
+    }
+  }
   // ***************************************admin********************************
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.authUrl}/login`, { email, password });

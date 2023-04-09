@@ -25,17 +25,24 @@ import { AuthGuard } from './views/guards/auth.guard';
 import { AuthService } from './services/auth.service';
 import { QuestionnaireModule } from './views/psychologue/questionnaire/questionnaire.module';
 import { ArticleService } from './services/article.service';
-
+import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
+// import { DayGridPlugin } from '@fullcalendar/daygrid';
+// import { TimeGridPlugin } from '@fullcalendar/timegrid';
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     WhoAreYouComponent,
     AdminPasswordComponent,
+    CalendrierComponent,
+    SetAvailabilityComponent,
 
 
   ],
   imports: [
+    FullCalendarModule,
     BrowserModule,
     MatCommonModule,
     AppRoutingModule,
@@ -53,10 +60,12 @@ import { ArticleService } from './services/article.service';
     MatStepperModule,
     MatCardModule,
     MatIconModule,
-    QuestionnaireModule
+    QuestionnaireModule,
+
 
   ],
   providers: [AuthGuard,AuthService,ArticleService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }

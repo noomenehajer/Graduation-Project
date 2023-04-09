@@ -13,6 +13,9 @@ import { PsyLayoutComponent } from './layouts/psy-layout/psy-layout.component';
 import { AuthGuard } from './views/guards/auth.guard';
 import { AuthStGuard } from './views/guards/auth-st.guard';
 import { ProfileComponent } from './views/user/profile/profile.component';
+import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.component';
+import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
+import { AuthPsyGuard } from './views/guards/auth-psy.guard';
 
 const routes: Routes = [
 
@@ -36,20 +39,22 @@ const routes: Routes = [
     path: '',
     component: UserLayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
+      {path: '', component: HomeComponent },
       {path:'auth',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
-      {path:'profile',loadChildren:()=>import('./views/user/profile/profile.module').then(m=>m.ProfileModule)}
+      {path:'psychologues',loadChildren:()=>import('./views/user/student-psychologues/student-psychologues.module').then(m=>m.StudentPsychologuesModule)},
+      {path:'profile',loadChildren:()=>import('./views/user/profile/profile.module').then(m=>m.ProfileModule)},
     ]
   },
-  // { path: 'home', component: WhoAreYouComponent },
-//{path:'home',component:NavbarComponent,children:[
+  {path:'calendar',loadChildren:()=>import('./views/psychologue/calendrier/calendrier.module').then(m=>m.CalendrierModule)},
+  { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},
+  //{path:'home',component:NavbarComponent,children:[
+  {path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
 
-//{path:'psy',
-//component:PsyLayoutComponent,
-//children:[
-{ path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
-//]}
+{path:'psy',
+component:PsyLayoutComponent,
+children:[
+]}
 
 // ]},
   // {path:'**',component:ErrorComponent};

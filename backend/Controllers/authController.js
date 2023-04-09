@@ -46,7 +46,7 @@ exports.signupStudent = async (req, res) => {
     const hashedPassword = await bcrypt.hash(motDePasse, saltRounds);
 
     // Create new user object and save to database with estValide set to false
-    const newUser = new User({ nom, prenom, email, motDePasse: hashedPassword, estValide: false });
+    const newUser = new User({ nom, prenom, email, motDePasse: hashedPassword, estValide: false, estSuspendu:false });
     await newUser.save();
 
     // Get admin account and create a notification for the new student signup
@@ -136,12 +136,16 @@ exports.loginStudent = async (req, res) => {
       console.log("hi");
       return res.status(401).json({ message: 'you are not authorized yet ' });
     }
+    if (user.estSuspendu) {
+      // console.log("hi");
+      return res.status(401).json({ message: 'your account has been suspended by an administrator ! ' });
+    }
     
     // Generate JWT token for user
     const token = jwt.sign({ userId: user._id }, process.env.STUDENT_JWT_SECRET);
     console.log(token);
     // Return token and user data
-    return res.status(200).json({ token, user: { nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide } });
+    return res.status(200).json({ token, user: { nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide ,estSuspendu:user.estSuspendu} });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -163,6 +167,31 @@ exports.isAuthenticated = async (req, res, next) => {
     // Find user by ID and check if user is validated
     const user = await User.findById(req.userId);
     if (!user || !user.estValide) {
+      return res.status(401).json({ message: 'Unauthorized access' });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ message: 'Unauthorized access' });
+  }
+};
+
+exports.isAuthenticatedPsy = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Unauthorized access' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    
+    req.psyId = decodedToken.psyId;
+
+    // Find user by ID and check if user is validated
+    const psy = await Psy.findById(req.psyId);
+    if (!psy || !psy.estValide) {
       return res.status(401).json({ message: 'Unauthorized access' });
     }
 
@@ -265,22 +294,22 @@ exports.signupPsy = async (req, res) => {
     const existingPsy = await Psy.findOne({ email });
 
     if (existingPsy) {
-      return res.status(400).json({ message: 'Psychologue already exists with this email' });
+      return res.status(400).json({ message: 'User already exists with this email' });
     }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(motDePasse, saltRounds);
 
     // Create new user object and save to database with estValide set to false
-    const newPsy = new Psy({ nom, prenom, email, motDePasse: hashedPassword ,estValide: false});
+    const newPsy = new Psy({ nom, prenom, email, motDePasse: hashedPassword, estValide: false });
     await newPsy.save();
-    return res.status(201).json({ message: 'Psychologist created successfully' });
+
+    return res.status(201).json({ message: 'Psy created successfully' });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 
 
 exports.loginPsy = async (req, res) => {
@@ -289,25 +318,33 @@ exports.loginPsy = async (req, res) => {
 
     // Find user with given email
     const psy = await Psy.findOne({ email });
+    // console.log(user);
+    // console.log(user.estValide);
+    // console.log(typeof(user.estValide));
     if (!psy) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+
     // Check if password is correct
     const isMatch = await bcrypt.compare(motDePasse, psy.motDePasse);
-    console.log(isMatch);
+    // console.log(isMatch);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    //  Check if user is validated
+     // Check if user is validated
      if (!psy.estValide) {
-       return res.status(401).json({ message: 'you arenot authorized yet ' });
+      console.log("hi");
+      return res.status(401).json({ message: 'you are not authorized yet ' });
     }
+   
+    
     // Generate JWT token for user
     const token = jwt.sign({ psyId: psy._id }, process.env.JWT_SECRET);
-
+    
     // Return token and user data
-    return res.status(200).json({ token, psy: { nom: psy.nom, prenom: psy.prenom, email: psy.email ,estValide:psy.estValide } });
+   console.log(psy._id)
+    return res.status(200).json({ token, psy: {psyId:psy._id,nom: psy.nom, prenom: psy.prenom, email: psy.email ,estValide: psy.estValide} });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });

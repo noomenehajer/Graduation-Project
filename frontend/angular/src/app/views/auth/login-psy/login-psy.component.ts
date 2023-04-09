@@ -41,10 +41,11 @@ export class LoginPsyComponent {
 
     this.authService.loginPsy(email, motDePasse).subscribe(
       (res) => {
-          localStorage.setItem('authToken', res.token);
-          localStorage.setItem('authToken', res.psy);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('psy', JSON.stringify(res.psy));
+          // localStorage.setItem('psyId', res.psy.psyId);
 
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/articlest');
       },
       (error) => {
           this.snackBar.open(error.error.message, 'OK', {

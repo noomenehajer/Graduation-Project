@@ -4,7 +4,8 @@ const Psychologue= require('../models/psy');
 const config = require('../config/config');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-
+const Disponibilite = require('../models/disponibilite');
+const RendezVous = require('../models/rendezvous');
 
 // // GET request to get all psychologues
 exports.getAllPsychologues = async (req, res) => {
@@ -120,6 +121,23 @@ exports.getPsychologue=async(req, res)=> {
   }
 
 }
+
+
+
+exports.getDisponibilites = async (req, res) => {
+  try {
+    const psy = req.psy._id;
+    if (!psy) {
+      return res.status(400).json({ message: 'No psy found in request' });
+    }
+
+    const disponibilites = await Disponibilite.find({ psy });
+    res.status(200).json(disponibilites);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
 
 exports.toggleSuspendAcc = async (req, res) => {
   try {

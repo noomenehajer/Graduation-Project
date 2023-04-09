@@ -1,0 +1,15 @@
+<form (submit)="onSubmit()">
+  <div>
+    <label for="jour">Jour:</label>
+    <input type="text" id="jour" [(ngModel)]="jour" name="jour">
+  </div>
+  <div>
+    <label for="debut">Début:</label>
+    <input type="time" id="debut" [(ngModel)]="debut" name="debut">
+  </div>
+  <div>
+    <label for="fin">Fin:</label>
+    <input type="time" id="fin" [(ngModel)]="fin" name="fin">
+  </div>
+  <button type="submit">Submit</button>
+</form>

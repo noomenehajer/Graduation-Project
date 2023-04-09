@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const adminPsyController= require('../Controllers/admin-psyController');
-
+const {protectPsy} = require('../middlewares/auth.middleware');
 
 
 
 
 
 router.get('/psychologues',adminPsyController.getAllPsychologues);
+// router.get('/psychologues/:id/disponibilites',protectPsy,adminPsyController);
 router.get('/psychologues/invalidpsy',adminPsyController.getNonValidPsy);
 router.post('/psychologues/add',adminPsyController.addPsychologue);
 router.delete('/psychologues/:id',adminPsyController.deletePsy);
