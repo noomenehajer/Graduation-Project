@@ -4,18 +4,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Student } from 'src/app/models/Student';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent  implements OnInit {
+export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   student!: Student;
   isEditing: boolean = false;
-  isEncrypting: boolean = false;
   isChangingPassword: boolean = false;
   imageFile: File | null = null;
   userId!: string; 
@@ -27,23 +25,26 @@ export class ProfileComponent  implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  
-    this.getProfile();
     this.profileForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       telephone: [''],
       adresse: [''],
       niveau: [''],
-      photo: ['']
+      photo: [''],
+      ancienMotDePasse: [''],
+      nouveauMotDePasse: ['']
     });
-    this.userId = this.authService.getUserData().id; // get current user's ID
+    this.route.params.subscribe(params => {
+      this.userId = params['id'] || this.authService.getUserData().id;
+      this.getProfile();
+    });
   }
 
   getProfile(): void {
-    const id = this.route.snapshot.paramMap.get('id') || this.userId;
-     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    this.etudiantService.getProfile(id, headers).subscribe(
+    
+    this.etudiantService.getProfile().subscribe(
+
       (response) => {
         this.student = response;
         this.profileForm.patchValue({
@@ -64,7 +65,6 @@ export class ProfileComponent  implements OnInit {
 
   editProfile(): void {
     const id = this.route.snapshot.paramMap.get('id') || this.userId;
-     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
     const formData = new FormData();
     formData.append('nom', this.profileForm.value.nom);
     formData.append('prenom', this.profileForm.value.prenom);
@@ -74,13 +74,15 @@ export class ProfileComponent  implements OnInit {
     if (this.imageFile) {
       formData.append('photo', this.imageFile, this.imageFile.name);
     }
-    this.etudiantService.editProfile(id, formData, headers).subscribe(
+    this.etudiantService.editProfile(formData).subscribe(
       (response) => {
         this.student = response;
         this.isEditing = false;
+        alert('Profile updated successfully!');
       },
       (error) => {
         console.error(error);
+        alert('Failed to update profile');
       }
     );
   }
@@ -89,45 +91,49 @@ export class ProfileComponent  implements OnInit {
     const ancienMotDePasse = this.profileForm.get('ancienMotDePasse')?.value;
     const nouveauMotDePasse = this.profileForm.get('nouveauMotDePasse')?.value;
     const id = this.route.snapshot.paramMap.get('id') || this.userId;
-     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    this.etudiantService.updatePassword(id, ancienMotDePasse, nouveauMotDePasse, headers).subscribe(
+    this.etudiantService.updatePassword(ancienMotDePasse, nouveauMotDePasse).subscribe(
       (response) => {
         console.log(response);
         this.isChangingPassword = false;
         this.profileForm.reset();
+        alert('Password updated successfully!');
       },
       (error) => {
         console.error(error);
+        alert('Failed to update password');
       }
     );
   }
   onFileSelected(event: Event) {
     this.imageFile = (event.target as HTMLInputElement).files![0];
-    document.getElementById("file-name")!.innerHTML = this.imageFile.name;
+  /*   const fileNameElement = document.getElementById("file-name");
+    if (fileNameElement) {
+      fileNameElement.innerHTML = this.imageFile.name;
+    } */
   }
+  
   encryptData(): void {
     const id = this.route.snapshot.paramMap.get('id') || this.userId;
-     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    this.etudiantService.encryptData(id, headers).subscribe(
+    this.etudiantService.encryptData().subscribe(
       (response) => {
         console.log(response);
-        this.isEncrypting = false;
         this.getProfile();
+        alert('Data encrypted successfully!');
       },
       (error) => {
         console.error(error);
+        alert('Failed to encrypt data');
       }
     );
   }
   
   onSubmit() {
     const id = this.route.snapshot.paramMap.get('id') || this.userId;
-     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
     if (this.profileForm.invalid) {
       return;
     }
 
-    this.etudiantService.editProfile(id,this.profileForm.value,headers)
+    this.etudiantService.editProfile(this.profileForm.value)
       .subscribe(
         data => {
           this.student = data;
@@ -138,4 +144,4 @@ export class ProfileComponent  implements OnInit {
           alert('Failed to update profile');
         });
   }
-}
+} 

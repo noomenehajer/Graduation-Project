@@ -1,20 +1,6 @@
 const Etudiant = require('../models/etudiant');
 const bcrypt = require('bcryptjs');
 
-/* exports.getEtudiantById = async (req, res) => {
-  try {
-    const etudiant = await Etudiant.findById(req.params.id);
-    if (!etudiant) {
-      return res.status(404).json({ message: 'Etudiant not found' });
-    }
-    res.json(etudiant);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-}; */
-
-
 exports.getProfile = async (req, res) => {
   try {
     const etudiant = await Etudiant.findById(req.userId);
@@ -34,19 +20,34 @@ exports.editProfile = async (req, res) => {
     if (!etudiant) {
       return res.status(404).json({ message: 'Etudiant not found' });
     }
-    etudiant.nom = req.body.nom || etudiant.nom;
-    etudiant.prenom = req.body.prenom || etudiant.prenom;
-    etudiant.telephone = req.body.telephone || etudiant.telephone;
-    etudiant.adresse = req.body.adresse || etudiant.adresse;
-    etudiant.niveau = req.body.niveau || etudiant.niveau;
-    etudiant.photo = req.file.filename || etudiant.photo;
-    await etudiant.save();
-    res.json(etudiant);
+    if (req.body.nom != null) {
+    etudiant.nom = req.body.nom ;
+    }
+    if (req.body.prenom != null) {
+    etudiant.prenom = req.body.prenom;
+    }
+    if (req.body.telephone != null) {    
+    etudiant.telephone = req.body.telephone;
+    }
+    if (req.body.adresse != null) {
+    etudiant.adresse = req.body.adresse;
+    }
+    if (req.body.niveau != null) {
+    etudiant.niveau = req.body.niveau;
+    }
+    if (req.file != null) {
+    etudiant.photo = req.file.filename ;
+    }
+    const updatedEtudiant = await etudiant.save();
+    const imageUrl = req.file ? req.file.filename : etudiant.photo;
+    res.json({ ...updatedEtudiant.toObject(), imageUrl });
   } catch (error) {
-    console.error(error);
+    //console.error(error);
+    res.status(400).json({ message: error.message });
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 exports.updatePassword = async (req, res) => {
     try {
@@ -83,7 +84,7 @@ exports.encryptData = async (req, res) => {
     const etudiant = await Etudiant.findById(req.userId);
     etudiant.nom = 'anonymouse';
     etudiant.prenom = 'anonymouse';
-    etudiant.photo = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+    etudiant.photo = 'anonymous.png';
     await etudiant.save();
     res.json({ message: 'Data encrypted successfully' });
   } catch (error) {

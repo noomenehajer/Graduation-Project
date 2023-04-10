@@ -22,7 +22,6 @@
     </div>
     <hr>
     <h4>Questions</h4>
-    <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
     <div class="mt-3" formArrayName="questions">
       <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
         <div class="form-group">
@@ -42,7 +41,6 @@
           </select>
         </div>
         <div *ngIf="question.get('type')?.value === 'checkbox' || question.get('type')?.value === 'multipleChoice'">
-          <button type="button" class="btn btn-primary" (click)="addOption(i)">Add Option</button>
           <div class="mt-3" formArrayName="options">
             <div *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j">
               <div class="form-group">
@@ -51,17 +49,24 @@
                 <div *ngIf="question.get('options')?.get(j.toString())?.get('text')?.invalid && (question.get('options')?.get(j.toString())?.get('text')?.dirty || question.get('options')?.get(j.toString())?.get('text')?.touched)" class="alert alert-danger mt-1">
                   Option is required
                 </div>
+                <div *ngIf="(question.get('type')?.value === 'Checkbox' || question.get('type')?.value === 'Multiple Choice') && getOptions(i).length < 2" class="alert alert-danger mt-1">
+                  At least 2 options are required.
+                </div>
               </div>
-              <button type="button" class="btn btn-danger" (click)="deleteOption(i, j)">Delete Option</button>
+              <button type="button" class="btn btn-danger" (click)="deleteOption(i, j)">Delete Option {{j + 1}}</button>
               <hr>
             </div>
           </div>
+          <button type="button" class="btn btn-primary" (click)="addOption(i)">Add Option</button>
         </div>
-        <button type="button" class="btn btn-danger" (click)="deleteQuestion(i)">Delete Question</button>
+        <br>
+        <button type="button" class="btn btn-danger" (click)="deleteQuestion(i)">Delete Question {{i + 1}}</button>
         <hr>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="questionnaireForm.invalid">Submit</button>
+    <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
+
+    <button style="margin-left: 10px;" type="submit" class="btn btn-primary" [disabled]="questionnaireForm.invalid">Submit</button>
   </form>
   <br> <br>
 </div>    

@@ -50,6 +50,7 @@ const routes: Routes = [
   { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},
   //{path:'home',component:NavbarComponent,children:[
   {path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
+  {path: 'profile', loadChildren:()=>import('./views/psychologue/profil/profil.module').then(m => m.ProfilModule)},
 
 {path:'psy',
 component:PsyLayoutComponent,

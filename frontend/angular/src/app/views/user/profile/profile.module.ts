@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthGuard } from '../../guards/auth.guard';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   providers: [
+    AuthGuard,
+    AuthService,
     StudentService
   ]
 })

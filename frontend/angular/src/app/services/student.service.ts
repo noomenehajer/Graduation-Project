@@ -10,7 +10,7 @@ import { catchError, map } from 'rxjs/operators';
 export class StudentService {
 
   private apiUrl = 'http://localhost:3000/admin/students';
-  private Url = 'http://localhost:3000/etudiant';
+  private url = 'http://localhost:3000/etudiant';
 
   constructor(private http: HttpClient) { }
 
@@ -70,24 +70,60 @@ export class StudentService {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //****** student profile ****** *// 
-getProfile(id: string, headers: HttpHeaders): Observable<Student> {
-    const url = `${this.Url}/${id}`;
-    return this.http.get<Student>(url, { headers });
-  }
+getProfile(): Observable<any> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
 
-  editProfile(id: string, data: FormData, headers: HttpHeaders): Observable<Student> {
-    const url = `${this.Url}/${id}`;
-    return this.http.put<Student>(url, data, { headers });
-  }
+  return this.http.get<any>(`${this.url}/profile`, { headers }).pipe(
+    catchError((error) => {
+      return throwError(error);
+    })
+  );
+}
 
-  updatePassword(id: string, oldPassword: string, newPassword: string, headers: HttpHeaders): Observable<any> {
-    const url = `${this.Url}/${id}/password`;
-    const data = { oldPassword, newPassword };
-    return this.http.put<any>(url, data, { headers });
-  }
+editProfile(formData: FormData): Observable<any> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
 
-  encryptData(id: string, headers: HttpHeaders): Observable<any> {
-    const url = `${this.Url}/${id}/anonyme`;
-    return this.http.post<any>(url, null, { headers });
-  }
+  return this.http.put<any>(`${this.url}/profile/edit`, formData, { headers }).pipe(
+    catchError((error) => {
+      return throwError(error);
+    })
+  );
+}
+
+updatePassword(ancienMotDePasse: string, nouveauMotDePasse: string): Observable<any> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
+
+  return this.http.put<any>(
+    `${this.url}/profile/password`,
+    { ancienMotDePasse, nouveauMotDePasse },
+    { headers }
+  ).pipe(
+    catchError((error) => {
+      return throwError(error);
+    })
+  );
+}
+
+encryptData(): Observable<any> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
+
+  return this.http.post<any>(`${this.url}/profile/anonyme`, null, { headers }).pipe(
+    catchError((error) => {
+      return throwError(error);
+    })
+  );
+}
+uploadImage(photo: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('photo', photo);
+  return this.http.post(`${this.url}/uploads`, formData);
+}
 }

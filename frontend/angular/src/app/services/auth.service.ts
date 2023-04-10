@@ -18,13 +18,10 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 // *******************************************student*******************************************//
 
-
 signupStudent(nom: string, prenom: string, email: string, motDePasse: string): Observable<any> {
     const body = { nom, prenom, email, motDePasse, estValide: false };
     return this.http.post(`${this.authUrl}/signup`, body);
   }
-
-
 
   loginStudent(email: string, motDePasse: string): Observable<any> {
     const body = { email, motDePasse };
@@ -43,7 +40,6 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     }
   }
 
-
   // getCurrentUser(): any {
   //   const currentUser = localStorage.getItem('currentUser');
   //   if (currentUser) {
@@ -52,27 +48,15 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
   //   return null;
   // }
 
-
   getUserData(){
-
     let token = localStorage.getItem('token');
-
     if(token){
-
       let data = JSON.parse( window.atob( token.split('.')[1] ) )
       //console.log('vbjjj');
-
       console.log(data);
-
       return data;
-
-
     }
   }
-/*   setUserData(data: any) {
-    // Convert data to string and store in local storage
-    localStorage.setItem('token', window.btoa(JSON.stringify(data)));
-  } */
 
   logoutUser(): Observable<any> {
     return this.http.post(`${this.authUrl}/logoutuser`, {});
@@ -88,7 +72,14 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
 
     return this.http.post(`${this.authUrl}/loginPsy`, body);
   }
-
+  getPsyData(){
+    let token = localStorage.getItem('token');
+    if(token){
+      let data = JSON.parse( window.atob( token.split('.')[1] ) )
+      console.log(data);
+      return data;
+    }
+  }
   public isAuthenticatedPsy() {
     let token= localStorage.getItem('token');
     // console.log(token);
@@ -99,6 +90,7 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     }
   }
   // ***************************************admin********************************
+
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.authUrl}/login`, { email, password });
   }
@@ -111,14 +103,10 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     return this.http.post(`${this.authUrl}/logout`, {});
     }
 
-
-
-  changePassword(email: string, currentPassword: string, newPassword: string): Observable<any> {
+    changePassword(email: string, currentPassword: string, newPassword: string): Observable<any> {
     const body = { email, currentPassword, newPassword };
     return this.http.post(`${this.authUrl}/password`, body);
   }
-
-
 
 }
 

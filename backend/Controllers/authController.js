@@ -133,7 +133,7 @@ exports.loginStudent = async (req, res) => {
 
      // Check if user is validated
      if (!user.estValide) {
-      console.log("hi");
+     // console.log("hi");
       return res.status(401).json({ message: 'you are not authorized yet ' });
     }
     if (user.estSuspendu) {
@@ -334,7 +334,7 @@ exports.loginPsy = async (req, res) => {
 
      // Check if user is validated
      if (!psy.estValide) {
-      console.log("hi");
+     // console.log("hi");
       return res.status(401).json({ message: 'you are not authorized yet ' });
     }
    

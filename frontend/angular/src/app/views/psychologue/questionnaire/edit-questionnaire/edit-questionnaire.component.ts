@@ -68,10 +68,17 @@ export class EditQuestionnaireComponent  implements OnInit {
     const question = this.fb.group({
       text: ['', Validators.required],
       type: ['checkbox', Validators.required],
-      options: this.fb.array([])
+      options: this.fb.array([
+        this.fb.group({
+          text: ['', Validators.required]
+        }),
+        this.fb.group({
+          text: ['', Validators.required]
+        })
+      ])
     });
     this.questions.push(question);
-  }
+  }  
 
   deleteQuestion(index: number) {
     this.questions.removeAt(index);

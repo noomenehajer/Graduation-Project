@@ -1,4 +1,3 @@
-
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +27,8 @@ import { ArticleService } from './services/article.service';
 import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
+import { ProfilModule } from './views/psychologue/profil/profil.module';
+
 // import { DayGridPlugin } from '@fullcalendar/daygrid';
 // import { TimeGridPlugin } from '@fullcalendar/timegrid';
 @NgModule({
@@ -61,7 +62,7 @@ import { SetAvailabilityComponent } from './views/psychologue/set-availability/s
     MatCardModule,
     MatIconModule,
     QuestionnaireModule,
-
+    ProfilModule
 
   ],
   providers: [AuthGuard,AuthService,ArticleService],

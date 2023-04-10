@@ -11,7 +11,7 @@ const notificationRoute=require('./routes/notification.route');
 const questionnaireRoute = require('./routes/questionnaire.route');
 const etudiantProfileRoute = require("./routes/etudiant.route");
 const consultationRoute=require('./routes/consultation.route');
-const authController = require("./Controllers/authController");
+const psyProfileRoute = require("./routes/psy.route");
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
 // Initialiser l'application Express
@@ -61,7 +61,8 @@ app.use('/uploads', express.static('uploads'));
 app.use('/psy',consultationRoute);
 //questionnaire
 app.use('/questionnaires', questionnaireRoute);
-app.use("/etudiant", authController.isAuthenticated, etudiantProfileRoute);
+app.use("/etudiant",etudiantProfileRoute);
+app.use("/psych", psyProfileRoute);
 
 // Démarrer le serveur
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
