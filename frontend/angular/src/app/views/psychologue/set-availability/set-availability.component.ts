@@ -36,7 +36,7 @@ export class SetAvailabilityComponent {
       // Format the time inputs to match the backend format
       const debut = new Date(`2000-01-01T${this.debut}:00.000Z`);
       const fin = new Date(`2000-01-01T${this.fin}:00.000Z`);
-
+   
       // Call the definirDisponibilite function with the formatted inputs
       this.disponibiliteService.definirDisponibilite(this.psyId, jour, debut, fin).subscribe(
         (response) => {

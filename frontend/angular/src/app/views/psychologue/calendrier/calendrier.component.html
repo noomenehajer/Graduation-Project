@@ -1,39 +1,90 @@
-
-<div class="d-flex justify-content-center" style="margin-top: 5px;background-color: #eeee;">
-
-  <div class="row" style="padding-left: 30px; padding-right: 30px;width: 1200px;height: 900px;">
-    <div style="background-color: white; height: 50px;  text-align: center; justify-content: left; display: flex;">
-      <div style="background-color: #6710f289; margin-top: 3px; width: 8px!important; height: 42px;"></div>
-      <div style="margin-left: 6px; margin-top: 10px; font-weight: bolder;">Calendar</div>
-      <div class="ml-auto" style="margin-top: 3px; font-weight: bolder;">
-        <button mat-raised-button class="btn btn-primary" (click)="openDialog()">Add availability</button>
+<div
+  class="d-flex justify-content-center"
+  style="margin-top: 5px; background-color: #eeee"
+>
+  <div
+    class="row"
+    style="
+      padding-left: 30px;
+      padding-right: 30px;
+      width: 1200px;
+      height: 900px;
+    "
+  >
+    <div
+      style="
+        background-color: white;
+        height: 50px;
+        text-align: center;
+        justify-content: left;
+        display: flex;
+      "
+    >
+      <div
+        style="
+          background-color: #6710f289;
+          margin-top: 3px;
+          width: 8px !important;
+          height: 42px;
+        "
+      ></div>
+      <div style="margin-left: 6px; margin-top: 10px; font-weight: bolder">
+        Calendar
+      </div>
+      <div class="ml-auto" style="margin-top: 3px; font-weight: bolder">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="openDialog()"
+        >
+          Add availability
+        </button>
       </div>
     </div>
 
     <div class="col-md-12">
-      <mat-card class="demo-inline-calendar-card mb-3" style="background-color: white;margin-top: -200px!important;">
-          <div class="d-flex">
-              <mat-calendar [(selected)]="selected" (selectedChange)="showAvailability(selected)" style="width: 500px;"></mat-calendar>
-               <!-- <div class="col-md-6" style="background-color: red;"> -->
-                  <div *ngFor="let disponibilite of disponibilities" >
-                    <ul>
-                      <li class="list-group-item"
-                              *ngFor="let seance of disponibilite.seance" [hidden]="!isOnSelectedDate(seance.jour)">
-                          {{ seance.debut | date: 'HH:mm' }} to {{ seance.fin | date: 'HH:mm' }}
-                          <!-- <div class="disponibilite-btn-overlay">
-                              <button class="btn btn-danger" (click)="deleteDisponibilite(disponibilite)">Delete</button>
-                              <button class="btn btn-success">Update</button>
-                          </div> -->
-                        </li>
-                      </ul>
-                  </div>
+      <mat-card
+        class="demo-inline-calendar-card mb-3"
+        style="background-color: white; margin-top: -200px !important"
+      >
+        <div class="d-flex">
+          <mat-calendar
+            [(selected)]="selected"
+            (selectedChange)="showAvailability(selected)"
+            style="width: 500px"
+          ></mat-calendar>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Availability">
+              <div *ngIf="getDisponibilitesForSelectedDate().length===0" style="background-color: #eeee;width: 200px;height: 50px; margin-left: 200px;margin-top: 200px;text-align: center;padding: 8px;">
+                <p>There is no available time</p>
               </div>
-          <!-- </div> -->
-      </mat-card>
-  </div>
-
-
+              <h5 *ngIf="getDisponibilitesForSelectedDate().length!==0" style="margin-left: 230px;margin-top: 30px;">you're available at :</h5>
+              <div *ngFor="let disponibilite of disponibilities">
+                <ul>
+                  <button
+                  style="margin-left: 189px;margin-top: 30px;"
+                    class="list-group-item"
+                    *ngFor="let seance of disponibilite.seance"
+                    [hidden]="!isOnSelectedDate(seance.jour)"
+                  ><i class="fas fa-check-circle text-success"></i>
+                    {{ seance.debut | date : "HH:mm" }} to
+                    {{ seance.fin | date : "HH:mm" }}
+                    <div class="disponibilite-btn-overlay">
+                      <button
+                        class="btn btn-danger"
+                        (click)="deleteDisponibilite(disponibilite)"
+                      >
+                        Delete
+                      </button>
+                      <button class="btn btn-success">Update</button>
+                    </div>
+                  </button>
+                </ul>
+              </div></mat-tab>
+            <mat-tab label="Consultations">Content 2</mat-tab>
+          </mat-tab-group>
         </div>
-      </div>
-
-
+      </mat-card>
+    </div>
+  </div>
+</div>

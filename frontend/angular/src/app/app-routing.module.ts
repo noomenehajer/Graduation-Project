@@ -37,13 +37,13 @@ const routes: Routes = [
       {path: '', component: HomeComponent },
       {path:'auth',loadChildren:()=>import('./views/auth/auth.module').then(m=>m.AuthModule)},
       {path:'articlest',loadChildren:()=>import('./views/user/st-articles/st-articles.module').then(m=>m.StArticlesModule)},
-      {path:'psychologues',loadChildren:()=>import('./views/user/student-psychologues/student-psychologues.module').then(m=>m.StudentPsychologuesModule)},
       {path:'profile',loadChildren:()=>import('./views/user/profile/profile.module').then(m=>m.ProfileModule)},
       {path: 'profilepsy', loadChildren:()=>import('./views/psychologue/profil/profil.module').then(m => m.ProfilModule)},
+      {path:'psychologues',loadChildren:()=>import('./views/user/student-psychologues/student-psychologues.module').then(m=>m.StudentPsychologuesModule)},
       {path:'calendar',loadChildren:()=>import('./views/psychologue/calendrier/calendrier.module').then(m=>m.CalendrierModule)},
     ]
   },
-  { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},
+  // { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},
 
   {path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
 

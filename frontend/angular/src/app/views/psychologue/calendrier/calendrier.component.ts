@@ -77,11 +77,20 @@ export class CalendrierComponent implements OnInit {
     }
     return this.disponibilities.filter(disponibilite => {
       return disponibilite.seance.some(seance => {
+      this.sortDisponibilites();
+
         return seance.jour.toDateString() === this.selected?.toDateString();
       });
     });
   }
 
+  sortDisponibilites() {
+    this.disponibilities.sort((a, b) => {
+      const debutA = new Date(a.seance[0].debut);
+      const debutB = new Date(b.seance[0].debut);
+      return debutA.getTime() - debutB.getTime();
+    });
+  }
   isOnSelectedDate(date: Date): boolean {
     return this.selected ? this.selected.toDateString() === date.toDateString() : false;
   }
