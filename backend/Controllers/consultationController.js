@@ -4,17 +4,43 @@ const Psychologue=require('../models/psy');
 const asyncHandler = require('express-async-handler')
 
 
+// exports.definirDisponibilite = async (req, res) => {
+//   try {
+//     const { jour, debut, fin } = req.body;
+//     const psyId = req.body.psy;
+    
+    
+
+//     const disponibilite = new Disponibilite({
+//       psy: psyId,
+//        jour:jour,
+//        debut:debut,
+//        fin:fin
+       
+//     });
+//     console.log(disponibilite);
+   
+//     await disponibilite.save();
+
+//     res.status(201).json(disponibilite);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 exports.definirDisponibilite = async (req, res) => {
   try {
-    const { jour, debut, fin } = req.body;
-    const psyId = req.body.psy;
-
+    const { psy, seance } = req.body;
+    // console.log(req.body);
     const disponibilite = new Disponibilite({
-      psy: psyId,
-      seance: { jour, debut, fin },
+      psy: psy,
+      seance: seance.map((s) => ({
+        debut: s.debut,
+        fin: s.fin,
+        jour: s.jour,
+      }))
     });
-    console.log(disponibilite);
-
+    
+    // console.log(disponibilite);
     await disponibilite.save();
 
     res.status(201).json(disponibilite);
@@ -22,21 +48,37 @@ exports.definirDisponibilite = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.deleteDisponibilite = async (req, res) => {
+  try {
+    const disponibiliteId = req.params.id;
 
+    const deletedDisponibilite = await Disponibilite.findByIdAndDelete(disponibiliteId);
 
+    if (!deletedDisponibilite) {
+      return res.status(404).json({ message: "Disponibilite not found" });
+    }
+
+    res.status(200).json({ message: "Disponibilite deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 
 exports.getDisponibilite = async (req, res) => {
   try {
-    const { psyId } = req.body.psy;
+    const psyId = req.body.psy;
 
-    const disponibilites = await Disponibilite.find({  psyId });
-
+    const disponibilites = await Disponibilite.find({ psyId });
+    
+    console.log(disponibilites);
     res.status(200).json(disponibilites);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 
   

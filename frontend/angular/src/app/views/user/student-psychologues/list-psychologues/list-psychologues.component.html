@@ -1,5 +1,5 @@
 
-<section id="team" class="team section-bg" style="height: 92vh !important;background-color:  #e1dede;">
+<section id="team" class="team section-bg" style="height: 100vh !important;background-color:  #e1dede;margin-top: 50px;">
   <div class="container" data-aos="fade-up" >
 
     <div class="section-title">
@@ -11,9 +11,9 @@
 
       <a class="col-lg-6" data-aos="zoom-in" data-aos-delay="100" *ngFor="let psy of Psychologues" style="margin-top: 8px;text-decoration: none;"  [routerLink]="['/psy/detail', psy._id]">
         <div class="member d-flex align-items-start" style="background-color: #eee;color: rgba(0, 0, 0, 0.751);">
-          <!-- <div class="pic"><img   [src]="'http://localhost:3000/uploads/' +article.image" class="img-fluid" alt=""></div> -->
+          <div class="pic"><img   [src]="'http://localhost:3000/uploads/' +psy.photo" class="img-fluid" alt=""></div>
           <div class="member-info">
-            <h4 style="color: white !important;">{{psy.nom}}</h4>
+            <h4 style="color: black !important;">{{psy.nom}}</h4>
             <span>Chief Executive Officer</span>
             <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
             <div class="social">

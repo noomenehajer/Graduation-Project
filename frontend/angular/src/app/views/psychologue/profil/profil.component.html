@@ -1,7 +1,7 @@
-<div style="width:50%;  margin: 0 auto;">
-    <br> 
+<div style="width:50%;  margin: 0 auto;margin-top: 90px;">
+    <br>
   <h2 style="text-align: center;">Edit Profile</h2>
-  
+
 <form [formGroup]="editForm" (ngSubmit)="onSubmitEditForm()">
     <div class="row">
     <div class="col-md-3">
@@ -45,7 +45,7 @@
 <div *ngIf="isChangingPassword">
 <h3 style="text-align: center;">Change Password</h3>
 <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePasswordForm()">
-    <div class="form-group">  
+    <div class="form-group">
     <label for="ancienMotDePasse">Old Password :</label>
   <input class="form-control" type="password" id="ancienMotDePasse" formControlName="ancienMotDePasse" required>
     </div>
@@ -58,3 +58,9 @@
 </div>
     <br><br>
 </div>
+
+
+<!-- new profile -->
+
+
+

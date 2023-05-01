@@ -5,8 +5,6 @@ import { UserLayoutComponent } from './user-layout/user-layout.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NotificationComponent } from './notification/notification.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { PsyLayoutComponent } from './psy-layout/psy-layout.component';
 
 
 // import { SidebarComponent } from './sidebar/sidebar.component';
@@ -18,8 +16,7 @@ import { PsyLayoutComponent } from './psy-layout/psy-layout.component';
     AdminLayoutComponent,
     UserLayoutComponent,
    NotificationComponent,
-   NavbarComponent,
-   PsyLayoutComponent
+
   ],
   imports: [
     CommonModule,

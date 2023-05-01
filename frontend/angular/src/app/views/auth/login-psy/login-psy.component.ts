@@ -43,7 +43,7 @@ export class LoginPsyComponent {
       (res) => {
           localStorage.setItem('token', res.token);
           localStorage.setItem('psy', JSON.stringify(res.psy));
-          // localStorage.setItem('psyId', res.psy.psyId);
+          localStorage.setItem('psyId', res.psy.psyId);
 
           this.router.navigateByUrl('/articlest');
       },

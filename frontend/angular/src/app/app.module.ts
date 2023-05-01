@@ -28,7 +28,9 @@ import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.c
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
 import { ProfilModule } from './views/psychologue/profil/profil.module';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatDialogModule} from '@angular/material/dialog';
 // import { DayGridPlugin } from '@fullcalendar/daygrid';
 // import { TimeGridPlugin } from '@fullcalendar/timegrid';
 @NgModule({
@@ -43,7 +45,9 @@ import { ProfilModule } from './views/psychologue/profil/profil.module';
 
   ],
   imports: [
-    FullCalendarModule,
+    MatDialogModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     BrowserModule,
     MatCommonModule,
     AppRoutingModule,
@@ -70,3 +74,4 @@ import { ProfilModule } from './views/psychologue/profil/profil.module';
 
 })
 export class AppModule { }
+

@@ -11,8 +11,22 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class UserLayoutComponent {
   articles: Article[] = [];
+  verifyuser:any;
+  verifypsy:any
+  constructor(private articleService: ArticleService,private authService:AuthService,private router:Router) {
+  if(this.authService.isAuthenticated()==true ){
+    this.verifyuser=true;
+  }else{
+    this.verifyuser=false;
+  }
+  if(this.authService.isAuthenticatedPsy()==true){
+    this.verifypsy=true;
+  }else{
+    this.verifypsy=false;
+  }
 
-  constructor(private articleService: ArticleService,private authService:AuthService,private router:Router) {}
+
+  }
 
   ngOnInit() {
     this.articleService.getAllArticles().subscribe((articles: Article[]) => {

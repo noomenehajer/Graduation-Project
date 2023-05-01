@@ -4,7 +4,7 @@ import { ProfilComponent } from './profil.component';
 import { AuthPsyGuard } from '../../guards/auth-psy.guard';
 
 const routes: Routes = [
-  { path: 'psy/profile', component: ProfilComponent, canActivate: [AuthPsyGuard] }
+  { path: '', component: ProfilComponent, canActivate: [AuthPsyGuard] }
 ];
 
 @NgModule({

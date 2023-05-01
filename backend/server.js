@@ -12,6 +12,7 @@ const questionnaireRoute = require('./routes/questionnaire.route');
 const etudiantProfileRoute = require("./routes/etudiant.route");
 const consultationRoute=require('./routes/consultation.route');
 const psyProfileRoute = require("./routes/psy.route");
+
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
 // Initialiser l'application Express

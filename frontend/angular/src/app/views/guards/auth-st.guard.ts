@@ -14,7 +14,7 @@ export class AuthStGuard implements CanActivate {
     if (this.aus.isAuthenticated()== true) {
       return true;
     } else {
-      this.router.navigate(['/loginuser']);
+      this.router.navigate(['/auth/loginuser']);
       return false;
     }
   }

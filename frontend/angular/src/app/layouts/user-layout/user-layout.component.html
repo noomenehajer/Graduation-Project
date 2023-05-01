@@ -1,16 +1,20 @@
-
-
- <!-- Navbar  -->
-<nav class="navbar navbar-expand-lg navbar-dark gradient-custom">
+<!-- Navbar  -->
+<nav class="navbar navbar-expand-lg navbar-dark gradient-custom fixed-top">
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Navbar brand -->
     <a class="navbar-brand" href="#">Navbar</a>
 
     <!-- Toggle button -->
-    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-      data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <i class="fas fa-bars text-light"></i>
     </button>
 
@@ -30,32 +34,51 @@
           <a class="nav-link" routerLink="/articlest">
             <div>
               <i class="far fa-envelope fa-lg mb-1"></i>
-              <span class="badge rounded-pill badge-notification bg-dark">{{ articles.length }}</span>
+              <span class="badge rounded-pill badge-notification bg-dark">{{
+                articles.length
+              }}</span>
             </div>
             Articles
           </a>
         </li>
         <li class="nav-item text-center mx-2 mx-lg-1">
-          <a class="nav-link" routerLink="/psychologues">
+          <a class="nav-link" routerLink="/psychologues" *ngIf="verifyuser">
             <div>
               <i class="far fa-envelope fa-lg mb-1"></i>
-              <!-- <span class="badge rounded-pill badge-notification bg-dark">{{ Psychologues.length }}</span> -->
             </div>
-            Psychologues
+            Psychologists
+          </a>
+        </li>
+        <li class="nav-item text-center mx-2 mx-lg-1">
+          <a class="nav-link" routerLink="/calendar" >
+            <div>
+              <i class="far fa-envelope fa-lg mb-1"></i>
+            </div>
+            Calendar
           </a>
         </li>
         <li class="nav-item dropdown text-center mx-2 mx-lg-1">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown"
-            aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-mdb-toggle="dropdown"
+            aria-expanded="false"
+            *ngIf="verifyuser"
+          >
             <div>
               <i class="far fa-envelope fa-lg mb-1"></i>
-              <span class="badge rounded-pill badge-notification bg-dark">11</span>
+              <span class="badge rounded-pill badge-notification bg-dark"
+                >11</span
+              >
             </div>
-           Options
+            Options
           </a>
+
           <!-- Dropdown menu -->
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item"(click)="logoutUser()">logout</a></li>
+            <li><a class="dropdown-item" (click)="logoutUser()">logout</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li>
               <hr class="dropdown-divider" />
@@ -69,41 +92,46 @@
       <!-- Left links -->
 
       <!-- Right links -->
-      <ul class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
+      <ul
+        class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0"
+        *ngIf="verifyuser"
+      >
         <li class="nav-item text-center mx-2 mx-lg-1">
           <a class="nav-link" href="#!">
             <div>
               <i class="fas fa-bell fa-lg mb-1"></i>
-              <span class="badge rounded-pill badge-notification bg-dark">11</span>
+              <span class="badge rounded-pill badge-notification bg-dark"
+                >11</span
+              >
             </div>
             Messages
           </a>
         </li>
-        <li class="nav-item text-center mx-2 mx-lg-1">
+        <li class="nav-item text-center mx-2 mx-lg-1" *ngIf="verifyuser">
           <a class="nav-link" href="#!">
             <div>
               <i class="fas fa-globe-americas fa-lg mb-1"></i>
-              <span class="badge rounded-pill badge-notification bg-dark">11</span>
+              <span class="badge rounded-pill badge-notification bg-dark"
+                >11</span
+              >
             </div>
             News
           </a>
         </li>
+
+        <li class="nav-item nav-profile " >
+          <!-- <a class="nav-link dropdown-toggle" href="#" routerLink="/profile" *ngIf="verifyuser" >
+            profile
+            <img src="/assets/admin/images/faces/face28.jpg" alt="profile" width="40px" height='40px'/>
+          </a> -->
+          <a class="nav-link dropdown-toggle" href="#" routerLink="/profilepsy" *ngIf="verifypsy" >
+            profile
+            <!-- <img [src]="'http://localhost:3000/uploads/' +psy.photo" alt="profile" width="40px" height='40px'/> -->
+          </a>
       </ul>
       <!-- Right links -->
-
-
-
-      <!-- Search form -->
-      <!-- <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
-        <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
-        <button class="btn btn-outline-white" type="button" data-mdb-ripple-color="dark">
-          Search
-        </button>
-      </form> -->
-
-
       <div class="search-box">
-        <input type="text" class="search-txt" name="" placeholder="Search">
+        <input type="text" class="search-txt" name="" placeholder="Search" />
         <a href="#" class="search-btn">
           <i class="bi bi-search"></i>
         </a>
@@ -114,9 +142,25 @@
   <!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
-<!-- <div style="height: fit-content!important;"> -->
+
 <router-outlet></router-outlet>
-<!-- </div> -->
 
+<!-- ======= Footer ======= -->
+<footer id="footer" class="gradient-custom">
+  <div
+    class="container footer-bottom clearfix gradient-custom"
+    style="width: 1800px; margin-left: 2px"
+  >
+    <div class="copyright">
+      &copy; Copyright <strong><span>Iset Bizerte</span></strong
+      >. All Rights Reserved
+    </div>
+    <div class="credits">
+      made with <i class="bi bi-heart-fill"></i
+      ><strong><span> by Salma Lamouchi & Hajer Noomene</span></strong>
+    </div>
+  </div>
+</footer>
+<!-- End Footer -->
 
-
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

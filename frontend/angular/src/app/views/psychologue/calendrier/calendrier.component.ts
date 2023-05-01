@@ -1,70 +1,132 @@
-import { Component, OnInit } from '@angular/core';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { DisponibiliteService } from 'src/app/services/disponibilite.service';
+import { Disponibilite } from 'src/app/models/disponibilite';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EventInput } from '@fullcalendar/core';
+import { CalendarView, CalendarEvent } from 'angular-calendar';
+import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import * as moment from 'moment';
+import {MatDialog} from '@angular/material/dialog';
 
+import { SetAvailabilityComponent } from '../set-availability/set-availability.component';
 @Component({
   selector: 'app-calendrier',
   templateUrl: './calendrier.component.html',
   styleUrls: ['./calendrier.component.css']
+
 })
 export class CalendrierComponent implements OnInit {
+  // @ViewChild('modalContent') modalContent!: SetAvailabilityComponent;
+
+  disponibilities: Disponibilite[] = [];
   calendarOptions!: CalendarOptions;
+  selected!: Date | null;
+  availabilityShown = false;
 
-  constructor(private availabilityService: DisponibiliteService) { }
-
-  ngOnInit() {
-    this.loadAvailabilityData();
+  constructor(private disponibiliteService: DisponibiliteService,public dialog: MatDialog) { }
+  ngOnInit(): void {
+    const psyId = localStorage.getItem('psyId');
+    if (psyId) {
+      this.getDisponibilite(psyId);
+    }
   }
 
-  loadAvailabilityData() {
-    this.calendarOptions = {
-      initialView: 'dayGridMonth',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek'
+  showAvailabilityWithDate(selected: Date): void {
+    this.selected = selected;
+    this.availabilityShown = true;
+  }
+
+  showAvailability(selected: Date | null): void {
+    if (selected !== null) {
+      this.showAvailabilityWithDate(selected);
+    } else {
+      this.hideAvailability();
+    }
+  }
+
+  getDisponibilite(psyId: string): void {
+    this.disponibiliteService.getDisponibilite(psyId).subscribe(
+      (disponibilites: Disponibilite[]) => {
+        this.disponibilities = disponibilites.map(disponibilite => {
+          const seances = disponibilite.seance.map(seance => {
+            return {
+              jour: new Date(seance.jour),
+              debut: new Date(seance.debut),
+              fin: new Date(seance.fin)
+            };
+          });
+          return {
+            _id: disponibilite._id,
+            psy: disponibilite.psy,
+            seance: seances
+          };
+        });
       },
-      views: {
-        timeGridWeek: {
-          titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
-          slotLabelFormat: { hour: 'numeric', minute: '2-digit', hour12: true },
-          slotDuration: '00:15',
-          buttonText: 'Week'
+      error => console.log(error)
+    );
+  }
+
+  getDisponibilitesForSelectedDate(): Disponibilite[] {
+    if (!this.selected) {
+      return [];
+    }
+    return this.disponibilities.filter(disponibilite => {
+      return disponibilite.seance.some(seance => {
+        return seance.jour.toDateString() === this.selected?.toDateString();
+      });
+    });
+  }
+
+  isOnSelectedDate(date: Date): boolean {
+    return this.selected ? this.selected.toDateString() === date.toDateString() : false;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(SetAvailabilityComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  hideAvailability(): void {
+    this.selected = null;
+    this.availabilityShown = false;
+  }
+  deleteDisponibilite(disponibilite: any) {
+    // Find the index of the disponibilite to delete
+    const index = this.disponibilities.indexOf(disponibilite);
+
+    // Show confirmation dialog
+    Swal.fire({
+      title: 'Are you sure you want to delete this availability?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      // If user confirms deletion
+      if (result.isConfirmed) {
+        // Remove the disponibilite from the array
+        if (index !== -1) {
+          this.disponibilities.splice(index, 1);
         }
-      },
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      events: (info, successCallback, failureCallback) => {
-        this.availabilityService.getDisponibilite('psyId123').subscribe({
-          next: (disponibilites: any[]) => {
-            const events = disponibilites.map(disponibilite => {
-              const date = new Date(disponibilite.seance.jour);
-              const start = new Date(`${disponibilite.seance.jour}T${disponibilite.seance.debut}`);
-              const end = new Date(`${disponibilite.seance.jour}T${disponibilite.seance.fin}`);
-
-              return {
-                title: 'Disponible',
-                start,
-                end,
-                allDay: false
-              };
-            });
-
-            successCallback(events);
-          },
-          error: (error) => {
-            failureCallback(error);
-          }
+        // Show success message
+        Swal.fire({
+          title: 'Availability deleted',
+          icon: 'success'
         });
       }
-    };
+    });
   }
 
-  // This method can be called whenever you need to update the calendar with new availability data
-  updateAvailabilityData() {
-    this.loadAvailabilityData();
-  }
+
 }

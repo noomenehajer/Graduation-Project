@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { data } from 'jquery';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Disponibilite } from '../models/disponibilite';
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +11,17 @@ import { map } from 'rxjs/operators';
 export class DisponibiliteService {
 
   constructor(private http: HttpClient) { }
-  private apiUrl = 'http://localhost:3000/psy'; 
+  private apiUrl = 'http://localhost:3000/psy';
 
 
 
-  definirDisponibilite(psyId: string, jour: string, debut: string, fin: string) {
+  definirDisponibilite(psyId: string, jour: Date, debut: Date, fin: Date): Observable<Disponibilite> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('token') // replace with your token implementation
       })
     };
+
     const body = {
       psy: psyId,
       seance: [
@@ -30,18 +32,23 @@ export class DisponibiliteService {
         }
       ]
     };
-
-    return this.http.post(`${this.apiUrl}/disponibilites`, body,httpOptions);
+    console.log(body);
+    return this.http.post<Disponibilite>(`${this.apiUrl}/disponibilites`, body, httpOptions);
   }
 
 
 
-  getDisponibilite(psyId: string): Observable<any> {
+
+
+  getDisponibilite(psyId:string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + localStorage.getItem('token') // replace with your token implementation
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
       })
     };
-    return this.http.get(`${this.apiUrl}/disponibilites`,httpOptions);
+    // const psyId = localStorage.getItem('psyId');
+    // const body = { psy: { psyId } };
+
+    return this.http.get(`${this.apiUrl}/getdisponibilites`, httpOptions);
   }
 }

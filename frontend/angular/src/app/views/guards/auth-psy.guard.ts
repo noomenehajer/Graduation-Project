@@ -14,7 +14,7 @@ export class AuthPsyGuard implements CanActivate {
     if (this.aus.isAuthenticatedPsy()== true) {
       return true;
     } else {
-      this.router.navigate(['/loginPsy']);
+      this.router.navigate(['/auth/loginPsy']);
       return false;
     }
   }
