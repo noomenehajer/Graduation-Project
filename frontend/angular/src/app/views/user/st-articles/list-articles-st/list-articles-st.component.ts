@@ -20,7 +20,7 @@ export class ListArticlesStComponent implements OnInit{
       this.Articles=data;
 
     });
-   
+
 
 }
 shortenText(text: string, maxChars: number): string {

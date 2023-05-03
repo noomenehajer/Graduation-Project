@@ -1,1 +1,62 @@
-<h1 style="">hello</h1>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="content" style="display: flex;justify-content: center;">
+    <div class="card" style="margin-top: 90px; width: 1000px;height: 290px;">
+        <div class="firstinfo"><img   [src]="'http://localhost:3000/uploads/' +psy.photo" class="img-fluid" alt="">
+            <div class="profileinfo">
+                <h1>{{psy.nom}}  {{psy.prenom}}</h1>
+                <p class="bio">{{psy.description}}Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui tenetur saepe reprehenderit, iste aspernatur, facilis modi aliquid illo omnis, quasi perferendis ex quo dolor exercitationem? Ex repellendus magnam expedita enim?
+                </p>
+                <section class="call-buton" style="margin-left: 40px;margin-top: 4px;"><a class="cc-calto-action-ripple" ><i class="fa fa-phone"></i><h3>{{psy.telephone}}</h3></a>
+                </section>
+              </div>
+            </div>
+          </div>
+
+</div>
+<div class="content" style="display: flex;justify-content: center;margin-top: 10px;">
+  <div class="card" style="width: 1000px;">
+    <div class="col-md-12">
+      <mat-card
+        class="demo-inline-calendar-card mb-3"
+        style="background-color: white;  "
+      >
+        <div class="d-flex">
+          <mat-calendar
+            [(selected)]="selected"
+            (selectedChange)="showAvailability(selected)"
+            style="width: 500px"
+          ></mat-calendar>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Availability">
+              <div *ngIf="getDisponibilitesForSelectedDate().length===0" style="background-color: #eeee;width: 200px;height: 50px; margin-left: 100px;margin-top: 200px;text-align: center;padding: 8px;">
+                <p>There is no available time</p>
+              </div>
+              <h5 *ngIf="getDisponibilitesForSelectedDate().length!==0" style="margin-left:   150px;margin-top: 30px;">Available time</h5>
+              <div *ngFor="let disponibilite of disponibilities">
+                <ul>
+                  <button
+                  style="margin-left: 98px;margin-top: 30px;"
+                    class="list-group-item"
+                    *ngFor="let seance of disponibilite.seance"
+                    [hidden]="!isOnSelectedDate(seance.jour)"
+                  ><i class="fas fa-check-circle text-success"></i>
+                    {{ seance.debut | date : "HH:mm" }} to
+                    {{ seance.fin | date : "HH:mm" }}
+                    <div class="disponibilite-btn-overlay">
+
+                      <button class="btn btn-success">Demandez un Rendez vous</button>
+                    </div>
+                  </button>
+                </ul>
+              </div></mat-tab>
+            <mat-tab label="Consultations">Content 2</mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+  <!-- </div> -->
+<!-- </div> -->

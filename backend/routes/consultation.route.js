@@ -10,7 +10,7 @@ router.post('/disponibilites',protectPsy, definirDisponibilite);
 router.delete('/deletedisponibilite',protectPsy, deleteDisponibilite);
 
 // Route pour récupérer les disponibilités du psychologue
-router.get('/getdisponibilites', protectPsy,consultationController.getDisponibilite);
+router.get('/getdisponibilites',consultationController.getDisponibilite);
 // router.get('/getdisponibilites/:psyId', protectPsy,consultationController.getDisponibilite);
 // Route pour consulter les rendez-vous du psychologue
 router.get('/rendezvous',  consultationController.consulterRendezVous);

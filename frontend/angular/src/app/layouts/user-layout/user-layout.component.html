@@ -40,7 +40,7 @@
           </a>
         </li>
         <li class="nav-item text-center mx-2 mx-lg-1">
-          <a class="nav-link" routerLink="/psychologues" *ngIf="verifyuser">
+          <a class="nav-link" routerLink="/psychologues" >
             <div>
             </div>
             Psychologists
@@ -61,7 +61,7 @@
             role="button"
             data-mdb-toggle="dropdown"
             aria-expanded="false"
-            *ngIf="verifyuser"
+
           >
             <div>
               <span class="badge rounded-pill badge-notification bg-dark"
@@ -115,14 +115,14 @@
         </li>
 
         <li class="nav-item nav-profile " >
-          <!-- <a class="nav-link dropdown-toggle" href="#" routerLink="/profile" *ngIf="verifyuser" >
-            profile
-            <img src="/assets/admin/images/faces/face28.jpg" alt="profile" width="40px" height='40px'/>
-          </a> -->
-          <a class="nav-link dropdown-toggle" href="#" routerLink="/profilepsy" *ngIf="verifypsy" >
-            profile
-            <!-- <img [src]="'http://localhost:3000/uploads/' +psy.photo" alt="profile" width="40px" height='40px'/> -->
+          <a class="nav-link dropdown-toggle" href="#" routerLink="/profile" *ngIf="verifyuser" >
+            profileuser
+            <!-- <img src="/assets/admin/images/faces/face28.jpg" alt="profile" width="40px" height='40px'/> -->
           </a>
+          <!-- <a class="nav-link dropdown-toggle" href="#" routerLink="/profilepsy"  >
+            profilepsy -->
+            <!-- <img [src]="'http://localhost:3000/uploads/' +psy.photo" alt="profile" width="40px" height='40px'/> -->
+          <!-- </a> -->
       </ul>
       <!-- Right links -->
       <div class="search-box">
@@ -144,7 +144,7 @@
 <footer id="footer" class="gradient-custom">
   <div
     class="container footer-bottom clearfix gradient-custom"
-    style="width: 1800px; margin-left: 2px"
+    style="width: 1800px!important; "
   >
     <div class="copyright">
       &copy; Copyright <strong><span>Iset Bizerte</span></strong

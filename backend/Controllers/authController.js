@@ -145,7 +145,7 @@ exports.loginStudent = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.STUDENT_JWT_SECRET);
     console.log(token);
     // Return token and user data
-    return res.status(200).json({ token, user: { nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide ,estSuspendu:user.estSuspendu} });
+    return res.status(200).json({ token, user: { userId:user._id,nom: user.nom, prenom: user.prenom, email: user.email ,estValide: user.estValide ,estSuspendu:user.estSuspendu} });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });

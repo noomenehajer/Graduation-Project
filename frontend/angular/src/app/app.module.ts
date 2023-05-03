@@ -31,8 +31,6 @@ import { ProfilModule } from './views/psychologue/profil/profil.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
-// import { DayGridPlugin } from '@fullcalendar/daygrid';
-// import { TimeGridPlugin } from '@fullcalendar/timegrid';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +43,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 
   ],
   imports: [
+
+    
     MatDialogModule,
     MatNativeDateModule,
     MatDatepickerModule,

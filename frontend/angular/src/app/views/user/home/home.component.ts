@@ -14,7 +14,7 @@ export class HomeComponent {
     this.router.navigate(['/auth/signup']);
   }
   onGetLoginClick(): void {
-    this.router.navigate(['/auth/loginuser']);
+    this.router.navigate(['/whoareyou']);
   }
 
 

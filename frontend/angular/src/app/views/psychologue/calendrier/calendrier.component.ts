@@ -50,10 +50,12 @@ export class CalendrierComponent implements OnInit {
   }
 
   getDisponibilite(psyId: string): void {
-    this.disponibiliteService.getDisponibilite(psyId).subscribe(
+    // psyId!=localStorage.getItem('psyId');
+    this.disponibiliteService.getDisponibilite().subscribe(
       (disponibilites: Disponibilite[]) => {
         this.disponibilities = disponibilites.map(disponibilite => {
           const seances = disponibilite.seance.map(seance => {
+
             return {
               jour: new Date(seance.jour),
               debut: new Date(seance.debut),

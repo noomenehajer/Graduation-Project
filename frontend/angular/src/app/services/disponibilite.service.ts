@@ -39,16 +39,17 @@ export class DisponibiliteService {
 
 
 
-
-  getDisponibilite(psyId:string): Observable<any> {
+  getDisponibilite(): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       })
     };
-    // const psyId = localStorage.getItem('psyId');
-    // const body = { psy: { psyId } };
 
-    return this.http.get(`${this.apiUrl}/getdisponibilites`, httpOptions);
+    const psyId = localStorage.getItem('psyId');
+    return this.http.get(`${this.apiUrl}/getdisponibilites?psyId=${psyId}`, httpOptions);
   }
+
+
+
 }

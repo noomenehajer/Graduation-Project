@@ -67,9 +67,9 @@ exports.deleteDisponibilite = async (req, res) => {
 
 exports.getDisponibilite = async (req, res) => {
   try {
-    const psyId = req.body.psy;
+    const { psyId } = req.query;
 
-    const disponibilites = await Disponibilite.find({ psyId });
+    const disponibilites = await Disponibilite.find({ psy: psyId });
     
     console.log(disponibilites);
     res.status(200).json(disponibilites);

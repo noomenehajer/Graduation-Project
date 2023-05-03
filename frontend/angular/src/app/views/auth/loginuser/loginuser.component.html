@@ -1,97 +1,4 @@
-<!--
-<section>
-  <div class="login-root">
-    <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
-      <div class="loginbackground box-background--white padding-top--64">
-        <div class="loginbackground-gridContainer">
-          <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
-            <div class="box-root" style="background-image: linear-gradient(white 0%, rgb(247, 250, 252) 33%); flex-grow: 1;">
-            </div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 4 / 2 / auto / 5;">
-            <div class="box-root box-divider--light-all-2 animationLeftRight tans3s" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 6 / start / auto / 2;">
-            <div class="box-root box-background--blue800" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 7 / start / auto / 4;">
-            <div class="box-root box-background--blue animationLeftRight" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 8 / 4 / auto / 6;">
-            <div class="box-root box-background--gray100 animationLeftRight tans3s" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 2 / 15 / auto / end;">
-            <div class="box-root box-background--cyan200 animationRightLeft tans4s" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 3 / 14 / auto / end;">
-            <div class="box-root box-background--blue animationRightLeft" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 4 / 17 / auto / 20;">
-            <div class="box-root box-background--gray100 animationRightLeft tans4s" style="flex-grow: 1;"></div>
-          </div>
-          <div class="box-root flex-flex" style="grid-area: 5 / 14 / auto / 17;">
-            <div class="box-root box-divider--light-all-2 animationRightLeft tans3s" style="flex-grow: 1;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
-        <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-          <h1><a>User Login</a></h1>
-        </div>
-        <div class="box-root flex-flex flex-justifyContent--center error">
-        </div>
-        <div class="formbg-outer">
-          <div class="formbg">
-            <div class="formbg-inner padding-horizontal--48">
-              <span class="padding-bottom--15">Login to your account</span>
 
-              <form id="stripe-login">
-                <div class="field padding-bottom--24">
-                  <label for="email">Email</label>
-                  <input type="email" name="email" placeholder="Enter Email">
-                </div>
-
-                <div class="field padding-bottom--24">
-                  <div class="grid--50-50">
-                    <label for="password">Password</label>
-                    <div class="reset-pass">
-                      <a href="#">Forgot your password?</a>
-                    </div>
-                  </div>
-                  <input type="password" name="password" placeholder="Enter your password" minlength="6">
-                </div>
-                <div class="field field-checkbox padding-bottom--24 flex-flex align-center">
-                  <label for="checkbox">
-                    <input type="checkbox" name="checkbox"> Stay signed in for a week
-                  </label>
-                </div>
-                <div class="field padding-bottom--24">
-                  <input style="background: blue;" href="#" type="submit" value="Login">
-                </div>
-                <div class="field">
-                  <a class="ssolink" href="#">Use single sign-on (Google) instead</a>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="footer-link padding-top--24">
-            <span>Don't Have an account? <a style="color: blue; cursor: pointer;"> Create an Account</a></span>
-            <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-              <span><a href="#">Contact</a></span>
-              <span><a href="#">Privacy & terms</a></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
- -->
-
-
-<!-- =============================================================================== -->
-<!-- Section: Design Block -->
-<!-- style="height: 713px !important;"  -->
 <section class="background-radial-gradient overflow-hidden"  >
 
 
@@ -117,36 +24,37 @@
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
-              <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="row">
                 <div class="mb-4" style="text-align: center;">
                   <h4 style="font-weight: bolder;color: #44006b;font-size: larger;">Login</h4>
                 </div>
-
               </div>
 
-              <!-- Email input -->
               <div class="form-outline mb-4">
                 <input type="email" id="form3Example3" type="email" formControlName="email" placeholder="Email" class="form-control" class="form-control" />
                 <label class="form-label" for="form3Example3">Email address</label>
+                <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="invalid-feedback">
+                  <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="form.get('email')?.errors?.['email']">Email is not valid.</div>
+                </div>
               </div>
 
-              <!-- Password input -->
               <div class="form-outline mb-4">
                 <input type="password" id="form3Example4"type="password" formControlName="motDePasse" placeholder="Password" class="form-control" />
                 <label class="form-label" for="form3Example4">Password</label>
+                <div *ngIf="form.get('motDePasse')?.invalid && (form.get('motDePasse')?.dirty || form.get('motDePasse')?.touched)" class="invalid-feedback">
+                  <div *ngIf="form.get('motDePasse')?.errors?.['required']">Password is required.</div>
+                  <div *ngIf="form.get('motDePasse')?.errors?.['minlength']">Password must be at least 8 characters.</div>
+                </div>
               </div>
 
+              <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
 
-
-              <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block mb-4">
-             Login
-              </button>
-
-
-
+              <div *ngIf="form.invalid && (form.dirty || form.touched)" class="text-danger">
+                Please fix the errors above.
+              </div>
             </form>
+
           </div>
         </div>
       </div>

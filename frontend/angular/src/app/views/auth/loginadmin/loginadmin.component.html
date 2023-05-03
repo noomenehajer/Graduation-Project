@@ -1,12 +1,14 @@
-<div class="container-fluid page-body-wrapper full-page-wrapper">
-  <div class="content-wrapper d-flex align-items-center auth px-0">
+<section id="hero" class="d-flex align-items-center content-wrapper d-flex align-items-center auth px-0  gradient-custom" style="height: 100vh !important;">
+<!-- <div> -->
+<!-- <div class="container-fluid page-body-wrapper full-page-wrapper"> -->
+  <!-- <div class="content-wrapper d-flex align-items-center auth px-0"> -->
     <div class="row w-100 mx-0">
       <div class="col-lg-4 mx-auto">
         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
           <div class="brand-logo">
           </div>
-          
-          <h2 style="text-align: center;" class="font-weight-light"><b> Sign in to continue</b></h2>
+
+          <h2 style="text-align: center;color: blueviolet;" class="font-weight-light"><b> Sign in to continue</b></h2>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label for="email">Email address</label>
@@ -26,12 +28,14 @@
             <div style="text-align: center;">
             <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Submit</button>
             </div>
-            <div class="text-center mt-4 font-weight-light">
+            <!-- <div class="text-center mt-4 font-weight-light">
               Don't have an account? <a href="register.html" class="text-primary">Create</a>
-            </div>
+            </div> -->
           </form>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  <!-- </div> -->
+<!-- </div> -->
+<!-- </div> -->
+</section>

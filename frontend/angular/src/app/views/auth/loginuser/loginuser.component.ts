@@ -41,30 +41,23 @@ export class LoginuserComponent  {
       console.error('One or more values are null or undefined.');
       return;
     }
-    // console.log(email);
-    // console.log(motDePasse);
 
     this.authService.loginStudent(email, motDePasse).subscribe(
       (res) => {
         localStorage.setItem('token', res.token);
-        // localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem('user', JSON.stringify(res.user));
+        localStorage.setItem('userId', res.user.userId);
+
         console.log(res.user);
         this.router.navigate(['/articlest']);
       },
       (error) => {
-        this.snackBar.open(error.error.message, 'Close', {
+        this.snackBar.open('Unauthorized access', 'Close', {
           duration: 5000,
-          verticalPosition: 'top',
+          verticalPosition: 'bottom',
         });
       }
     );
 
-    }
-//
-
-
-
-
-
-
+  }
 }
