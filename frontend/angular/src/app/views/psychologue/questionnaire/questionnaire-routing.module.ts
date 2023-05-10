@@ -10,13 +10,13 @@ import { ListAnswersComponent } from './list-answers/list-answers.component';
 import { AuthPsyGuard } from '../../guards/auth-psy.guard';
 
 const routes: Routes = [
-  { path: 'psy/questionnaire', component: ListQuestionnaireComponent },
-  { path: 'psy/questionnaire/add', component: AddQuestionnaireComponent , canActivate: [AuthPsyGuard] },
-  { path: 'psy/questionnaire/edit/:id', component: EditQuestionnaireComponent, canActivate: [AuthPsyGuard] },
-  { path: 'psy/questionnaire/detail/:id', component: DetailQuestionnaireComponent },
-  { path: 'psy/questionnaire/publish/:id', component: PubishQuestionnaireComponent },
-  { path: 'psy/questionnaire/list/:id', component: ListAnswersComponent },
-  { path: 'psy/questionnaire/answers/:id', component: AnsweredQuestionnaireComponent }
+  { path: '', component: ListQuestionnaireComponent },
+  { path: 'add', component: AddQuestionnaireComponent , canActivate: [AuthPsyGuard] },
+  { path: 'edit/:id', component: EditQuestionnaireComponent, canActivate: [AuthPsyGuard] },
+  { path: 'detail/:id', component: DetailQuestionnaireComponent },
+  { path: 'publish/:id', component: PubishQuestionnaireComponent },
+  { path: 'list/:id', component: ListAnswersComponent },
+  { path: 'answers/:id', component: AnsweredQuestionnaireComponent }
 ];
 
 @NgModule({
