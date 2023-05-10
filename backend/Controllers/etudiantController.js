@@ -1,5 +1,6 @@
 const Etudiant = require('../models/etudiant');
 const bcrypt = require('bcryptjs');
+const Questionnaire = require('../models/questionnaire');
 
 exports.getProfile = async (req, res) => {
   try {
@@ -48,7 +49,6 @@ exports.editProfile = async (req, res) => {
   }
 };
 
-
 exports.updatePassword = async (req, res) => {
     try {
       const { ancienMotDePasse, nouveauMotDePasse } = req.body;
@@ -90,5 +90,73 @@ exports.encryptData = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get all published questionnaires for current student
+exports.getPublishedQuestionnaires = async (req, res) => {
+  try {
+    const etudiant = await Etudiant.findById(req.userId).populate('publishedQuestions');
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+
+    const questionnaires = etudiant.publishedQuestions.filter(q => q.published);
+    res.status(200).json(questionnaires);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// get by id
+exports.getPublishedQuestionnaireById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const etudiant = await Etudiant.findById(req.userId).populate('publishedQuestions');
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+
+    const questionnaire = etudiant.publishedQuestions.find(q => q._id.toString() === id && q.published);
+    if (!questionnaire) {
+      return res.status(404).json({ message: "Le questionnaire n'existe pas ou n'est pas publié" });
+    }
+    res.status(200).json(questionnaire);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Submit answers for a questionnaire
+exports.submitAnswers = async (req, res) => {
+  const { questionnaireId } = req.params;
+  const { answers } = req.body;
+  try {
+    const etudiant = await Etudiant.findById(req.userId);
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+    const questionnaire = await Questionnaire.findById(questionnaireId);
+    if (!questionnaire) {
+      return res.status(404).json({ error: 'Questionnaire not found' });
+    }
+    if (!questionnaire.published) {
+      return res.status(400).json({ error: 'Questionnaire is not published yet' });
+    }
+    if (!questionnaire.publishedTo.includes(etudiant._id)) {
+      return res.status(400).json({ error: 'You are not authorized to answer this questionnaire' });
+    }
+    const answer = {
+      student: etudiant._id,
+      answers: answers.map(({ questionId, text }) => ({ question: questionId, answer: text })),
+    };
+    await questionnaire.answers.push(answer);
+    await questionnaire.answeredBy.push(etudiant._id);
+    await questionnaire.save();
+    await etudiant.answers.push({ questionnaireId, answers });
+    await etudiant.save();
+    res.status(200).json({ message: 'Answers submitted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
   }
 };

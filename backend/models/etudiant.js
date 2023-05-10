@@ -1,6 +1,15 @@
 const mongoose = require("mongoose");
 saltRounds=12;
+const { Schema } = mongoose;
 const validator = require('validator');
+const AnswerSchema = new Schema({
+  questionnaire: { type: Schema.Types.ObjectId, ref: 'Questionnaire' },
+  answers: [{
+    question: { type: Schema.Types.ObjectId, ref: 'Question' },
+    answer: String
+  }]
+});
+
 const etudiantSchema = new mongoose.Schema({
   nom: { type: String, required: true },
   prenom: {
@@ -19,16 +28,14 @@ const etudiantSchema = new mongoose.Schema({
     required: true,
     minlength:8
   },
-  // motDePasseConfirm:{
-  //   type:String,
-  //   required:[true,'Please confirm your password']
-  // },
   telephone: { type: String, required: false },
   adresse: { type: String, required: false },
   niveau: { type: String, required: false },
   photo: { type: String, required: false },
   estValide: { type: Boolean, default: false },
   estSuspendu: { type: Boolean, default: false },
+  publishedQuestions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Questionnaire' }],
+  answers: [AnswerSchema]
 });
 
 module.exports = mongoose.model("Etudiant", etudiantSchema);

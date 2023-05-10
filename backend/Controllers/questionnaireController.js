@@ -1,4 +1,5 @@
 const Questionnaire = require('../models/questionnaire');
+const Etudiant = require('../models/etudiant');
 
 exports.getQuestionnaires = async (req, res) => {
   try {
@@ -37,12 +38,13 @@ exports.createQuestionnaire = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
+// Update a questionnaire
 exports.updateQuestionnaire = async (req, res) => {
   const { id } = req.params;
-  const { title, description, questions } = req.body;
+  const { title, description, questions, published } = req.body;
 
   try {
+
     const updatedQuestionnaire = await Questionnaire.findByIdAndUpdate(id, {
       title,
       description,
@@ -55,6 +57,7 @@ exports.updateQuestionnaire = async (req, res) => {
   }
 };
 
+// Delete a questionnaire
 exports.deleteQuestionnaire = async (req, res) => {
   const { id } = req.params;
 
@@ -238,6 +241,58 @@ exports.deleteOption = async (req, res) => {
     const savedQuestionnaire = await questionnaire.save();
 
     res.status(200).json(savedQuestionnaire);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Publish questionnaire to selected students
+exports.publishQuestionnaire = async (req, res) => {
+  const { questionnaireId } = req.params;
+  const { etudiantIds } = req.body;
+  try {
+    const questionnaire = await Questionnaire.findById(questionnaireId);
+    if (!questionnaire) {
+      return res.status(404).json({ error: 'Questionnaire not found' });
+    }
+
+    let etudiants = [];
+    if (etudiantIds.length > 0) {
+      etudiants = await Etudiant.find({ _id: { $in: etudiantIds } });
+    }
+
+    questionnaire.published = true;
+    questionnaire.publishedTo = etudiants.map(etudiant => etudiant._id);
+    await questionnaire.save();
+    
+    for (const etudiant of etudiants) {
+      if (etudiant.publishedQuestions.includes(questionnaire._id)) {
+        continue; // empêche la republication
+      }
+      etudiant.publishedQuestions.push(questionnaire._id);
+      await etudiant.save();
+    }
+    
+    res.status(200).json(questionnaire);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Get answered questionnaires by student ID
+exports.getAnsweredQuestionnaires = async (req, res) => {
+  const { studentId } = req.params;
+  try {
+    const etudiant = await Etudiant.findById(studentId);
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+    const answeredQuestionnaires = await Questionnaire.find({
+      _id: { $in: etudiant.publishedQuestions },
+      answeredBy: etudiant._id,
+    });
+    res.status(200).json(answeredQuestionnaires);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }

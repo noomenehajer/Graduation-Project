@@ -41,7 +41,8 @@ const routes: Routes = [
       {path: 'profilepsy', loadChildren:()=>import('./views/psychologue/profil/profil.module').then(m => m.ProfilModule)},
       {path:'psychologues',loadChildren:()=>import('./views/user/student-psychologues/student-psychologues.module').then(m=>m.StudentPsychologuesModule)},
       {path:'calendar',loadChildren:()=>import('./views/psychologue/calendrier/calendrier.module').then(m=>m.CalendrierModule)},
-      {path:'whoareyou',component:WhoAreYouComponent}
+      {path:'quiz',loadChildren:()=>import('./views/user/list-quiz/list-quiz.module').then(m=>m.ListQuizModule)},    
+      {path:'answer',loadChildren:()=>import('./views/user/answer-questionnaire/answer-questionnaire.module').then(m=>m.AnswerQuestionnaireModule)},      {path:'whoareyou',component:WhoAreYouComponent}
     ]
   },
   // { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},

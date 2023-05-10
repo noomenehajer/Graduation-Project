@@ -20,4 +20,8 @@ router.put('/profile/edit',authController.isAuthenticated,upload.single('photo')
 router.put('/profile/password',authController.isAuthenticated, protect,etudiantController.updatePassword);
 router.post('/profile/anonyme',authController.isAuthenticated,protect,etudiantController.encryptData); 
 
+// Route to submit answers to selected questionnaire
+router.get('/questionnaires', authController.isAuthenticated, protect, etudiantController.getPublishedQuestionnaires);
+router.get('/questionnaires/:id', authController.isAuthenticated, protect, etudiantController.getPublishedQuestionnaireById);
+router.post('/questionnaires/:questionnaireId/submit', authController.isAuthenticated, protect, etudiantController.submitAnswers);
 module.exports = router;

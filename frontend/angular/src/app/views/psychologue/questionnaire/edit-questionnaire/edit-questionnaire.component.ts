@@ -95,20 +95,6 @@ export class EditQuestionnaireComponent  implements OnInit {
     this.getOptions(questionIndex).push(option);
   }
 
-/*   deleteOption(questionIndex: number, optionIndex: number) {
-    const question = this.questions.controls[questionIndex];
-    const option = question.get('options')?.value[optionIndex];
-    this.questionnaireService.deleteOption(this.questionnaireId, question.value._id, option._id)
-      .subscribe(
-        () => {
-          this.getOptions(questionIndex).removeAt(optionIndex);
-        },
-        (error) => {
-          console.error(error);
-          // handle the error here
-        }
-      );
-  } */
   deleteOption(questionIndex: number, optionIndex: number) {
     this.getOptions(questionIndex).removeAt(optionIndex);
   }

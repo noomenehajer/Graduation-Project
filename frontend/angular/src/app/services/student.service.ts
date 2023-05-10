@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Student } from '../models/Student';
-import { catchError, map } from 'rxjs/operators';
+import { Questionnaire } from '../models/questionnaire';
+import { catchError } from 'rxjs/operators';
 // import { Z } from '../models/Article';
 @Injectable({
   providedIn: 'root'
@@ -69,7 +70,7 @@ export class StudentService {
   }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//****** student profile ****** *// 
+//****** student profile *******// 
 getProfile(): Observable<any> {
   const headers = new HttpHeaders({
     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -125,5 +126,36 @@ uploadImage(photo: File): Observable<any> {
   const formData = new FormData();
   formData.append('photo', photo);
   return this.http.post(`${this.url}/uploads`, formData);
+}
+///////////// Questionnaire //////////////////////
+
+ getPublishedQuestionnaires(): Observable<Questionnaire[]> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
+  return this.http.get<Questionnaire[]>(`${this.url}/questionnaires`, { headers }).pipe (catchError((error) => {
+    console.error(error); 
+    return throwError(error);
+  })
+);
+} 
+
+getPublishedQuestionnaireById(questionnaireId: string) {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
+  const url = `${this.url}/questionnaires/${questionnaireId}`;
+  return this.http.get(url, { headers });
+}
+
+submitAnswers(questionnaireId: string, answers: { questionId: string, text: string }[]): Observable<Questionnaire[]> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  });
+  return this.http.post<Questionnaire[]>(`${this.url}/questionnaires/${questionnaireId}/submit`, { answers }, { headers }).pipe(
+    catchError((error) => {
+      return throwError(error);
+    })
+  );
 }
 }

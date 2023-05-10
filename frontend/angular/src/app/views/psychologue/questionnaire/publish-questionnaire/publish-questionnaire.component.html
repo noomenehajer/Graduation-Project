@@ -1,0 +1,32 @@
+<div class="container" [formGroup]="publishForm">
+  <br>
+  <h2 style="text-align: center;">Publish Questionnaire</h2>
+  <hr>
+  <br>
+<br>
+  <table class="table" style="width: 50%; margin: 0 auto;">
+    <thead>
+      <tr class="table-primary">
+        <th>Num</th>
+        <th>Student Name</th>
+        <th>Email</th>
+        <th><h4 style="text-align: center;">Select</h4></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-light" *ngFor="let student of students; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{ student.nom }} </td>
+        <td>{{ student.email }} </td>
+        <td><h4  style="text-align: center;">
+          <input type="checkbox" [formControl]="checkboxes[i]" [disabled]="questionnaire.publishedTo?.includes(student._id) ?? false">
+        </h4></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <div style="justify-content: center;display: flex;">
+    <button class="btn btn-primary" (click)="onSubmit()">Publish</button>
+  </div>
+</div>
