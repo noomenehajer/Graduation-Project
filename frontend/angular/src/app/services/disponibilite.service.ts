@@ -66,16 +66,16 @@ export class DisponibiliteService {
   }
 
 
-  // getRvpsy(): Observable<any> {
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Authorization': 'Bearer ' + localStorage.getItem('token')
-  //     })
-  //   };
+  getRvpsy(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    };
 
-  //   const psyId = localStorage.getItem('psyId');
-  //   return this.http.get(`${this.apiUrl}/getRV?psyId=${psyId}`, httpOptions);
-  // }
+    const psyId = localStorage.getItem('psyId');
+    return this.http.get(`${this.apiUrl}/getRV?psyId=${psyId}`, httpOptions);
+  }
 
   getDisponibiliteByPsyId(psyId: string): Observable<any> {
     const httpOptions = {

@@ -62,7 +62,7 @@ exports.getRvpsy = async (req, res) => {
     const rendezVous = await RendezVous.find({ psy: psyId });
     
     console.log(rendezVous);
-    res.status(200).json(disponibilites);
+    res.status(200).json(rendezVous);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
