@@ -1,6 +1,6 @@
-<div class="container">
-  <h2>Demande de consultation</h2>
-  <form (ngSubmit)="onSubmit()">
+<div class="container" style="width:900px;height: 350px;" >
+  <h5 style="text-align: center;color: blueviolet;margin-top: 7px;margin-bottom: 7px;">Demande de consultation</h5>
+  <form (ngSubmit)="onSubmit()" style="padding: 5px;">
     <div class="form-group">
       <label for="type">Type:</label>
       <select class="form-control" id="type" [(ngModel)]="type" name="type">

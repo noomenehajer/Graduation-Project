@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container mt-3" style="margin-top: 90px!important;">
   <br>
   <h2 style="text-align: center;">Add Questionnaire </h2>
 <form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
@@ -37,14 +37,14 @@
             </div>
         </div>
             <button type="button" (click)="addOption(i)" class="btn btn-primary">Add Option</button>
-          </div>          
+          </div>
         <button type="button" (click)="deleteQuestion(i)" class="btn btn-danger">Delete Question</button>
         <br>
       </div>
     </div>
     <br>
-    <button type="button" (click)="addQuestion()" class="btn btn-primary">Add Question</button> 
+    <button type="button" (click)="addQuestion()" class="btn btn-primary">Add Question</button>
     <button style="margin-left: 10px;" type="submit" [disabled]="questionnaireForm.invalid" class="btn btn-success">Submit</button>
   </form>
   <br> <br>
-</div>  
+</div>

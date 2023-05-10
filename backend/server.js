@@ -12,6 +12,7 @@ const questionnaireRoute = require('./routes/questionnaire.route');
 const etudiantProfileRoute = require("./routes/etudiant.route");
 const consultationRoute=require('./routes/consultation.route');
 const psyProfileRoute = require("./routes/psy.route");
+const Admin =require('./models/admin');
 
 // Configuration du port d'écoute
 const PORT = process.env.PORT || 3000;
@@ -37,15 +38,15 @@ mongoose.connect('mongodb://localhost:27017/myappdb', {
 const db = mongoose.connection;
 
 // creation d'un admin 
-/*  async function seed() {
-   const email = 'admin@exemple.com';
-   const password = 'admin';
-   const admin = new Admin({ email, password });
-   await admin.save();
-  console.log('Admin created:', admin);
- //  mongoose.connection.close();
- }
- seed(); */
+//   async function seed() {
+//    const email = 'admin@exemple.com';
+//    const password = 'admin';
+//    const admin = new Admin({ email, password });
+//    await admin.save();
+//   console.log('Admin created:', admin);
+//   mongoose.connection.close();
+//  }
+//  seed(); 
 
 db.on('error', (error) => {
   console.error('Error connecting to database:', error);

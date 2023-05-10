@@ -45,8 +45,8 @@ const routes: Routes = [
     ]
   },
   // { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},
-
   {path: 'questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
+
 
 ];
 

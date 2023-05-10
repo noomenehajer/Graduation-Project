@@ -5,10 +5,11 @@ const { protectPsy ,protect} = require('../middlewares/auth.middleware');
 
 const { definirDisponibilite,deleteDisponibilite,demanderRv ,annulerRendezVous,getRvpsy} = require('../Controllers/consultationController');
 
+//demander un rendez vous 
 router.post('/demanderRv', protect,demanderRv);
 router.delete('/annulerRv',protect,annulerRendezVous);
 
-// Route pour définir la disponibilité du psychologue
+// Route pour définir la disponibilité du psychologue 
 router.post('/disponibilites',protectPsy, definirDisponibilite);
 router.delete('/:id',protectPsy, deleteDisponibilite);
 
@@ -18,8 +19,7 @@ router.get('/getdisponibilites',protectPsy,consultationController.getDisponibili
 // Route pour récupérer les rendez vous du psychologue
 router.get('/getRV',protectPsy,getRvpsy);
 // Route pour récupérer les disponibilitésdu psychologue pour l'etudiant
-router.get('/getDisponibiliteByPsyId/:psyId',protect,consultationController.getDisponibiliteByPsyId);
-//demander un rendez vous 
+router.get('/getDisponibiliteByPsyId/:psyId',consultationController.getDisponibiliteByPsyId);
 
 //  router.get('/getRendezVousByDisponibilite/:disponibiliteId', getRendezVousByDisponibilite);
 
