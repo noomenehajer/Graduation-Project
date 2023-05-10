@@ -1,0 +1,17 @@
+<div class="container">
+  <h2>Demande de consultation</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="type">Type:</label>
+      <select class="form-control" id="type" [(ngModel)]="type" name="type">
+        <option value="face to face">Face à face</option>
+        <option value="online">En ligne</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="commentaire">Commentaire:</label>
+      <textarea class="form-control" id="commentaire" [(ngModel)]="commentaire" name="commentaire"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+  </form>
+</div>

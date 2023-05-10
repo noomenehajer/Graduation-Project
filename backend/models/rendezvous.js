@@ -7,13 +7,13 @@ const rendezvousSchema = new Schema({
     ref: 'Etudiant',
     required: true,
   },
-  psy: {
+  disponibilite: {
     type: Schema.Types.ObjectId,
-    ref: 'Psychologue',
+    ref: 'Disponibilite',
     required: true,
   },
-  date: { type: Date, required: true },
-  status: { type: String, enum: ['demande', 'confirme', 'refuse'], default: 'demande' },
+  status: { type: String, enum: ['demande', 'confirme', 'refuse'], default: 'demande' ,required: false },
+  type: { type: String, enum: ['face to face', 'online'], default: 'online',required: true  },
   commentaire: { type: String, required: false },
 });
 

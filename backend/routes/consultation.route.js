@@ -1,20 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const consultationController = require('../Controllers/consultationController');
-const {protectPsy} = require('../middlewares/auth.middleware');
-const { definirDisponibilite,deleteDisponibilite } = require('../Controllers/consultationController');
+const { protectPsy ,protect} = require('../middlewares/auth.middleware');
 
+const { definirDisponibilite,deleteDisponibilite,demanderRv ,annulerRendezVous,getRvpsy} = require('../Controllers/consultationController');
+
+router.post('/demanderRv', protect,demanderRv);
+router.delete('/annulerRv',protect,annulerRendezVous);
 
 // Route pour définir la disponibilité du psychologue
 router.post('/disponibilites',protectPsy, definirDisponibilite);
-router.delete('/deletedisponibilite',protectPsy, deleteDisponibilite);
+router.delete('/:id',protectPsy, deleteDisponibilite);
 
-// Route pour récupérer les disponibilités du psychologue
-router.get('/getdisponibilites',consultationController.getDisponibilite);
-// router.get('/getdisponibilites/:psyId', protectPsy,consultationController.getDisponibilite);
-// Route pour consulter les rendez-vous du psychologue
-router.get('/rendezvous',  consultationController.consulterRendezVous);
+// Route pour récupérer les disponibilités du psychologue pour psychologue
+router.get('/getdisponibilites',protectPsy,consultationController.getDisponibilite);
 
-// Route pour gérer les demandes de consultation
-router.put('/rendezvous',  consultationController.gererDemandesConsultation);
+// Route pour récupérer les rendez vous du psychologue
+router.get('/getRV',protectPsy,getRvpsy);
+// Route pour récupérer les disponibilitésdu psychologue pour l'etudiant
+router.get('/getDisponibiliteByPsyId/:psyId',protect,consultationController.getDisponibiliteByPsyId);
+//demander un rendez vous 
+
+//  router.get('/getRendezVousByDisponibilite/:disponibiliteId', getRendezVousByDisponibilite);
+
 module.exports = router;

@@ -1,15 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CalendarOptions } from '@fullcalendar/core';
 import { DisponibiliteService } from 'src/app/services/disponibilite.service';
-import interactionPlugin from '@fullcalendar/interaction'; // add this line
-import dayGridPlugin from '@fullcalendar/daygrid';
-import * as moment from 'moment';
+
 import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
-
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-set-availability',
@@ -33,10 +26,11 @@ export class SetAvailabilityComponent {
       const jour = new Date(this.jour);
       jour.setHours(0, 0, 0, 0);
 
-      // Format the time inputs to match the backend format
+      // Format the time inputs to match the backend format and subtract one hour
       const debut = new Date(`2000-01-01T${this.debut}:00.000Z`);
+      debut.setHours(debut.getHours() - 1);
       const fin = new Date(`2000-01-01T${this.fin}:00.000Z`);
-   
+      fin.setHours(fin.getHours() - 1);
       // Call the definirDisponibilite function with the formatted inputs
       this.disponibiliteService.definirDisponibilite(this.psyId, jour, debut, fin).subscribe(
         (response) => {
@@ -49,11 +43,8 @@ export class SetAvailabilityComponent {
             confirmButtonText: 'OK'
           }).then((result) => {
             if (result.isConfirmed) {
-
-
               // Redirect to the calendar route
               this.router.navigate(['/calendar']);
-
             }
           });
         },
@@ -61,4 +52,5 @@ export class SetAvailabilityComponent {
       );
     }
   }
+
 }

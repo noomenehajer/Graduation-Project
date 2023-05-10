@@ -71,15 +71,15 @@
                   ><i class="fas fa-check-circle text-success"></i>
                     {{ seance.debut | date : "HH:mm" }} to
                     {{ seance.fin | date : "HH:mm" }}
-                    <div class="disponibilite-btn-overlay">
+                    <!-- <div class="disponibilite-btn-overlay"> -->
                       <button
                         class="btn btn-danger"
-                        (click)="deleteDisponibilite(disponibilite)"
-                      >
+                        (click)="deleteDisponibilite(disponibilite._id)"
+                        >
                         Delete
                       </button>
                       <button class="btn btn-success">Update</button>
-                    </div>
+                    <!-- </div> -->
                   </button>
                 </ul>
               </div></mat-tab>

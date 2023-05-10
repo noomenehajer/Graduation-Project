@@ -22,7 +22,7 @@ import { SetAvailabilityComponent } from '../set-availability/set-availability.c
 })
 export class CalendrierComponent implements OnInit {
   // @ViewChild('modalContent') modalContent!: SetAvailabilityComponent;
-
+ psyId = localStorage.getItem('psyId');
   disponibilities: Disponibilite[] = [];
   calendarOptions!: CalendarOptions;
   selected!: Date | null;
@@ -110,34 +110,42 @@ export class CalendrierComponent implements OnInit {
     this.selected = null;
     this.availabilityShown = false;
   }
-  deleteDisponibilite(disponibilite: any) {
-    // Find the index of the disponibilite to delete
-    const index = this.disponibilities.indexOf(disponibilite);
+  deleteDisponibilite(disponibiliteId: string): void {
 
-    // Show confirmation dialog
+
     Swal.fire({
-      title: 'Are you sure you want to delete this availability?',
-      text: 'This action cannot be undone.',
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this disponibilite!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#dc3545',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
-      // If user confirms deletion
       if (result.isConfirmed) {
-        // Remove the disponibilite from the array
-        if (index !== -1) {
-          this.disponibilities.splice(index, 1);
-        }
-        // Show success message
-        Swal.fire({
-          title: 'Availability deleted',
-          icon: 'success'
-        });
+        this.disponibiliteService.deleteDisponibilite(disponibiliteId).subscribe(
+          () => {
+            Swal.fire(
+              'Deleted!',
+              'Your disponibilite has been deleted.',
+              'success'
+            );
+            if(this.psyId){
+
+              this.getDisponibilite(this.psyId);
+            }
+          },
+          error => {
+            console.log(error);
+            Swal.fire(
+              'Error!',
+              'An error occurred while deleting your disponibilite.',
+              'error'
+            );
+          }
+        );
       }
     });
   }
-
 
 }

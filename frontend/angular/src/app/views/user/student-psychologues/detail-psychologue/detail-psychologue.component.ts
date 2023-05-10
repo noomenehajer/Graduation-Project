@@ -6,18 +6,27 @@ import { Disponibilite } from 'src/app/models/disponibilite';
 import { DisponibiliteService } from 'src/app/services/disponibilite.service';
 import { PsyService } from 'src/app/services/psy.service';
 import Swal from 'sweetalert2';
+import { DemandezRvComponent } from '../demandez-rv/demandez-rv.component';
+import { Rendezvous } from 'src/app/models/rendezvous';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-detail-psychologue',
   templateUrl: './detail-psychologue.component.html',
   styleUrls: ['./detail-psychologue.component.css']
 })
 export class DetailPsychologueComponent implements OnInit {
-
+  etudiantId!: string;
+rendezVous:any;
   psy!: Psychologue;
   disponibilities: Disponibilite[] = [];
   selected!: Date | null;
   availabilityShown = false;
-  constructor(private route: ActivatedRoute, private psyService: PsyService,private disponibiliteService: DisponibiliteService,public dialog: MatDialog){}
+  Rendezvous!:Rendezvous;
+  buttonLabel = 'Demandez un Rendez vous';
+  reservationDisponibiliteId: string | null = null;
+
+
+  constructor(private route: ActivatedRoute, private psyService: PsyService,public disponibiliteService: DisponibiliteService,public dialog: MatDialog){}
 
   ngOnInit(): void {
     this.getPsy()
@@ -28,6 +37,21 @@ export class DetailPsychologueComponent implements OnInit {
     }
   }
 
+
+  openDialog(disponibiliteId: string) {
+    const dialogRef = this.dialog.open(DemandezRvComponent, {
+      data: { disponibiliteId: disponibiliteId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === 'success') {
+    //     this.buttonLabel = 'Annuler';
+    //   }
+    // });
+  }
   getPsy(): void {
     const psyId = this.route.snapshot.paramMap.get('id');
 
@@ -38,16 +62,12 @@ export class DetailPsychologueComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
   showAvailabilityWithDate(selected: Date): void {
     this.selected = selected;
     this.availabilityShown = true;
+
   }
+
 
   showAvailability(selected: Date | null): void {
     if (selected !== null) {
@@ -57,9 +77,34 @@ export class DetailPsychologueComponent implements OnInit {
     }
   }
 
+
+
+ 
+    annulerRv(disponibiliteId: string): void {
+      const etudiantId = localStorage.getItem('userId');
+      console.log(etudiantId + ' ' + disponibiliteId);
+      if (disponibiliteId && etudiantId !== null) {
+        this.reservationDisponibiliteId = disponibiliteId; // Assign the clicked disponibiliteId to reservationDisponibiliteId
+        this.disponibiliteService.annulerRendezVous(etudiantId, this.reservationDisponibiliteId).subscribe(
+          () => {
+            // this.isReservationMade;
+            this.buttonLabel = 'Demandez un Rendez vous';
+            console.log('Rendez-vous annulé avec succès');
+          },
+          (error) => {
+            console.error('Erreur lors de l\'annulation du rendez-vous:', error);
+          }
+        );
+      }
+    }
+
+
+
+
+
   getDisponibilite(psyId: string): void {
 
-    this.disponibiliteService.getDisponibilite().subscribe(
+    this.disponibiliteService.getDisponibiliteByPsyId(psyId).subscribe(
       (disponibilites: Disponibilite[]) => {
         this.disponibilities = disponibilites.map(disponibilite => {
           const seances = disponibilite.seance.map(seance => {
@@ -87,11 +132,15 @@ export class DetailPsychologueComponent implements OnInit {
     return this.disponibilities.filter(disponibilite => {
       return disponibilite.seance.some(seance => {
       this.sortDisponibilites();
-
         return seance.jour.toDateString() === this.selected?.toDateString();
       });
     });
   }
+
+  // getRendezVousByDisponibilite(disponibiliteId: string) {
+  //   return this.disponibiliteService.getRendezVousByDisponibilite(disponibiliteId);
+  // }
+
 
   sortDisponibilites() {
     this.disponibilities.sort((a, b) => {
@@ -104,41 +153,39 @@ export class DetailPsychologueComponent implements OnInit {
     return this.selected ? this.selected.toDateString() === date.toDateString() : false;
   }
 
-
-
-
   hideAvailability(): void {
     this.selected = null;
     this.availabilityShown = false;
   }
-  deleteDisponibilite(disponibilite: any) {
-    // Find the index of the disponibilite to delete
-    const index = this.disponibilities.indexOf(disponibilite);
 
-    // Show confirmation dialog
-    Swal.fire({
-      title: 'Are you sure you want to delete this availability?',
-      text: 'This action cannot be undone.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#dc3545',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      // If user confirms deletion
-      if (result.isConfirmed) {
-        // Remove the disponibilite from the array
-        if (index !== -1) {
-          this.disponibilities.splice(index, 1);
-        }
-        // Show success message
-        Swal.fire({
-          title: 'Availability deleted',
-          icon: 'success'
-        });
-      }
-    });
-  }
+  // deleteDisponibilite(disponibilite: any) {
+  //   // Find the index of the disponibilite to delete
+  //   const index = this.disponibilities.indexOf(disponibilite);
+
+  //   // Show confirmation dialog
+  //   Swal.fire({
+  //     title: 'Are you sure you want to delete this availability?',
+  //     text: 'This action cannot be undone.',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#dc3545',
+  //     confirmButtonText: 'Yes, delete it!',
+  //     cancelButtonText: 'Cancel'
+  //   }).then((result) => {
+  //     // If user confirms deletion
+  //     if (result.isConfirmed) {
+  //       // Remove the disponibilite from the array
+  //       if (index !== -1) {
+  //         this.disponibilities.splice(index, 1);
+  //       }
+  //       // Show success message
+  //       Swal.fire({
+  //         title: 'Availability deleted',
+  //         icon: 'success'
+  //       });
+  //     }
+  //   });
+  // }
 
 
 }

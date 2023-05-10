@@ -50,7 +50,7 @@ const protectPsy = asyncHandler(async (req, res, next) => {
 
       // Get user from the token
       req.psy = await Psy.findById(decoded.id).select('-motDePasse')
-      console.log('hi');
+    
       next()
     } catch (error) {
       console.log(error)
@@ -63,7 +63,7 @@ const protectPsy = asyncHandler(async (req, res, next) => {
     res.status(401)
     throw new Error('Not authorized, no token')
   }
-})
+});
 
 
-module.exports = { protect ,protectPsy}
+module.exports = { protect , protectPsy};
