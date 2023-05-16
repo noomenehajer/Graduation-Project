@@ -3,7 +3,7 @@ const router = express.Router();
 const consultationController = require('../Controllers/consultationController');
 const { protectPsy ,protect} = require('../middlewares/auth.middleware');
 
-const { definirDisponibilite,deleteDisponibilite,demanderRv ,annulerRendezVous,getRvpsy,getRvpsyById} = require('../Controllers/consultationController');
+const { definirDisponibilite,deleteDisponibilite,demanderRv ,annulerRendezVous,getRvpsy,getRvpsyById,accepterRv,refuserRv} = require('../Controllers/consultationController');
 
 //demander un rendez vous 
 router.post('/demanderRv', protect,demanderRv);
@@ -11,7 +11,10 @@ router.delete('/annulerRv',protect,annulerRendezVous);
 
 // Route pour récupérer les rendez vous du psychologue
 router.get('/getRV',protectPsy,getRvpsy);
-router.get('/getRV/:rendezvousId',protectPsy,getRvpsyById);
+router.put('/getRV/:rendezvousId',protectPsy,accepterRv);
+router.put('/refuserRV/:rendezvousId', protectPsy, refuserRv);
+
+// router.get('/getRV/:rendezvousId',protectPsy,getRvpsyById);
 // Route pour définir la disponibilité du psychologue 
 router.post('/disponibilites',protectPsy, definirDisponibilite);
 router.delete('/:id',protectPsy, deleteDisponibilite);

@@ -174,15 +174,46 @@ exports.annulerRendezVous = async (req, res) => {
   }
 };
 
-//get rendez vous by availabilityId
+exports.accepterRv = async (req, res) => {
+  try {
+    const {rendezvousId } = req.params;
+   
+    const { psyId } = req.query;
 
-// exports.getRendezVousById = async (req, res, next) => {
-//   const { rendezvousId } = req.params;
-//   try {
-//     const rendezvous = await RendezVous.find({ disponibilite: disponibiliteId }).populate('etudiant');
-//     res.status(200).json(rendezvous);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    // Find the rendezvous document by ID
+    const rendezvous = await RendezVous.findById(rendezvousId);
+    if (!rendezvous) {
+      return res.status(404).json({ message: 'Rendez-vous introuvable' });
+    }
 
+    // Update the status of the rendezvous to 'confirme'
+    rendezvous.status = 'confirme';
+    await rendezvous.save();
+
+    res.json({ message: 'Rendez-vous accepté avec succès' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Une erreur est survenue lors de l\'acceptation du rendez-vous' });
+  }
+};
+
+exports.refuserRv = async (req, res) => {
+  try {
+    const { rendezvousId } = req.params;
+    
+    // Find the rendezvous document by ID
+    const rendezvous = await RendezVous.findById(rendezvousId);
+    if (!rendezvous) {
+      return res.status(404).json({ message: 'Rendez-vous introuvable' });
+    }
+
+    // Update the status of the rendezvous to 'refuse'
+    rendezvous.status = 'refuse';
+    await rendezvous.save();
+
+    res.json({ message: 'Rendez-vous refusé avec succès' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Une erreur est survenue lors du refus du rendez-vous" });
+  }
+};

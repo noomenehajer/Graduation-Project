@@ -115,12 +115,32 @@ export class DisponibiliteService {
     const url = `${this.apiUrl}/${disponibiliteId}`;
     return this.http.delete(url,httpOptions);
   }
-// getRendezVousByDisponibilite(disponibiliteId: string): Observable<Rendezvous[]> {
-//   const url = `${this.apiUrl}/getRendezVousByDisponibilite/${disponibiliteId}`;
-//   return this.http.get<Rendezvous[]>(url);
-// }
 
+  acceptRendezvous(rendezvousId: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    };
 
+    // Get the psyId from localStorage
+    const psyId = localStorage.getItem('psyId');
 
+    const url = `${this.apiUrl}/getRv/${rendezvousId}?psyId=${psyId}`;
+    return this.http.put(url, {}, httpOptions);
+  }
+  refuseRendezvous(rendezvousId: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+
+    // Get the psyId from localStorage
+    const psyId = localStorage.getItem('psyId');
+
+    const url = `${this.apiUrl}/refuserRV/${rendezvousId}?psyId=${psyId}`;
+    return this.http.put(url, {}, httpOptions);
+  }
 
 }
