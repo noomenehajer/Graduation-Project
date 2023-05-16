@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import {MatDialog} from '@angular/material/dialog';
 
 import { SetAvailabilityComponent } from '../set-availability/set-availability.component';
+import { ListRendezVousComponent } from '../list-rendez-vous/list-rendez-vous.component';
 @Component({
   selector: 'app-calendrier',
   templateUrl: './calendrier.component.html',
@@ -21,10 +22,15 @@ import { SetAvailabilityComponent } from '../set-availability/set-availability.c
 
 })
 export class CalendrierComponent implements OnInit {
-  // @ViewChild('modalContent') modalContent!: SetAvailabilityComponent;
- psyId = localStorage.getItem('psyId');
+
+  @ViewChild(ListRendezVousComponent)
+  set listRendezVousComponentInstance(component: ListRendezVousComponent) {
+    this.listRendezVousComponent = component;
+  }
+  listRendezVousComponent!: ListRendezVousComponent;
+
+  psyId = localStorage.getItem('psyId');
   disponibilities: Disponibilite[] = [];
-  calendarOptions!: CalendarOptions;
   selected!: Date | null;
   availabilityShown = false;
 
@@ -103,6 +109,9 @@ export class CalendrierComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+  showRendezvous(selectedDate: Date | null): void {
+    this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
   }
 
 

@@ -66,17 +66,23 @@ export class DisponibiliteService {
   }
 
 
-  getRvpsy(): Observable<any> {
+  getRvpsy(psyId: string): Observable<Rendezvous[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       })
     };
-
-    const psyId = localStorage.getItem('psyId');
-    return this.http.get(`${this.apiUrl}/getRV?psyId=${psyId}`, httpOptions);
+    return this.http.get<Rendezvous[]>(`${this.apiUrl}/getRv`, httpOptions);
   }
 
+  getRvpsyById(rendezvousId: string): Observable<Rendezvous[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.get<Rendezvous[]>(`${this.apiUrl}/getRv/${rendezvousId}`, httpOptions);
+  }
   getDisponibiliteByPsyId(psyId: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({

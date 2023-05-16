@@ -52,7 +52,7 @@
         <div class="d-flex">
           <mat-calendar
             [(selected)]="selected"
-            (selectedChange)="showAvailability(selected)"
+            (selectedChange)="showAvailability(selected);showRendezvous(selected)"
             style="width: 500px"
           ></mat-calendar>
           <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
@@ -76,14 +76,18 @@
                         class="btn btn-danger"
                         (click)="deleteDisponibilite(disponibilite._id)"
                         >
-                        Delete
+                        <i class="bi bi-trash3-fill"></i>
                       </button>
-                      <button class="btn btn-success">Update</button>
                     <!-- </div> -->
                   </button>
                 </ul>
               </div></mat-tab>
-            <mat-tab label="Consultations"><app-list-rendez-vous></app-list-rendez-vous></mat-tab>
+              <mat-tab label="Consultations">
+                <app-list-rendez-vous
+                  #listRendezVousComponent
+                  [selectedDate]="selected"
+                ></app-list-rendez-vous>
+              </mat-tab>
           </mat-tab-group>
         </div>
       </mat-card>
