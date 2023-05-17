@@ -32,6 +32,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ListRendezVousComponent } from './views/psychologue/list-rendez-vous/list-rendez-vous.component';
+import { DetailRVComponent } from './views/psychologue/detail-rv/detail-rv.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,12 +42,13 @@ import { ListRendezVousComponent } from './views/psychologue/list-rendez-vous/li
     CalendrierComponent,
     SetAvailabilityComponent,
     ListRendezVousComponent,
+    DetailRVComponent,
 
 
   ],
   imports: [
 
-    
+
     MatDialogModule,
     MatNativeDateModule,
     MatDatepickerModule,

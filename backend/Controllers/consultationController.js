@@ -1,7 +1,8 @@
 const Disponibilite = require('../models/disponibilite');
 const RendezVous = require('../models/rendezvous');
 const Psychologue=require('../models/psy');
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+const disponibilite = require('../models/disponibilite');
 
 
 exports.definirDisponibilite = async (req, res) => {
@@ -55,18 +56,52 @@ exports.getDisponibilite = async (req, res) => {
 };
 
 
+// exports.getRvpsy = async (req, res) => {
+//   try {
+//     const { psyId } = req.query;
+
+//     const rendezVous = await RendezVous.find({ psy: psyId });
+    
+//     console.log(rendezVous);
+//     res.status(200).json(rendezVous);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 exports.getRvpsy = async (req, res) => {
   try {
     const { psyId } = req.query;
-
-    const rendezVous = await RendezVous.find({ psy: psyId });
     
-    console.log(rendezVous);
-    res.status(200).json(rendezVous);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const rendezvous = await RendezVous.find({ psy: psyId })
+    .populate('etudiant')
+    .populate('disponibilite');
+      console.log('rendezvous:', rendezvous);
+      res.json(rendezvous);
+    } catch (error) {
+    
+    res.status(500).json({ error: 'Failed to retrieve rendezvous' });
   }
 };
+
+exports.getRvpsyById = async (req, res) => {
+  try {
+    const { rendezvousId } = req.params;
+    
+    const rendezvous = await RendezVous.findOne({ _id: rendezvousId})
+      .populate('etudiant')
+      .populate('disponibilite');
+      
+    // if (!rendezvous) {
+    //   return res.status(404).json({ error: 'Rendezvous not found' });
+    // }
+    
+    console.log('rendezvous:', rendezvous);
+    res.json(rendezvous);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve rendezvous' });
+  }
+};
+
 //get disponibilite of psy for students
 exports.getDisponibiliteByPsyId = async (req, res) => {
   try {
@@ -139,15 +174,46 @@ exports.annulerRendezVous = async (req, res) => {
   }
 };
 
-//get rendez vous by availabilityId
+exports.accepterRv = async (req, res) => {
+  try {
+    const {rendezvousId } = req.params;
+   
+    const { psyId } = req.query;
 
-// exports.getRendezVousByDisponibilite = async (req, res, next) => {
-//   const { disponibiliteId } = req.params;
-//   try {
-//     const rendezvous = await RendezVous.find({ disponibilite: disponibiliteId }).populate('etudiant');
-//     res.status(200).json(rendezvous);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    // Find the rendezvous document by ID
+    const rendezvous = await RendezVous.findById(rendezvousId);
+    if (!rendezvous) {
+      return res.status(404).json({ message: 'Rendez-vous introuvable' });
+    }
 
+    // Update the status of the rendezvous to 'confirme'
+    rendezvous.status = 'confirme';
+    await rendezvous.save();
+
+    res.json({ message: 'Rendez-vous accepté avec succès' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Une erreur est survenue lors de l\'acceptation du rendez-vous' });
+  }
+};
+
+exports.refuserRv = async (req, res) => {
+  try {
+    const { rendezvousId } = req.params;
+    
+    // Find the rendezvous document by ID
+    const rendezvous = await RendezVous.findById(rendezvousId);
+    if (!rendezvous) {
+      return res.status(404).json({ message: 'Rendez-vous introuvable' });
+    }
+
+    // Update the status of the rendezvous to 'refuse'
+    rendezvous.status = 'refuse';
+    await rendezvous.save();
+
+    res.json({ message: 'Rendez-vous refusé avec succès' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Une erreur est survenue lors du refus du rendez-vous" });
+  }
+};

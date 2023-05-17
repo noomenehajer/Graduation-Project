@@ -1,0 +1,287 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DisponibiliteService } from 'src/app/services/disponibilite.service';
+import { Disponibilite } from 'src/app/models/disponibilite';
+import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { SetAvailabilityComponent } from '../set-availability/set-availability.component';
+import { ListRendezVousComponent } from '../list-rendez-vous/list-rendez-vous.component';
+@Component({
+  selector: 'app-calendrier',
+  templateUrl: './calendrier.component.html',
+  styleUrls: ['./calendrier.component.css'],
+})
+
+export class CalendrierComponent implements OnInit {
+
+  @ViewChild(ListRendezVousComponent)
+  set listRendezVousComponentInstance(component: ListRendezVousComponent) {
+    this.listRendezVousComponent = component;
+  }
+
+  listRendezVousComponent!: ListRendezVousComponent;
+
+  psyId = localStorage.getItem('psyId');
+  disponibilities: Disponibilite[] = [];
+  selected!: Date | null;
+  availabilityShown = false;
+
+  constructor(
+    private disponibiliteService: DisponibiliteService,
+    public dialog: MatDialog
+  ) {}
+  ngOnInit(): void {
+    const psyId = localStorage.getItem('psyId');
+    if (psyId) {
+      this.getDisponibilite(psyId);
+    }
+  }
+
+  showAvailabilityWithDate(selected: Date): void {
+    this.selected = selected;
+    this.availabilityShown = true;
+  }
+
+  showAvailability(selected: Date | null): void {
+    if (selected !== null) {
+      this.showAvailabilityWithDate(selected);
+    } else {
+      this.hideAvailability();
+    }
+  }
+
+
+  getDisponibilite(psyId: string): void {
+    this.disponibiliteService.getDisponibilite().subscribe(
+      (disponibilites: Disponibilite[]) => {
+        this.disponibilities = disponibilites.map((disponibilite) => {
+          const seances = disponibilite.seance.map((seance) => {
+            return {
+              jour: new Date(seance.jour),
+              debut: new Date(seance.debut),
+              fin: new Date(seance.fin),
+            };
+          });
+          return {
+            _id: disponibilite._id,
+            psy: disponibilite.psy,
+            seance: seances,
+          };
+        });
+      },
+      (error) => console.log(error)
+    );
+  }
+
+  getDisponibilitesForSelectedDate(): Disponibilite[] {
+    if (!this.selected) {
+      return [];
+    }
+    return this.disponibilities.filter((disponibilite) => {
+      return disponibilite.seance.some((seance) => {
+        this.sortDisponibilites();
+
+        return seance.jour.toDateString() === this.selected?.toDateString();
+      });
+    });
+  }
+  showRendezvous(selectedDate: Date | null): void {
+    this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
+  }
+
+
+
+
+  sortDisponibilites() {
+    this.disponibilities.sort((a, b) => {
+      const debutA = new Date(a.seance[0].debut);
+      const debutB = new Date(b.seance[0].debut);
+      return debutA.getTime() - debutB.getTime();
+    });
+  }
+  isOnSelectedDate(date: Date): boolean {
+    return this.selected
+      ? this.selected.toDateString() === date.toDateString()
+      : false;
+  }
+
+  openDialog(rendezvousId: string) {
+    const dialogRef = this.dialog.open(SetAvailabilityComponent, {
+      data: rendezvousId // Pass rendezvousId as data to the dialog component
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  hideAvailability(): void {
+    this.selected = null;
+    this.availabilityShown = false;
+  }
+  deleteDisponibilite(disponibiliteId: string): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this disponibilite!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.disponibiliteService
+          .deleteDisponibilite(disponibiliteId)
+          .subscribe(
+            () => {
+              Swal.fire(
+                'Deleted!',
+                'Your disponibilite has been deleted.',
+                'success'
+              );
+              if (this.psyId) {
+                this.getDisponibilite(this.psyId);
+              }
+            },
+            (error) => {
+              console.log(error);
+              Swal.fire(
+                'Error!',
+                'An error occurred while deleting your disponibilite.',
+                'error'
+              );
+            }
+          );
+      }
+    });
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+<div
+  class="d-flex justify-content-center"
+  style="margin-top: 5px; background-color: #eeee"
+>
+  <div
+    class="row"
+    style="
+      padding-left: 30px;
+      padding-right: 30px;
+      width: 1200px;
+      height: 900px;
+    "
+  >
+    <div
+      style="
+        background-color: white;
+        height: 55px;
+        text-align: center;
+        justify-content: left;
+        display: flex;
+      "
+    >
+      <div
+        style="
+          background-color: #6710f289;
+          margin-top: 3px;
+          width: 8px !important;
+          height: 42px;
+        "
+      ></div>
+      <div style="margin-left: 6px; margin-top: 10px; font-weight: bolder">
+        Calendar
+      </div>
+      <div class="ml-auto" style="margin-top: 3px; font-weight: bolder">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="openDialog(rendezvous)"
+        >
+          <i class="bi bi-calendar-plus"></i>
+          Availability
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <mat-card
+        class="demo-inline-calendar-card mb-3"
+        style="background-color: white; margin-top: -200px !important"
+      >
+        <div class="d-flex">
+          <mat-calendar
+            [(selected)]="selected"
+            (selectedChange)="
+              showAvailability(selected); showRendezvous(selected)
+            "
+            style="width: 500px"
+          ></mat-calendar>
+
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Availability">
+              <div
+                *ngIf="getDisponibilitesForSelectedDate().length === 0"
+                style="
+                  background-color: #eeee;
+                  width: 200px;
+                  height: 50px;
+                  margin-left: 200px;
+                  margin-top: 200px;
+                  text-align: center;
+                  padding: 8px;
+                "
+              >
+                <p>There is no available time</p>
+              </div>
+              <h5
+                *ngIf="getDisponibilitesForSelectedDate().length !== 0"
+                style="margin-left: 230px; margin-top: 30px"
+              >
+                you're available at :
+              </h5>
+              <div *ngFor="let disponibilite of disponibilities">
+                <ul>
+                  <button
+                    style="margin-left: 189px; margin-top: 30px"
+                    class="list-group-item"
+                    *ngFor="let seance of disponibilite.seance"
+                    [hidden]="!isOnSelectedDate(seance.jour)"
+                  >
+                    <i class="fas fa-check-circle text-success"></i>
+                    {{ seance.debut | date : "HH:mm" }} to
+                    {{ seance.fin | date : "HH:mm" }}&nbsp; &nbsp;
+                    <!-- <div class="disponibilite-btn-overlay"> -->
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteDisponibilite(disponibilite._id)"
+                    >
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                    <!-- </div> -->
+                  </button>
+                </ul>
+              </div></mat-tab
+            >
+            <mat-tab label="Consultations">
+              <app-list-rendez-vous
+                #listRendezVousComponent
+                [selectedDate]="selected"
+              ></app-list-rendez-vous>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
