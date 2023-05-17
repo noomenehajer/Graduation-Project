@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { StudentService } from 'src/app/services/student.service';
 import { QuestionnaireService } from 'src/app/services/questionnaire.service';
 import { Questionnaire } from 'src/app/models/questionnaire';
 import { Student } from 'src/app/models/Student';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-publish-questionnaire',
@@ -21,7 +21,8 @@ export class PubishQuestionnaireComponent implements OnInit {
     private fb: FormBuilder,
     private questionnaireService: QuestionnaireService,
     private studentService: StudentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +71,7 @@ export class PubishQuestionnaireComponent implements OnInit {
     this.questionnaireService.publishQuestionnaire(questionnaireId, etudiantIds).subscribe(questionnaire => {
       this.questionnaire = questionnaire;
       alert('Questionnaire has been published!');
+      this.router.navigate(['psy/questionnaire']);
     }, error => {
       console.log(error);
       alert('An error occurred while publishing the questionnaire.');

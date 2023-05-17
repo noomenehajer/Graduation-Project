@@ -140,13 +140,16 @@ uploadImage(photo: File): Observable<any> {
 );
 } 
 
-getPublishedQuestionnaireById(questionnaireId: string) {
+getPublishedQuestionnaireById(questionnaireId: string): Observable<Questionnaire> {
   const headers = new HttpHeaders({
     Authorization: `Bearer ${localStorage.getItem('token')}`
   });
-  const url = `${this.url}/questionnaires/${questionnaireId}`;
-  return this.http.get(url, { headers });
-}
+  return this.http.get<Questionnaire>(`${this.url}/questionnaires/${questionnaireId}`, { headers }).pipe(catchError((error) => {
+  console.error(error);
+  return throwError(error);
+  })
+  );
+  }
 
 submitAnswers(questionnaireId: string, answers: { questionId: string, text: string }[]): Observable<Questionnaire[]> {
   const headers = new HttpHeaders({

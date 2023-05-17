@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { StudentService } from 'src/app/services/student.service';
 import { AnswerQuestionnaireRoutingModule } from './answer-questionnaire-routing.module';
 import { AnswerQuestionnaireComponent } from './answer-questionnaire.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,9 @@ import { AnswerQuestionnaireComponent } from './answer-questionnaire.component';
   ],
   imports: [
     CommonModule,
-    AnswerQuestionnaireRoutingModule
+    AnswerQuestionnaireRoutingModule,
+    ReactiveFormsModule
+    
   ],
   providers: [
     AuthGuard,

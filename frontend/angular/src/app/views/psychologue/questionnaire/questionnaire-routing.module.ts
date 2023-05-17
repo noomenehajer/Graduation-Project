@@ -10,7 +10,7 @@ import { ListAnswersComponent } from './list-answers/list-answers.component';
 import { AuthPsyGuard } from '../../guards/auth-psy.guard';
 
 const routes: Routes = [
-  { path: '', component: ListQuestionnaireComponent },
+  { path: '', component: ListQuestionnaireComponent , canActivate: [AuthPsyGuard] },
   { path: 'add', component: AddQuestionnaireComponent , canActivate: [AuthPsyGuard] },
   { path: 'edit/:id', component: EditQuestionnaireComponent, canActivate: [AuthPsyGuard] },
   { path: 'detail/:id', component: DetailQuestionnaireComponent },

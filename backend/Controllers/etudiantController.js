@@ -1,6 +1,8 @@
 const Etudiant = require('../models/etudiant');
 const bcrypt = require('bcryptjs');
 const Questionnaire = require('../models/questionnaire');
+const Question = require('../models/questionnaire');
+const Answer = require('../models/questionnaire');
 
 exports.getProfile = async (req, res) => {
   try {
@@ -146,17 +148,45 @@ exports.submitAnswers = async (req, res) => {
     if (!questionnaire.publishedTo.includes(etudiant._id)) {
       return res.status(400).json({ error: 'You are not authorized to answer this questionnaire' });
     }
+    const answersArray = [];
+    for (const { questionId, text, selectedOptions } of answers) {
+      const question = questionnaire.questions.id(questionId);
+      if (!question) {
+        return res.status(400).json({ error: `Question ${questionId} not found` });
+      }
+      let answer;
+      if (question.type === 'text' || question.type === 'paragraph') {
+        answer = text;
+      } else if (question.type === 'checkboxes') {
+        const selectedOptionIds = selectedOptions.map(option => option.id);
+        const invalidOptionIds = selectedOptionIds.filter(id => !question.options.some(option => option.id === id));
+        if (invalidOptionIds.length > 0) {
+          return res.status(400).json({ error: `Invalid option IDs: ${invalidOptionIds}` });
+        }
+        answer = selectedOptionIds;
+      } else if (question.type === 'multipleChoice') {
+        const selectedOptionId = selectedOptions[0].id;
+        if (!question.options.some(option => option.id === selectedOptionId)) {
+          return res.status(400).json({ error: `Invalid option ID: ${selectedOptionId}` });
+        }
+        answer = selectedOptionId;
+      }
+      answersArray.push({ question: questionId, answer });//
+    }  
     const answer = {
       student: etudiant._id,
-      answers: answers.map(({ questionId, text }) => ({ question: questionId, answer: text })),
+      answers: answersArray,
     };
-    await questionnaire.answers.push(answer);
+    const savedAnswer = await Answer.create(answer);
+    console.log(savedAnswer);
+    await questionnaire.answers.push(savedAnswer);//
     await questionnaire.answeredBy.push(etudiant._id);
     await questionnaire.save();
-    await etudiant.answers.push({ questionnaireId, answers });
+    await etudiant.answers.push({ questionnaire: questionnaireId, answers: answersArray });//
     await etudiant.save();
     res.status(200).json({ message: 'Answers submitted successfully' });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

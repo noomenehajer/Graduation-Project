@@ -1,1 +1,45 @@
-<h1>hello</h1>
+ <div class="container" style="margin-top: 90px!important;">
+  <br>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2 style="text-align: center;">Answer Questionnaire</h2>
+        </div>
+        <div class="card-body" *ngIf="questionnaire" >
+          <form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+            <h3>{{ questionnaire.title }}</h3>
+            <p>{{ questionnaire.description }}</p>
+            <hr>
+            <div *ngFor="let question of questionnaire.questions; let i=index">
+              <h4>Question {{i+1}}. : {{ question.text }}</h4>
+              <div *ngIf="question.type === 'text' || question.type === 'paragraph'">
+                <textarea type="text" class="form-control" formControlName="{{ question._id }}"></textarea>
+              </div>
+              <div *ngIf="question.type === 'checkbox'">
+                <ul>
+                  <li *ngFor="let option of question.options">
+                    <input type="checkbox" [value]="option.value" formControlName="{{ question._id }}">
+                    {{ option.text }}
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="question.type === 'multipleChoice'">
+                <ul>
+                  <li *ngFor="let option of question.options">
+                    <input type="radio" [value]="option.value" formControlName="{{ question._id }}" >                    
+                    {{ option.text }}
+                  </li>
+                </ul>
+              </div>          
+              <hr>
+            </div>
+             <button type="submit" class="btn btn-primary" [disabled]="isSubmitted">Submit</button>
+          </form>
+          <div *ngIf="isSubmitted">Submitting...</div>
+          <div *ngIf="errorMessage">{{ errorMessage }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
