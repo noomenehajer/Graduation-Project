@@ -157,7 +157,7 @@ body{
   border-bottom-right-radius: 50px;
 }
 
-.user-card .card-block .user-image:after, .user-card .card-block .user-image:before {
+/* .user-card .card-block .user-image:after, .user-card .card-block .user-image:before {
   content: "";
   width: 100%;
   height: 48%;
@@ -165,7 +165,7 @@ body{
   position: absolute;
   left: 0;
   z-index: 10;
-}
+} */
 
 .user-card .card-block .user-image:after {
   top: 0;
@@ -173,7 +173,7 @@ body{
   border-top-right-radius: 50px;
 }
 
-.user-card .card-block .user-image:after, .user-card .card-block .user-image:before {
+/* .user-card .card-block .user-image:after, .user-card .card-block .user-image:before {
   content: "";
   width: 100%;
   height: 48%;
@@ -181,7 +181,7 @@ body{
   position: absolute;
   left: 0;
   z-index: 10;
-}
+} */
 .gradient-custom {
   /* fallback for old browsers */
   background: #37517e;

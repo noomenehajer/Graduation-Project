@@ -1,6 +1,4 @@
-
 <section class="gradient-custom overflow-hidden"  >
-
 
   <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5" >
     <div class="row gx-lg-5 align-items-center mb-5">
@@ -28,18 +26,38 @@
               </div>
 
               <div class="form-outline mb-4">
-                <input type="email" id="form3Example3" type="email" formControlName="email" placeholder="Email" class="form-control" class="form-control" />
-                <label class="form-label" for="form3Example3">Email address</label>
-                <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="invalid-feedback">
+                <input
+                  type="email"
+                  id="form3Example3"
+                  formControlName="email"
+                  placeholder="Email"
+                  class="form-control"
+                  [class.is-invalid]="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
+                  required
+                />
+                <div
+                  *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="form.get('email')?.errors?.['required']">Email is required.</div>
                   <div *ngIf="form.get('email')?.errors?.['email']">Email is not valid.</div>
                 </div>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="password" id="form3Example4"type="password" formControlName="motDePasse" placeholder="Password" class="form-control" />
-                <label class="form-label" for="form3Example4">Password</label>
-                <div *ngIf="form.get('motDePasse')?.invalid && (form.get('motDePasse')?.dirty || form.get('motDePasse')?.touched)" class="invalid-feedback">
+                <input
+                  type="password"
+                  id="form3Example4"
+                  formControlName="motDePasse"
+                  placeholder="Password"
+                  class="form-control"
+                  [class.is-invalid]="form.get('motDePasse')?.invalid && (form.get('motDePasse')?.dirty || form.get('motDePasse')?.touched)"
+                  required
+                />
+                <div
+                  *ngIf="form.get('motDePasse')?.invalid && (form.get('motDePasse')?.dirty || form.get('motDePasse')?.touched)"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="form.get('motDePasse')?.errors?.['required']">Password is required.</div>
                   <div *ngIf="form.get('motDePasse')?.errors?.['minlength']">Password must be at least 8 characters.</div>
                 </div>
@@ -47,9 +65,9 @@
 
               <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
 
-              <div *ngIf="form.invalid && (form.dirty || form.touched)" class="text-danger">
+           <!--    <div *ngIf="form.invalid && (form.dirty || form.touched)" class="text-danger">
                 Please fix the errors above.
-              </div>
+              </div> -->
             </form>
 
           </div>

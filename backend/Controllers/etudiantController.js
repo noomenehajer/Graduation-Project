@@ -130,7 +130,7 @@ exports.getPublishedQuestionnaireById = async (req, res) => {
 };
 
 // Submit answers for a questionnaire
-exports.submitAnswers = async (req, res) => {
+/* exports.submitAnswers = async (req, res) => {
   const { questionnaireId } = req.params;
   const { answers } = req.body;
   try {
@@ -171,22 +171,74 @@ exports.submitAnswers = async (req, res) => {
         }
         answer = selectedOptionId;
       }
-      answersArray.push({ question: questionId, answer });//
+    //  answersArray.push({ question: questionId, answer });//
+      answersArray.push({ questionId: questionId, answer: text });
     }  
-    const answer = {
+    const reponse = {
       student: etudiant._id,
       answers: answersArray,
     };
-    const savedAnswer = await Answer.create(answer);
-    console.log(savedAnswer);
-    await questionnaire.answers.push(savedAnswer);//
+    //const savedAnswer = await Answer.create(answer);
+    //console.log(savedAnswer);
+    await questionnaire.answers.push(reponse);//
     await questionnaire.answeredBy.push(etudiant._id);
     await questionnaire.save();
-    await etudiant.answers.push({ questionnaire: questionnaireId, answers: answersArray });//
+    await etudiant.answers.push({ questionnaireId, answers });//
     await etudiant.save();
     res.status(200).json({ message: 'Answers submitted successfully' });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}; */
+
+exports.submitAnswers = async (req, res) => {
+  const { questionnaireId } = req.params;
+  const { answers } = req.body;
+
+  try {
+    const etudiant = await Etudiant.findById(req.userId);
+
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+
+    const questionnaire = await Questionnaire.findById(questionnaireId);
+
+    if (!questionnaire) {
+      return res.status(404).json({ message: "Le questionnaire n'existe pas" });
+    }
+
+    if (!etudiant.publishedQuestions.includes(questionnaire._id)) {
+      return res.status(400).json({ message: "Le questionnaire n'est pas accessible à cet étudiant" });
+    }
+
+    // Check if the questionnaire is already answered by the student
+    const existingAnswer = questionnaire.answers.find(answer => answer.student.toString() === etudiant._id.toString());
+    if (existingAnswer) {
+      return res.status(400).json({ message: "Le questionnaire a déjà été répondu par cet étudiant" });
+    }
+
+    const formattedAnswers = answers.map(answer => ({
+      question: answer.question,
+      answer: answer.answer
+    }));
+
+    questionnaire.answers.push({
+      student: etudiant._id,
+      answers: formattedAnswers
+    });
+
+    etudiant.answers.push({
+      questionnaire: questionnaire._id,
+      answers: formattedAnswers
+    });
+
+    await questionnaire.save();
+    await etudiant.save();
+
+    res.status(200).json({ message: "Les réponses ont été soumises avec succès" });
+  } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
