@@ -31,7 +31,7 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
   }
 
   public isAuthenticated() {
-    let token= localStorage.getItem('token');
+    let token= localStorage.getItem('userId');
     // console.log(token);
     if(token){
       return true;
@@ -72,6 +72,9 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
 
     return this.http.post(`${this.authUrl}/loginPsy`, body);
   }
+  logoutPsy(): Observable<any> {
+    return this.http.post(`${this.authUrl}/logoutuser`, {});
+    }
   getPsyData(){
     let token = localStorage.getItem('token');
     if(token){
@@ -81,7 +84,7 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     }
   }
   public isAuthenticatedPsy() {
-    let token= localStorage.getItem('token');
+    let token= localStorage.getItem('psyId');
     // console.log(token);
     if(token){
       return true;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Psychologue } from 'src/app/models/Psychologue';
 import { PsyService } from 'src/app/services/psy.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-list-psy',
   templateUrl: './admin-list-psy.component.html',
@@ -44,16 +44,28 @@ getAllPsychologues(): void {
 }
 
 onDeletePsy(id: string) {
-  if (confirm("Are you sure you want to delete this psychologue?")) {
-    this.psyService.deletePsy(id).subscribe(
-      () => {
-        this.Psychologues = this.Psychologues.filter(a => a._id !== id);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this psychologist!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it',
+    cancelButtonText: 'Cancel',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.psyService.deletePsy(id).subscribe(
+        () => {
+          this.Psychologues = this.Psychologues.filter(a => a._id !== id);
+          Swal.fire('Deleted!', 'The psychologist has been deleted.', 'success');
+        },
+        error => {
+          console.log(error);
+          Swal.fire('Error', 'An error occurred while deleting the psychologist.', 'error');
+        }
+      );
+    }
+  });
 }
 
 

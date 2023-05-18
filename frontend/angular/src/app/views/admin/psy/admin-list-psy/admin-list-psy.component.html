@@ -1,5 +1,5 @@
 <div  style="margin-top: -50px;">
-  <mat-toolbar color="primary" style="background-color:#ed902b;">
+  <mat-toolbar color="primary" >
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <!-- <mat-icon>menu</mat-icon> -->
     </button>
@@ -20,7 +20,7 @@
 
   <!-- <h2>Liste des étudiants</h2> -->
   <mat-tab-group animationDuration="200ms" class="mat-tab-group" >
-    <mat-tab class="mat-tab-label-active" label="Validé" style="background-color: #ed902b!important;">
+    <mat-tab class="mat-tab-label-active" label="Validé" >
       <div style="overflow: hidden;">
       <table class="table table-striped table-bordered">
         <thead>
@@ -38,10 +38,32 @@
             <td>{{ psy.nom }}</td>
             <td>{{ psy.prenom }}</td>
             <td>{{ psy.email }}</td>
-            <td>
-              <a [routerLink]="['/admin/psy/detail-psy', psy._id]" class="btn btn-primary mr-1">Détails</a>
+            <td style="justify-content: center ;display: flex;">
+              <!-- <a [routerLink]="['/admin/psy/detail-psy', psy._id]" class="btn btn-primary mr-1">Détails</a> -->
               <!-- <a [routerLink]="['/admin/psy/edit', psy._id]" class="btn btn-secondary">Modifier</a> -->
-              <a   (click)="onDeletePsy(psy._id)" class="btn btn-secondary">Supprimer</a>
+              <!-- <a   (click)="onDeletePsy(psy._id)" class="btn btn-secondary">Supprimer</a> -->
+
+              <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                    
+                  >
+                    <button
+                    [routerLink]="['/admin/psy/detail-psy', psy._id]"
+                      type="button"
+                      class="btn btn-outline-secondary"
+                    >
+                      <i class="bi bi-chat-right-quote-fill"></i>
+                    </button>
+                    <a
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="onDeletePsy(psy._id)"
+                    >
+                      <i class="bi bi-trash-fill"></i>
+                  </a>
+                   </div>
             </td>
           </tr>
         </tbody>

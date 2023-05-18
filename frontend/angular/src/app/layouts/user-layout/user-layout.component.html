@@ -1,9 +1,9 @@
 <!-- Navbar  -->
 <nav class="navbar navbar-expand-lg navbar-dark gradient-custom fixed-top">
   <!-- Container wrapper -->
+  <a class="navbar-brand" href="#"><img style="width:190px;height: 50px;"  src="/assets/user/img/22.png"></a>
   <div class="container-fluid">
     <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">Navbar</a>
 
     <!-- Toggle button -->
     <button
@@ -24,8 +24,7 @@
       <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
         <li class="nav-item text-center mx-2 mx-lg-1">
           <a class="nav-link active" aria-current="page" href="#!">
-            <div>
-            </div>
+            <div></div>
             Home
           </a>
         </li>
@@ -40,56 +39,28 @@
           </a>
         </li>
         <li class="nav-item text-center mx-2 mx-lg-1">
-          <a class="nav-link" routerLink="/psychologues" >
-            <div>
-            </div>
+          <a class="nav-link" routerLink="/psychologues">
+            <div></div>
             Psychologists
           </a>
         </li>
         <li class="nav-item text-center mx-2 mx-lg-1">
-          <a class="nav-link" routerLink="/calendar" >
-            <div>
-            </div>
+          <a class="nav-link" routerLink="/calendar" *ngIf="verifypsy">
+            <div></div>
             Calendar
           </a>
         </li>
         <li class="nav-item text-center mx-2 mx-lg-1">
-          <a class="nav-link" routerLink="/psy/questionnaire" >
-            <div>
-            </div>
-            Quiz
+          <a class="nav-link" routerLink="/psy/questionnaire" *ngIf="verifypsy">
+            <div></div>
+            Questionnaires
+          </a>
+          <a class="nav-link" routerLink="/quiz" *ngIf="verifyuser">
+            <div></div>
+            Questionnaires
           </a>
         </li>
-        <li class="nav-item dropdown text-center mx-2 mx-lg-1">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-mdb-toggle="dropdown"
-            aria-expanded="false"
 
-          >
-            <div>
-              <span class="badge rounded-pill badge-notification bg-dark"
-                >11</span
-              >
-            </div>
-            Options
-          </a>
-
-          <!-- Dropdown menu -->
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" (click)="logoutUser()">logout</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
-          </ul>
-        </li>
       </ul>
       <!-- Left links -->
 
@@ -109,27 +80,88 @@
             Messages
           </a>
         </li>
-        <li class="nav-item text-center mx-2 mx-lg-1" *ngIf="verifyuser">
-          <a class="nav-link" href="#!">
+        <li class="nav-item dropdown text-center mx-2 mx-lg-1" *ngIf="verifypsy ||verifyuser">
+          <a
+          *ngIf="verifypsy ||verifyuser"
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-mdb-toggle="dropdown"
+            aria-expanded="false"
+          >
             <div>
-              <!-- <i class="fas fa-globe-americas fa-lg mb-1"></i> -->
               <span class="badge rounded-pill badge-notification bg-dark"
                 >11</span
               >
             </div>
-            News
+            Options
           </a>
-        </li>
 
-        <li class="nav-item nav-profile " >
-          <a class="nav-link dropdown-toggle" href="#" routerLink="/profile" *ngIf="verifyuser" >
+          <!-- Dropdown menu -->
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a
+                class="dropdown-item"
+                style="color: black !important"
+                *ngIf="verifyuser"
+                routerLink="/profile"
+                >profile</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                style="color: black !important"
+                *ngIf="verifypsy"
+                routerLink="/profilepsy"
+              >
+                profile
+
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                style="color: black !important"
+                (click)="logoutUser()"
+                *ngIf="verifyuser"
+                >logout</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                style="color: black !important"
+                (click)="logoutPsy()"
+                *ngIf="verifypsy"
+                >logout</a
+              >
+            </li>
+
+          </ul>
+        </li>
+        <!-- <li class="nav-item nav-profile">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            routerLink="/profile"
+            *ngIf="verifyuser"
+          >
             profileuser
-            <!-- <img src="/assets/admin/images/faces/face28.jpg" alt="profile" width="40px" height='40px'/> -->
           </a>
-          <!-- <a class="nav-link dropdown-toggle" href="#" routerLink="/profilepsy"  >
-            profilepsy -->
-            <!-- <img [src]="'http://localhost:3000/uploads/' +psy.photo" alt="profile" width="40px" height='40px'/> -->
-          <!-- </a> -->
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            *ngIf="verifypsy"
+            routerLink="/profilepsy"
+          >
+            profilepsy
+          </a>
+        </li> -->
       </ul>
       <!-- Right links -->
       <div class="search-box">
@@ -151,7 +183,7 @@
 <footer id="footer" class="gradient-custom">
   <div
     class="container footer-bottom clearfix gradient-custom"
-    style="width: 1800px!important; "
+    style="width: 1800px !important"
   >
     <div class="copyright">
       &copy; Copyright <strong><span>Iset Bizerte</span></strong
@@ -165,4 +197,6 @@
 </footer>
 <!-- End Footer -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"
+  ><i class="bi bi-arrow-up-short"></i
+></a>

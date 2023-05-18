@@ -1,38 +1,37 @@
-<div *ngIf="rendezvousList" >
-  <!-- <h6> Consultations </h6> -->
-<div *ngFor="let rendezvous of filteredRendezvousList">
-  <div *ngIf="filteredRendezvousList.length > 0 && rendezvous.status=='demande'">
-    <!-- Display the filtered rendezvous list -->
-    <ul>
-      <li >
-        <button style="margin-left: 70px; margin-top: 30px;" class="list-group-item" >
-         <a routerLink=""><img style="width: 50px; height: 50px; border-radius: 100%;" [src]="'http://localhost:3000/uploads/' + rendezvous.etudiant.photo" /></a>
-          &nbsp;&nbsp;
-          <p style="font-weight: bolder;">{{ rendezvous.etudiant.nom }} {{ rendezvous.etudiant.prenom }}</p>&nbsp;
-          <div *ngFor="let seance of rendezvous.disponibilite.seance" style="font-size: 15px;">
-            {{ seance.debut | date: "HH:mm" }} to
-            {{ seance.fin | date: "HH:mm" }}<br>
-          </div>&nbsp;
-        <!-- <div>{{rendezvous.type}}</div> -->
-          <button  (click)="acceptRendezvous(rendezvous._id)" style="width: 30px; height: 30px; justify-content: center; display: flex;" class="btn btn-success">
-            <i class="bi bi-check-square" style="margin-top: -7px;"></i>
-          </button>&nbsp;
-          <button   (click)="refuseRendezvous(rendezvous._id)"style="width: 30px; height: 30px; justify-content: center; display: flex;" class="btn btn-danger">
-            <i class="bi bi-x-circle-fill" style="margin-top: -7px;"></i>
-          </button>
-          <hr>&nbsp;
-        </button>
-      </li>
-    </ul>
-  </div>
-</div>
-  <div *ngIf="filteredRendezvousList.length === 0" style="background-color: #eeee; width: 200px; height: 50px; margin-left: 200px; margin-top: 200px; text-align: center; padding: 8px;">
-    <!-- Display a message when there are no rendezvous for the selected date -->
-    <p>There's no demand!</p>
-  </div>
-</div>
+<div *ngIf="rendezvousList">
 
-<!-- <ng-container style="width: 700px!important;height:400px!important" *ngIf="modalRef && modalRef.componentInstance" >
-  <app-detail-rv  [rendezvous]="modalRef.componentInstance.rendezvous"></app-detail-rv>
-</ng-container> -->
+          <div *ngIf="filteredRendezvousList.length === 0" style="background-color: #eeee;width: 200px;height: 50px; margin-left: 200px;margin-top: 200px;text-align: center;padding: 8px;">
+            <p>There are no demands!</p>
+          </div>
+          <ul>
+            <li *ngFor="let rendezvous of filteredRendezvousList">
+              <button style="margin-left: 70px; margin-top: 30px;" class="list-group-item">
+                <a routerLink=""><img style="width: 50px; height: 50px; border-radius: 100%;" [src]="'http://localhost:3000/uploads/' + rendezvous.etudiant.photo" /></a>
+                &nbsp;&nbsp;
+                <p style="font-weight: bolder;">{{ rendezvous.etudiant.nom }} {{ rendezvous.etudiant.prenom }}</p>&nbsp;
+                <div *ngFor="let seance of rendezvous.disponibilite.seance" style="font-size: 15px;">
+                  {{ seance.debut | date: "HH:mm" }} to {{ seance.fin | date: "HH:mm" }}<br>
+                </div>&nbsp;
+                <div>{{ rendezvous.type }}</div>
+                <button (click)="acceptRendezvous(rendezvous._id)" style="width: 30px; height: 30px; justify-content: center; display: flex;" class="btn btn-success">
+                  <i class="bi bi-check-square" style="margin-top: -7px;"></i>
+                </button>&nbsp;
+                <button (click)="refuseRendezvous(rendezvous._id)" style="width: 30px; height: 30px; justify-content: center; display: flex;" class="btn btn-danger">
+                  <i class="bi bi-x-circle-fill" style="margin-top: -7px;"></i>
+                </button>
+                <hr>&nbsp;
+              </button>
+            </li>
+          </ul>
 
+
+        <mat-tab label="Confirmed Consultations">
+          <div *ngIf="filteredRendezvousListConfirme.length === 0" style="background-color: #eeee;width: 200px;height: 50px; margin-left: 200px;margin-top: 200px;text-align: center;padding: 8px;">
+            <p>There are no confirmed consultations!</p>
+          </div>
+          <ul>
+            <li *ngFor="let rendezvous of filteredRendezvousListConfirme">
+              <button style="margin-left: 70px; margin-top: 30px;" class="list-group-item">
+                <a routerLink=""><img style="width: 50px; height: 50px; border-radius: 100%;" [src]="'http://localhost:3000/uploads/' + rendezvous.etudiant.photo" /></a>
+                &nbsp;&nbsp;
+                <p style="font-weight: bolder;">{{ rendezvous.etudiant.nom }} {{ rendezvous.etudiant.prenom}}</p>

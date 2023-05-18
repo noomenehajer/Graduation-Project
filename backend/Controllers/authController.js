@@ -312,6 +312,11 @@ exports.signupPsy = async (req, res) => {
 };
 
 
+exports.logoutPsy = (req, res) => {
+  res.clearCookie('token');
+
+  res.status(200).send({ message: 'Logout successful' });
+};
 exports.loginPsy = async (req, res) => {
   try {
     const { email, motDePasse } = req.body;

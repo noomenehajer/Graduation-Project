@@ -82,11 +82,18 @@
                   </button>
                 </ul>
               </div></mat-tab>
-              <mat-tab label="Consultations">
+              <mat-tab label="demands">
                 <app-list-rendez-vous
                   #listRendezVousComponent
                   [selectedDate]="selected"
                 ></app-list-rendez-vous>
+              </mat-tab>
+
+              <mat-tab label="Confirmed Consultations">
+                <app-list-rendez-vous
+                #listRendezVousComponent
+                [selectedDate]="selected"
+              ></app-list-rendez-vous>
               </mat-tab>
           </mat-tab-group>
         </div>
@@ -94,3 +101,5 @@
     </div>
   </div>
 </div>
+<!-- <app-rv-confirmee   #RvConfirmeeComponent
+[selectedDate]="selected"></app-rv-confirmee> -->

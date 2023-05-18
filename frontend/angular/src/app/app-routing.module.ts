@@ -14,6 +14,7 @@ import { ProfileComponent } from './views/user/profile/profile.component';
 import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.component';
 import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
 import { AuthPsyGuard } from './views/guards/auth-psy.guard';
+import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
 
 const routes: Routes = [
 

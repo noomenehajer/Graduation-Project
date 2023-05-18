@@ -91,9 +91,9 @@ exports.getRvpsyById = async (req, res) => {
       .populate('etudiant')
       .populate('disponibilite');
       
-    // if (!rendezvous) {
-    //   return res.status(404).json({ error: 'Rendezvous not found' });
-    // }
+    if (!rendezvous) {
+      return res.status(404).json({ error: 'Rendezvous not found' });
+    }
     
     console.log('rendezvous:', rendezvous);
     res.json(rendezvous);

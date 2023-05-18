@@ -38,7 +38,24 @@ export class UserLayoutComponent {
       (response) => {
         console.log(response);
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('user');
         this.router.navigate(['/auth/loginuser']);      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  logoutPsy() {
+    this.authService.logoutPsy().subscribe(
+      (response) => {
+        console.log(response);
+        localStorage.removeItem('token');
+        localStorage.removeItem('psyId');
+        localStorage.removeItem('psy');
+        this.router.navigate(['/auth/loginPsy']);},
       (error) => {
         console.log(error);
       }

@@ -1,52 +1,44 @@
-<mat-stepper headerPosition="bottom" #stepper>
+<form [formGroup]="firstFormGroup" [formGroup]="psyForm" (ngSubmit)="onSubmit()">
+<mat-stepper orientation="vertical"  #stepper>
   <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out psy name</ng-template>
+      <ng-template matStepLabel>Fill out the Full name</ng-template>
       <mat-form-field>
-        <input matInput placeholder="Last name" formControlName="nomCtrl" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="First name" formControlName="prenomCtrl" required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="secondFormGroup" optional>
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your email and password</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Email" formControlName="emailCtrl" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" placeholder="Password" formControlName="passwordCtrl" required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Confirm and submit</ng-template>
-    <form [formGroup]="psyForm" (ngSubmit)="onSubmit()">
-      <mat-form-field>
+        <mat-label>First name</mat-label>
         <input matInput placeholder="Last name" formControlName="nom" required>
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Last name</mat-label>
         <input matInput placeholder="First name" formControlName="prenom" required>
       </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Fill out the email and password</ng-template>
       <mat-form-field>
+        <mat-label>Email</mat-label>
         <input matInput placeholder="Email" formControlName="email" required>
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Password</mat-label>
         <input matInput type="password" placeholder="Password" formControlName="motDePasse" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button type="submit">Submit</button>
+        <button mat-button matStepperNext>Next</button>
       </div>
-    </form>
+    </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button type="submit">Submit</button>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
   </mat-step>
 </mat-stepper>
+</form>

@@ -1,153 +1,63 @@
-//require our websocket library 
-var WebSocketServer = require('ws').Server; 
+require('dotenv').config();
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+const SimplePeer = require('simple-peer');
 
-//creating a websocket server at port 9090 
-var wss = new WebSocketServer({port: 9090}); 
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
 
-//all connected to the server users 
-var users = {};
-  
-//when a user connects to our sever 
-wss.on('connection', function(connection) {
-  
-   console.log("User connected");
-	
-   //when server gets a message from a connected user 
-   connection.on('message', function(message) { 
-	
-      var data; 
-		
-      //accepting only JSON messages 
-      try { 
-         data = JSON.parse(message); 
-      } catch (e) { 
-         console.log("Invalid JSON"); 
-         data = {}; 
-      }
-		
-      //switching type of the user message 
-      switch (data.type) { 
-         //when a user tries to login
-         case "login": 
-            console.log("User logged", data.name); 
-				
-            //if anyone is logged in with this username then refuse 
-            if(users[data.name]) { 
-               sendTo(connection, { 
-                  type: "login", 
-                  success: false 
-               }); 
-            } else { 
-               //save user connection on the server 
-               users[data.name] = connection; 
-               connection.name = data.name; 
-					
-               sendTo(connection, { 
-                  type: "login", 
-                  success: true 
-               }); 
-            } 
-				
-            break;
-				
-         case "offer": 
-            //for ex. UserA wants to call UserB 
-            console.log("Sending offer to: ", data.name);
-				
-            //if UserB exists then send him offer details 
-            var conn = users[data.name]; 
-				
-            if(conn != null) { 
-               //setting that UserA connected with UserB 
-               connection.otherName = data.name; 
-					
-               sendTo(conn, { 
-                  type: "offer", 
-                  offer: data.offer, 
-                  name: connection.name 
-               }); 
-            }
-				
-            break;
-				
-         case "answer": 
-            console.log("Sending answer to: ", data.name); 
-            //for ex. UserB answers UserA 
-            var conn = users[data.name]; 
-				
-            if(conn != null) { 
-               connection.otherName = data.name; 
-               sendTo(conn, { 
-                  type: "answer", 
-                  answer: data.answer 
-               }); 
-            } 
-				
-            break; 
-				
-         case "candidate": 
-            console.log("Sending candidate to:",data.name); 
-            var conn = users[data.name];
-				
-            if(conn != null) { 
-               sendTo(conn, { 
-                  type: "candidate", 
-                  candidate: data.candidate 
-               }); 
-            } 
-				
-            break;
-				
-         case "leave": 
-            console.log("Disconnecting from", data.name); 
-            var conn = users[data.name]; 
-            conn.otherName = null; 
-				
-            //notify the other user so he can disconnect his peer connection 
-            if(conn != null) {
-               sendTo(conn, { 
-                  type: "leave" 
-              }); 
-            }
-				
-            break;
-				
-         default: 
-            sendTo(connection, { 
-               type: "error", 
-               message: "Command not found: " + data.type 
-            }); 
-				
-            break; 
-      }
-		
-   }); 
-	
-   //when user exits, for example closes a browser window 
-   //this may help if we are still in "offer","answer" or "candidate" state 
-   connection.on("close", function() { 
-	
-      if(connection.name) { 
-         delete users[connection.name]; 
-			
-         if(connection.otherName) { 
-            console.log("Disconnecting from ", connection.otherName); 
-            var conn = users[connection.otherName]; 
-            conn.otherName = null;
-				
-            if(conn != null) { 
-               sendTo(conn, { 
-                  type: "leave" 
-               }); 
-            }
-         } 
-      }
-		
-   });  
-	
-   connection.send("Hello world");  
+// Serve the client-side files
+app.use(express.static('public'));
+
+// Socket.IO connection handler
+io.on('connection', (socket) => {
+  console.log('New user connected:', socket.id);
+
+  // Create a new SimplePeer instance for the participant
+  const peer = new SimplePeer({ initiator: false });
+
+  // Handle the 'offer' event sent by the caller
+  socket.on('offer', (offer) => {
+    // Process the offer and respond with an answer
+    peer.signal(offer);
+  });
+
+  // Handle the 'answer' event sent by the callee
+  socket.on('answer', (answer) => {
+    // Process the answer
+    peer.signal(answer);
+  });
+
+  // Handle the 'iceCandidate' event sent by either party
+  socket.on('iceCandidate', (candidate) => {
+    // Add the ICE candidate to the connection
+    peer.signal(candidate);
+  });
+
+  // Listen to signaling events from the SimplePeer connection
+  peer.on('signal', (data) => {
+    // Emit the appropriate event based on the signal type
+    if (data.type === 'offer') {
+      socket.emit('offer', data);
+    } else if (data.type === 'answer') {
+      socket.emit('answer', data);
+    } else if (data.type === 'candidate') {
+      socket.emit('iceCandidate', data);
+    }
+  });
+
+  // Handle user disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+    // Destroy the SimplePeer instance on disconnection
+    peer.destroy();
+  });
 });
-  
-function sendTo(connection, message) { 
-   connection.send(JSON.stringify(message)); 
-}
+
+// Start the server
+const port = process.env.PORT || 3001;
+server.listen(port, () => {
+  console.log(`Server started on port ${port}`);
+});

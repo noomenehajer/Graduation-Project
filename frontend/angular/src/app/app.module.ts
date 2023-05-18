@@ -33,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ListRendezVousComponent } from './views/psychologue/list-rendez-vous/list-rendez-vous.component';
 import { DetailRVComponent } from './views/psychologue/detail-rv/detail-rv.component';
+import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +44,7 @@ import { DetailRVComponent } from './views/psychologue/detail-rv/detail-rv.compo
     SetAvailabilityComponent,
     ListRendezVousComponent,
     DetailRVComponent,
+    RvConfirmeeComponent,
 
 
   ],

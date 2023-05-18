@@ -15,6 +15,7 @@ import {MatDialog} from '@angular/material/dialog';
 
 import { SetAvailabilityComponent } from '../set-availability/set-availability.component';
 import { ListRendezVousComponent } from '../list-rendez-vous/list-rendez-vous.component';
+import { RvConfirmeeComponent } from '../rv-confirmee/rv-confirmee.component';
 @Component({
   selector: 'app-calendrier',
   templateUrl: './calendrier.component.html',
@@ -27,8 +28,12 @@ export class CalendrierComponent implements OnInit {
   set listRendezVousComponentInstance(component: ListRendezVousComponent) {
     this.listRendezVousComponent = component;
   }
+  @ViewChild(RvConfirmeeComponent)
+  set RvConfirmeeInstance(component: RvConfirmeeComponent) {
+    this.RvConfirmeeComponent = component;
+  }
   listRendezVousComponent!: ListRendezVousComponent;
-
+  RvConfirmeeComponent!:RvConfirmeeComponent;
   psyId = localStorage.getItem('psyId');
   disponibilities: Disponibilite[] = [];
   selected!: Date | null;
@@ -110,8 +115,19 @@ export class CalendrierComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  // showRendezvous(selectedDate: Date | null): void {
+  //   this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
+  // }
   showRendezvous(selectedDate: Date | null): void {
-    this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
+    if (this.listRendezVousComponent && this.RvConfirmeeComponent) {
+      if (this.listRendezVousComponent.selectedDate) {
+        // Confirmed Consultations tab is selected
+        this.RvConfirmeeComponent.getRendezvousConfirmeForSelectedDate(selectedDate);
+      } else {
+        // Availability or Demands tab is selected
+        this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
+      }
+    }
   }
 
 

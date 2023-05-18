@@ -33,11 +33,11 @@ export class PsyNonValideComponent implements OnInit{
   validatePsy(psy: Psychologue) {
 
     Swal.fire({
-      title: 'Êtes-vous sûr de vouloir valider cet étudiant ?',
+      title: 'Are you sure?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Valider',
-      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
     psy.estValide = true;

@@ -17,6 +17,8 @@ export class ListRendezVousComponent implements OnInit {
   rendezvousId!: string;
   rendezvousList: Rendezvous[] = [];
   filteredRendezvousList: Rendezvous[] = [];
+  filteredRendezvousListConfirme: Rendezvous[] = [];
+
   selected!: Date | null;
   modalRef: NgbModalRef | undefined;
   constructor(private disponibiliteService: DisponibiliteService, public dialog: MatDialog) {}
@@ -28,23 +30,41 @@ export class ListRendezVousComponent implements OnInit {
       this.retrieveRendezvous(psyId);
     }
   }
+
   getRendezvousForSelectedDate(selectedDate: Date | null): void {
     if (!selectedDate) {
       this.filteredRendezvousList = [];
       return;
     }
+
     const selectedDateString = selectedDate.toDateString();
-    // console.log('Selected Date:', selectedDateString);
 
     this.filteredRendezvousList = this.rendezvousList.filter((rendezvous) => {
-      return rendezvous.disponibilite.seance.some((seance) => {
+      return rendezvous.status === 'demande' && rendezvous.disponibilite.seance.some((seance) => {
         const seanceDate = new Date(seance.jour);
         const seanceDateString = seanceDate.toDateString();
-        // console.log('Seance Date:', seanceDateString);
         return seanceDateString === selectedDateString;
       });
     });
   }
+
+  // getRendezvousConfirmeForSelectedDate(selectedDate: Date | null): void {
+  //   if (!selectedDate) {
+  //     this.filteredRendezvousListConfirme = [];
+  //     return;
+  //   }
+
+  //   const selectedDateString = selectedDate.toDateString();
+
+  //   this.filteredRendezvousListConfirme = this.rendezvousList.filter((rendezvous) => {
+  //     return rendezvous.status === 'confirme' && rendezvous.disponibilite.seance.some((seance) => {
+  //       const seanceDate = new Date(seance.jour);
+  //       const seanceDateString = seanceDate.toDateString();
+  //       return seanceDateString === selectedDateString;
+  //     });
+  //   });
+
+  // }
 
   openDialog(rendezvousId: string) {
     const dialogRef = this.dialog.open(DetailRVComponent, {
