@@ -67,7 +67,7 @@
       <!-- Right links -->
       <ul
         class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0"
-        *ngIf="verifyuser"
+        *ngIf="verifypsy ||verifyuser"
       >
         <li class="nav-item text-center mx-2 mx-lg-1">
           <a class="nav-link" href="#!">
@@ -80,9 +80,9 @@
             Messages
           </a>
         </li>
-        <li class="nav-item dropdown text-center mx-2 mx-lg-1" *ngIf="verifypsy ||verifyuser">
+        <li class="nav-item dropdown text-center mx-2 mx-lg-1" >
           <a
-          *ngIf="verifypsy ||verifyuser"
+
             class="nav-link dropdown-toggle"
             href="#"
             id="navbarDropdown"
@@ -99,8 +99,8 @@
           </a>
 
           <!-- Dropdown menu -->
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+            <li *ngIf="verifypsy ||verifyuser">
               <a
                 class="dropdown-item"
                 style="color: black !important"
@@ -109,7 +109,7 @@
                 >profile</a
               >
             </li>
-            <li>
+            <li >
               <a
                 class="dropdown-item"
                 style="color: black !important"
