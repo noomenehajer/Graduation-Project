@@ -48,7 +48,7 @@ export class DetailArticleStComponent implements OnInit {
     const etudiant = this.authService.getUserData();
     if (!etudiant) {
       Swal.fire({
-        title: 'Vous devez vous connecter pour répondre à un article',
+        title: 'You must log in to reply to an article',
         icon: 'warning',
         showCancelButton: true, // add this line to show cancel button
         confirmButtonText: 'Login',

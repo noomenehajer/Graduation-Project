@@ -1,38 +1,16 @@
-<!-- <div *ngIf="article" class="container mt-5">
-          <div class="row">
-            <div class="col-md-6">
-              <img
-                [src]="'http://localhost:3000/uploads/' +article.image"
-                alt="Article Image"
-                class="img-fluid"
-                />
-            </div>
-            <div class="col-md-6">
-              <h1 class="mb-4">{{ article.title }}</h1>
-              <p class="mb-4">{{ article.content }}</p>
-              <ul class="list-group mb-4">
-                <li class="list-group-item"><strong>Price:</strong> $99.99</li>
-                <li class="list-group-item">
-                  <strong>Category:</strong> Category Name
-                </li>
-              </ul>
-              <a href="#" routerLink="/admin/article" class="btn btn-primary">Back to list</a>
-            </div>
-          </div>
-        </div> -->
-        <body>
+       <body style="width: 80%; margin: 0 auto;">
           <header>
-            <h1 style="text-align: center;">{{article.title}}</h1>
+            <h3 style="text-align: center;">{{article.title}}</h3>
           </header>
           <article>
-            <div  [routerLink]="['/admin/article/edit', article._id]" class="img-container">
-              <img [src]="'http://localhost:3000/uploads/' +article.image" alt="Description de l'image">
+            <div style="text-align: center;" [routerLink]="['/admin/article/edit', article._id]" class="img-container">
+              <img  [src]="'http://localhost:3000/uploads/' +article.image" alt="Description de l'image">
               <div class="overlay">
                 <p> <i class="bi bi-pencil-square"></i></p>
               </div>
             </div>
+            <br>
             <div style="clear:both;"></div>
-            <p style="font-weight: 200;color: black;">{{article.content}}</p>
+            <p class="bold-text big-text" style="font-weight: 200;color: black;">{{article.content}}</p>
           </article>
         </body>
-

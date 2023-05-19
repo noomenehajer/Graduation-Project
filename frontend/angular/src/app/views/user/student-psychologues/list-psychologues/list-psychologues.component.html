@@ -14,7 +14,7 @@
           <div class="pic"><img [src]="psy.photo ? 'http://localhost:3000/uploads/' + psy.photo : '../../../../../assets/user/img/profile.jpg'" class="img-fluid" alt=""></div>
 
           <div class="member-info">
-            <h4 style="color: black !important;">{{psy.nom}}</h4>
+            <h4 style="color: black !important;">{{psy.nom}} {{psy.prenom}}</h4>
             <!-- <span></span> -->
             <p>{{psy.description}}</p>
             <p>{{psy.adresse}}</p>

@@ -15,9 +15,9 @@
 
       <a class="col-lg-6" data-aos="zoom-in" data-aos-delay="100" *ngFor="let article of Articles" style="margin-top: 10px;height:200px;text-decoration: none;"  [routerLink]="['/articlest/detail', article._id]">
         <div class="member d-flex align-items-start" style="background-color: #64529b;color: white;">
-          <div class="pic"><img style="width: 120px;height: 100px;"  [src]="'http://localhost:3000/uploads/' +article.image" class="img-fluid" alt=""></div>
+          <div class="pic"><img style="width: 100px;height: 100px;"  [src]="'http://localhost:3000/uploads/' +article.image" class="img-fluid" alt=""></div>
           <div class="member-info">
-            <h4 style="color: white !important;">{{article.title}}</h4>
+            <h4 style="color: white !important;text-align: center;">{{article.title}}</h4>
 
             <!-- <div class="social">
               <a href=""><i class="ri-twitter-fill"></i></a>
