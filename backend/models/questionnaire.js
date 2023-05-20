@@ -14,9 +14,7 @@ const QuestionSchema = new Schema({
   type: String,
   options: [{
     text: String,
-    value: String
-  }],
-  answer: String
+  }]
 });
 
 const QuestionnaireSchema = new Schema({

@@ -7,10 +7,14 @@
   <table class="table" style="width: 70%; margin: 0 auto;">
     <thead>
       <tr style="background-color: #51528f;">
-        <th><h4 style="color: #ffffff;">#</h4></th>
-        <th><h4 style="color: #ffffff;">Student Name</h4></th>
-        <th><h4 style="color: #ffffff;">Email</h4></th>
-        <th><h4 style="text-align: center;color: #ffffff;">Select</h4></th>
+        <th><h5 style="color: #ffffff;">#</h5></th>
+        <th><h5 style="color: #ffffff;">Student Name</h5></th>
+        <th><h5 style="color: #ffffff;">Email</h5></th>
+        <th>
+          <button class="select-all-button" (click)="selectAll()">
+              <h5 style="text-align: center; color: #51528f;">{{ isAllSelected() ? 'Unselect All' : 'Select All' }}</h5>
+          </button>
+        </th>      
       </tr>
     </thead>
     <tbody>
@@ -18,15 +22,15 @@
         <td>{{i+1}}</td>
         <td>{{ student.nom }} </td>
         <td>{{ student.email }} </td>
-        <td><h4  style="text-align: center;">
+        <td><h5  style="text-align: center;">
           <input type="checkbox" [formControl]="checkboxes[i]" [disabled]="questionnaire.publishedTo?.includes(student._id) ?? false">
-        </h4></td>
+        </h5></td>
       </tr>
     </tbody>
   </table>
   <br>
   <br>
   <div style="justify-content: center;display: flex;">
-    <button class="btn btn-primary" (click)="onSubmit()">Publish</button>
+    <button class="btn btn-primary" style="padding-bottom:6px;" (click)="onSubmit()"><h5>Publish</h5></button>
   </div>
 </div>

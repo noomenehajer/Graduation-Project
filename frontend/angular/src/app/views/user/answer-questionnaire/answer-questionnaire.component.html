@@ -19,7 +19,7 @@
               <div *ngIf="question.type === 'checkbox'">
                 <ul>
                   <li *ngFor="let option of question.options">
-                    <input type="checkbox" [value]="option.value" formControlName="{{ question._id }}">
+                    <input type="checkbox" [value]="option.text" formControlName="{{ question._id }}">
                     {{ option.text }}
                   </li>
                 </ul>
@@ -27,7 +27,7 @@
               <div *ngIf="question.type === 'multipleChoice'">
                 <ul>
                   <li *ngFor="let option of question.options">
-                    <input type="radio" [value]="option.value" formControlName="{{ question._id }}" >                    
+                    <input type="radio" [value]="option.text" formControlName="{{ question._id }}" >                    
                     {{ option.text }}
                   </li>
                 </ul>

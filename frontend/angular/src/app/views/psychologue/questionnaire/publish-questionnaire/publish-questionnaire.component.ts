@@ -56,6 +56,16 @@ export class PubishQuestionnaireComponent implements OnInit {
     });
   }
 
+  selectAll() {
+    const allSelected = this.checkboxes.every((checkbox) => checkbox.value === true);
+      for (const checkbox of this.checkboxes) {
+      checkbox.setValue(!allSelected);
+    }
+  }
+  isAllSelected() {
+    return this.checkboxes.every((checkbox) => checkbox.value === true);
+  }
+
   onSubmit(): void {
     const etudiantIds: string[] = [];
 

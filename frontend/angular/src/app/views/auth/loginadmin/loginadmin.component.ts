@@ -10,7 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 
 export class LoginadminComponent implements OnInit{
   loginForm!: FormGroup;
-
+  errorMessage: string = '';
   constructor(private formBuilder: FormBuilder, private adminService: AuthService , private router: Router) { }
 
   ngOnInit(): void {
@@ -35,6 +35,7 @@ export class LoginadminComponent implements OnInit{
         error => {
           console.error(error);
           // Display an error message to the user
+          this.errorMessage = 'Invalid email or password';
         }
       );
     }

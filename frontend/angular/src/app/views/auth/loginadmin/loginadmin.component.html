@@ -1,41 +1,30 @@
 <section id="hero" class="d-flex align-items-center content-wrapper d-flex align-items-center auth px-0  gradient-custom" style="height: 100vh !important;">
-<!-- <div> -->
-<!-- <div class="container-fluid page-body-wrapper full-page-wrapper"> -->
-  <!-- <div class="content-wrapper d-flex align-items-center auth px-0"> -->
     <div class="row w-100 mx-0">
       <div class="col-lg-4 mx-auto">
-        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+        <div class="auth-form-light text-left py-5 px-4 px-sm-5 rounded">
           <div class="brand-logo">
           </div>
-
-          <h2 style="text-align: center;color: blueviolet;" class="font-weight-light"><b> Sign in to continue</b></h2>
+          <h2 style="text-align: center;color: blueviolet;" class="font-weight-light"><b>Admin Login </b></h2>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" formControlName="email">
+              <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
               <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" class="text-danger">
                 <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</div>
                 <div *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format</div>
               </div>
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" formControlName="password">
+              <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
               <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="text-danger">
                 <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</div>
               </div>
+              <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
             </div>
             <div style="text-align: center;">
             <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Submit</button>
             </div>
-            <!-- <div class="text-center mt-4 font-weight-light">
-              Don't have an account? <a href="register.html" class="text-primary">Create</a>
-            </div> -->
           </form>
         </div>
       </div>
     </div>
-  <!-- </div> -->
-<!-- </div> -->
-<!-- </div> -->
 </section>

@@ -10,7 +10,6 @@ export interface Answer {
 
 export interface Option {
   text: string;
-  value: string;
 }
 
 export interface Question {
@@ -18,7 +17,6 @@ export interface Question {
   text: string;
   type: string;
   options: Option[];
-  answer?: string;
 }
 
 export interface Questionnaire {
