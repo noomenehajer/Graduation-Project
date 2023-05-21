@@ -1,14 +1,14 @@
           <form (submit)="onSubmit()" class="form-group" style="width: 500px;margin: 30px;">
             <div>
-              <label for="jour">Jour:</label>
+              <label for="jour">Day:</label>
               <input type="date" id="jour" [(ngModel)]="jour" name="jour" class="form-control">
             </div>
             <div>
-              <label for="debut">Début:</label>
+              <label for="debut">Start:</label>
               <input type="time" id="debut" [(ngModel)]="debut" name="debut" class="form-control">
             </div>
             <div>
-              <label for="fin">Fin:</label>
+              <label for="fin">End:</label>
               <input type="time" id="fin" [(ngModel)]="fin" name="fin" class="form-control">
             </div><br>
             <button type="submit" class="btn btn-success">Submit</button>
