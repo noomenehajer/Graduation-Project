@@ -45,6 +45,7 @@ export class CalendrierComponent implements OnInit {
     if (psyId) {
       this.getDisponibilite(psyId);
     }
+
   }
 
   showAvailabilityWithDate(selected: Date): void {
@@ -60,13 +61,52 @@ export class CalendrierComponent implements OnInit {
     }
   }
 
+  // deleteDisponibiliteById(disponibiliteId: string): void {
+  //   const index = this.disponibilities.findIndex(disponibilite => disponibilite._id === disponibiliteId);
+  //   if (index !== -1) {
+  //     try {
+
+  //       this.disponibilities.splice(index, 1);
+  //       console.log('Disponibilite deleted successfully');
+  //     } catch (error) {
+  //       console.error('Error deleting disponibilite:', error);
+  //     }
+  //   } else {
+  //     console.error('Disponibilite not found:', disponibiliteId);
+  //   }
+  // }
+
+  // getDisponibilite(psyId: string): void {
+  //   this.disponibiliteService.getDisponibilite().subscribe(
+  //     (disponibilites: Disponibilite[]) => {
+  //       const updatedDisponibilites = disponibilites.filter(disponibilite =>
+  //         this.disponibilities.findIndex(d => d._id === disponibilite._id) === -1
+  //       );
+
+  //       this.disponibilities = updatedDisponibilites.map(disponibilite => {
+  //         const seances = disponibilite.seance.map(seance => {
+  //           return {
+  //             jour: new Date(seance.jour),
+  //             debut: new Date(seance.debut),
+  //             fin: new Date(seance.fin)
+  //           };
+  //         });
+  //         return {
+  //           _id: disponibilite._id,
+  //           psy: disponibilite.psy,
+  //           seance: seances
+  //         };
+  //       });
+  //     },
+  //     error => console.log(error)
+  //   );
+  // }
   getDisponibilite(psyId: string): void {
-    // psyId!=localStorage.getItem('psyId');
     this.disponibiliteService.getDisponibilite().subscribe(
       (disponibilites: Disponibilite[]) => {
-        this.disponibilities = disponibilites.map(disponibilite => {
+        const nonDeletedDisponibilites = disponibilites.filter(disponibilite => !disponibilite.deleted);
+        this.disponibilities = nonDeletedDisponibilites.map(disponibilite => {
           const seances = disponibilite.seance.map(seance => {
-
             return {
               jour: new Date(seance.jour),
               debut: new Date(seance.debut),
@@ -76,13 +116,31 @@ export class CalendrierComponent implements OnInit {
           return {
             _id: disponibilite._id,
             psy: disponibilite.psy,
-            seance: seances
+            seance: seances,
+            deleted:false
           };
         });
+
+        // Store the non-deleted disponibilities in local storage
+        localStorage.setItem('nonDeletedDisponibilites', JSON.stringify(nonDeletedDisponibilites));
       },
       error => console.log(error)
     );
   }
+  deleteDisponibiliteById(disponibiliteId: string): void {
+    const index = this.disponibilities.findIndex(disponibilite => disponibilite._id === disponibiliteId);
+    if (index !== -1) {
+      try {
+        this.disponibilities.splice(index, 1);
+        console.log('Disponibilite deleted successfully');
+      } catch (error) {
+        console.error('Error deleting disponibilite:', error);
+      }
+    } else {
+      console.error('Disponibilite not found:', disponibiliteId);
+    }
+  }
+
 
   getDisponibilitesForSelectedDate(): Disponibilite[] {
     if (!this.selected) {
@@ -96,7 +154,6 @@ export class CalendrierComponent implements OnInit {
       });
     });
   }
-
   sortDisponibilites() {
     this.disponibilities.sort((a, b) => {
       const debutA = new Date(a.seance[0].debut);
@@ -115,29 +172,21 @@ export class CalendrierComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  // showRendezvous(selectedDate: Date | null): void {
-  //   this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
-  // }
   showRendezvous(selectedDate: Date | null): void {
-    if (this.listRendezVousComponent && this.RvConfirmeeComponent) {
-      if (this.listRendezVousComponent.selectedDate) {
-        // Confirmed Consultations tab is selected
-        this.RvConfirmeeComponent.getRendezvousConfirmeForSelectedDate(selectedDate);
-      } else {
-        // Availability or Demands tab is selected
-        this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
-      }
-    }
+    this.listRendezVousComponent.getRendezvousForSelectedDate(selectedDate);
   }
 
-
+  showRendezvousConfirme(selectedDate: Date | null): void {
+    this.RvConfirmeeComponent.getRendezvousConfirmeForSelectedDate(selectedDate);
+  }
   hideAvailability(): void {
     this.selected = null;
     this.availabilityShown = false;
   }
+
+
+
   deleteDisponibilite(disponibiliteId: string): void {
-
-
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will not be able to recover this disponibilite!',

@@ -68,6 +68,7 @@
       <ul
         class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0"
         *ngIf="verifypsy ||verifyuser"
+        style="margin-right: 20px;"
       >
         <li class="nav-item text-center mx-2 mx-lg-1">
           <a class="nav-link" href="#!">
@@ -80,7 +81,7 @@
             Messages
           </a>
         </li>
-        <li class="nav-item dropdown text-center mx-2 mx-lg-1" >
+        <li class="nav-item dropdown text-center mx-2 mx-lg-1"  style="margin-right: 10px;">
           <a
 
             class="nav-link dropdown-toggle"
@@ -129,8 +130,8 @@
                 style="color: black !important"
                 (click)="logoutUser()"
                 *ngIf="verifyuser"
-                >logout</a
-              >
+                ><strong style="color: black;">logout</strong></a
+                >
             </li>
             <li>
               <a
@@ -138,7 +139,7 @@
                 style="color: black !important"
                 (click)="logoutPsy()"
                 *ngIf="verifypsy"
-                >logout</a
+                ><strong style="color: black;">logout</strong></a
               >
             </li>
 

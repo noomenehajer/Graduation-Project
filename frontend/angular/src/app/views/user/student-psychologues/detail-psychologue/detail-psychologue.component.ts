@@ -79,7 +79,7 @@ rendezVous:any;
 
 
 
- 
+
     annulerRv(disponibiliteId: string): void {
       const etudiantId = localStorage.getItem('userId');
       console.log(etudiantId + ' ' + disponibiliteId);
@@ -117,7 +117,8 @@ rendezVous:any;
           return {
             _id: disponibilite._id,
             psy: disponibilite.psy,
-            seance: seances
+            seance: seances,
+            deleted: false
           };
           });
       },

@@ -34,6 +34,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ListRendezVousComponent } from './views/psychologue/list-rendez-vous/list-rendez-vous.component';
 import { DetailRVComponent } from './views/psychologue/detail-rv/detail-rv.component';
 import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
+import { VideoCallComponent } from './views/video-call/video-call.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +46,7 @@ import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confir
     ListRendezVousComponent,
     DetailRVComponent,
     RvConfirmeeComponent,
+    VideoCallComponent,
 
 
   ],

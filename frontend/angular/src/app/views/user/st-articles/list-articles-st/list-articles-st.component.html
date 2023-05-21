@@ -1,37 +1,22 @@
-<!-- <div *ngFor="let article of Articles">
-<p>{{article.title}}</p>
-</div> -->
-
-
 <section id="team" class="team section-bg" style="height: 100vh !important;background-color:  #e1dede;margin-top: 50px;">
   <div class="container" data-aos="fade-up" >
-
     <div class="section-title">
       <h2>Articles</h2>
       <p>Embark on a journey of discovery and understanding as we present a thought-provoking list of psychology articles</p>
     </div>
-
     <div class="row" >
-
       <a class="col-lg-6" data-aos="zoom-in" data-aos-delay="100" *ngFor="let article of Articles" style="margin-top: 10px;height:200px;text-decoration: none;"  [routerLink]="['/articlest/detail', article._id]">
         <div class="member d-flex align-items-start" style="background-color: #64529b;color: white;">
-          <div class="pic"><img style="width: 100px;height: 100px;"  [src]="'http://localhost:3000/uploads/' +article.image" class="img-fluid" alt=""></div>
+          <div class="pic"><img style="width: 160px;height: 100px;"  [src]="'http://localhost:3000/uploads/' +article.image" class="img-fluid" alt=""></div>
           <div class="member-info">
             <h4 style="color: white !important;text-align: center;">{{article.title}}</h4>
 
             <!-- <div class="social">
-              <a href=""><i class="ri-twitter-fill"></i></a>
-              <a href=""><i class="ri-facebook-fill"></i></a>
-              <a href=""><i class="ri-instagram-fill"></i></a>
-              <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+
             </div> -->
           </div>
         </div>
       </a>
-
-
-
     </div>
-
   </div>
 </section>

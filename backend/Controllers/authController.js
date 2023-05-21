@@ -204,6 +204,8 @@ exports.isAuthenticatedPsy = async (req, res, next) => {
 
 exports.logoutUser = (req, res) => {
   res.clearCookie('token');
+  res.clearCookie('userId');
+  res.clearCookie('user');
   res.status(200).send({ message: 'Logout successful' });
 };
 
@@ -314,6 +316,8 @@ exports.signupPsy = async (req, res) => {
 
 exports.logoutPsy = (req, res) => {
   res.clearCookie('token');
+  res.clearCookie('psyId');
+  res.clearCookie('psy');
 
   res.status(200).send({ message: 'Logout successful' });
 };

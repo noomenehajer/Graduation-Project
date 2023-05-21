@@ -4,7 +4,9 @@ export interface Disponibilite {
   seance: {
     jour: Date;
     debut: Date;
-    fin: Date;
+    fin: Date
+
   }[];
+  deleted: boolean;
 }
 
