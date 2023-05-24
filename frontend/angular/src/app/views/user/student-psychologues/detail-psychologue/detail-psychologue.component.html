@@ -1,15 +1,16 @@
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
 
 <div class="content" style="display: flex;justify-content: center;">
     <div class="card" style="margin-top: 90px; width: 1000px;height: 290px;">
-        <!-- <div class="firstinfo"><img   [src]="'http://localhost:3000/uploads/' +psy.photo" class="img-fluid" alt=""> -->
-          <div class="firstinfo">    <img [src]="psy.photo ? 'http://localhost:3000/uploads/' + psy.photo : '../../../../../assets/user/img/profile.jpg'" class="img-fluid" alt="">
+        <!-- <div class="firstinfo"><img   [src]="'http://localhost:3000/uploads/' +psy?.photo" class="img-fluid" alt=""> -->
+          <div class="firstinfo">   <img [src]="psy?.photo ? 'http://localhost:3000/uploads/' + psy.photo : '../../../../../assets/user/img/profile.jpg'" class="img-fluid" alt="">
+
 
             <div class="profileinfo">
-                <h1>{{psy.nom}}  {{psy.prenom}}</h1>
-                <p class="bio">{{psy.description}}Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui tenetur saepe reprehenderit, iste aspernatur, facilis modi aliquid illo omnis, quasi perferendis ex quo dolor exercitationem? Ex repellendus magnam expedita enim?
+                <h1>{{psy?.nom}}  {{psy?.prenom}}</h1>
+                <p class="bio">{{psy?.description}}Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui tenetur saepe reprehenderit, iste aspernatur, facilis modi aliquid illo omnis, quasi perferendis ex quo dolor exercitationem? Ex repellendus magnam expedita enim?
                 </p>
-                <section class="call-buton" style="margin-left: 40px;margin-top: 4px;"><a class="cc-calto-action-ripple" ><i class="fa fa-phone"></i><h3>{{psy.telephone}}</h3></a>
+                <section class="call-buton" style="margin-left: 40px;margin-top: 4px;"><a class="cc-calto-action-ripple" ><i class="fa fa-phone"></i><h3>{{psy?.telephone}}</h3></a>
                 </section>
               </div>
             </div>
@@ -26,7 +27,7 @@
         <div class="d-flex">
           <mat-calendar
             [(selected)]="selected"
-            (selectedChange)="showAvailability(selected)"
+            (selectedChange)="showAvailability(selected);showRendezvousConfirme(selected)"
             style="width: 500px"
           ></mat-calendar>
           <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
@@ -58,7 +59,10 @@
                   </button>
                 </ul>
               </div></mat-tab>
-            <mat-tab label="Consultations">Content 2</mat-tab>
+            <mat-tab label="Consultations"><app-list-rv
+              #ListRvComponent
+              [selectedDate]="selected"
+              ></app-list-rv></mat-tab>
           </mat-tab-group>
         </div>
       </mat-card>

@@ -7,6 +7,6 @@ export interface Disponibilite {
     fin: Date
 
   }[];
-  deleted: boolean;
+  // deleted: boolean;
 }
 

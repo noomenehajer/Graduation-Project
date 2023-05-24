@@ -6,8 +6,7 @@ const Admin = require('../models/admin');
 const config = require('../config/config');
 const Notification = require('../models/notification');
 const saltRounds = 12;
-const catchAsync= require('../utilities/catchAsync');
-const AppError =require('../utilities/AppError');
+
 
 exports.loginAdmin =async (req, res, next) => {
   const { email, password } = req.body;
@@ -23,7 +22,7 @@ exports.loginAdmin =async (req, res, next) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ id: admin._id }, config.secret);
+    const token = jwt.sign({ id: admin._id }, process.env.SECRET_KEY);
     return res.json({ token });
   } catch (error) {
     return next(error);
@@ -67,49 +66,6 @@ exports.signupStudent = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-/* exports.protect= catchAsync(async(req,res,next)=>{
-  // 1)getting token and check of it's there 
-  let token;
-  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
-   token = req.headers.authorization.split(' ')[1];
-   console.log(token);
-  }
-
-if(!token){
-  return next(
-    new AppError('you are not logged in ! please logged in to get access. ',401));
-}
-
-  // 2) verification token
-
-  const decoded = await promisify(jwt.verify)(token,process.env.STUDENT_JWT_SECRET);
-  // console.log(decoded);
-
-
-  /// 3) Check if user still exists
-  const currentUser = await User.findById(decoded.id);
-  if (!currentUser) {
-    return next(
-      new AppError(
-        'The user belonging to this token does no longer exist.',
-        401
-      )
-    );
-  }
-
-  // 4) Check if user changed password after the token was issued
-  // if (currentUser.changedPasswordAfter(decoded.iat)) {
-  //   return next(
-  //     new AppError('User recently changed password! Please log in again.', 401)
-  //   );
-  // }
-
-  // GRANT ACCESS TO PROTECTED ROUTE
-  req.user = currentUser;
-  res.locals.user = currentUser;
-  next();
-}); */
 
 exports.loginStudent = async (req, res) => {
   try {
@@ -212,30 +168,6 @@ exports.logoutUser = (req, res) => {
 
 // ***********************************************************admin****************************************//
 
-
-exports.verifyAdminToken = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'Unauthorized access' });
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.STUDENT_JWT_SECRET);
-    req.userId = decodedToken.userId;
-
-    // Find user by ID and check if user is validated
-    const admin = await Admin.findById(req.userId);
-    if (!admin) {
-      return res.status(401).json({ message: 'Unauthorized access' });
-    }
-
-    next();
-  } catch (error) {
-    console.error(error);
-    return res.status(401).json({ message: 'Unauthorized access' });
-  }
-};
 
 
 //logout

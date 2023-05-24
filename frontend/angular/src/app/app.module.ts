@@ -35,6 +35,7 @@ import { ListRendezVousComponent } from './views/psychologue/list-rendez-vous/li
 import { DetailRVComponent } from './views/psychologue/detail-rv/detail-rv.component';
 import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
 import { VideoCallComponent } from './views/video-call/video-call.component';
+import { NotFountComponent } from './views/not-fount/not-fount.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { VideoCallComponent } from './views/video-call/video-call.component';
     DetailRVComponent,
     RvConfirmeeComponent,
     VideoCallComponent,
+    NotFountComponent,
 
 
   ],

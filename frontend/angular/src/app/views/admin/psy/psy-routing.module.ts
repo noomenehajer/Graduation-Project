@@ -5,13 +5,14 @@ import { AdminListPsyComponent } from './admin-list-psy/admin-list-psy.component
 import { DetailPsyComponent } from './detail-psy/detail-psy.component';
 import { EditPsyComponent } from './edit-psy/edit-psy.component';
 import { PsyNonValideComponent } from './psy-non-valide/psy-non-valide.component';
+import { AuthAdminGuard } from '../../guards/auth-admin.guard';
 
 const routes: Routes = [
-  {path:'add',component:AdminAddPsyComponent},
-  {path:'',component:AdminListPsyComponent},
+  {path:'add',component:AdminAddPsyComponent,canActivate:[AuthAdminGuard]},
+  {path:'',component:AdminListPsyComponent,canActivate:[AuthAdminGuard]},
   {path:'detail-psy/:id',component:DetailPsyComponent},
-  {path:'edit/:id',component:EditPsyComponent},
-  {path:'invalidpsy',component:PsyNonValideComponent},
+  {path:'edit/:id',component:EditPsyComponent,canActivate:[AuthAdminGuard]},
+  {path:'invalidpsy',component:PsyNonValideComponent,canActivate:[AuthAdminGuard]},
 ];
 
 @NgModule({

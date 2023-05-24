@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminPsyController= require('../Controllers/admin-psyController');
-const {protectPsy} = require('../middlewares/auth.middleware');
-
+const {protectAdmin,protectPsy}=require('../middlewares/auth.middleware');
 
 
 

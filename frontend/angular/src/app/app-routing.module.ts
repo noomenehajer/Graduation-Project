@@ -15,6 +15,9 @@ import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.c
 import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
 import { AuthPsyGuard } from './views/guards/auth-psy.guard';
 import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
+import { LoginRegisterGuard } from './views/guards/login-register.guard';
+import { NotFountComponent } from './views/not-fount/not-fount.component';
+import { VideoCallComponent } from './views/video-call/video-call.component';
 
 const routes: Routes = [
 
@@ -46,8 +49,10 @@ const routes: Routes = [
       {path:'answer',loadChildren:()=>import('./views/user/answer-questionnaire/answer-questionnaire.module').then(m=>m.AnswerQuestionnaireModule)},
       {path:'whoareyou',component:WhoAreYouComponent},
       {path: 'psy/questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
+      {path:'room',component:VideoCallComponent}
     ]
   },
+  {path:'**',component:NotFountComponent},
   // { path: 'setAvail', component: SetAvailabilityComponent,canActivate:[AuthPsyGuard]},
 
 

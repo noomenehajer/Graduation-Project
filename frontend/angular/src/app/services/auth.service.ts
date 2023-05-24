@@ -40,13 +40,7 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     }
   }
 
-  // getCurrentUser(): any {
-  //   const currentUser = localStorage.getItem('currentUser');
-  //   if (currentUser) {
-  //     return JSON.parse(currentUser);
-  //   }
-  //   return null;
-  // }
+
 
   getUserData(){
     let token = localStorage.getItem('token');
@@ -111,5 +105,15 @@ signupStudent(nom: string, prenom: string, email: string, motDePasse: string): O
     return this.http.post(`${this.authUrl}/password`, body);
   }
 
+
+  public isAuthenticatedAdmin() {
+    let token= localStorage.getItem('token');
+    // console.log(token);
+    if(token){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
 

@@ -15,7 +15,7 @@ export class AdminLayoutComponent {
       (response) => {
         console.log(response);
         localStorage.removeItem('token');
-        this.router.navigate(['/loginadmin']);      },
+        this.router.navigate(['/']);      },
       (error) => {
         console.log(error);
       }

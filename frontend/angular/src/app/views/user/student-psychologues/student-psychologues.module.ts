@@ -12,12 +12,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DemandezRvComponent } from './demandez-rv/demandez-rv.component';
+import { ListRvComponent } from './list-rv/list-rv.component';
 
 @NgModule({
   declarations: [
     ListPsychologuesComponent,
     DetailPsychologueComponent,
-    DemandezRvComponent
+    DemandezRvComponent,
+    ListRvComponent
   ],
   imports: [MatFormFieldModule,
     MatTabsModule,

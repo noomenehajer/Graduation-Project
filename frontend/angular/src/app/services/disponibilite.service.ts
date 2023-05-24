@@ -75,6 +75,16 @@ export class DisponibiliteService {
     return this.http.get<Rendezvous[]>(`${this.apiUrl}/getRv`, httpOptions);
   }
 
+  getRvStudent(etudiantId: string): Observable<Rendezvous[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      })
+    };
+    return this.http.get<Rendezvous[]>(`${this.apiUrl}/getRVS/?etudiantId=${etudiantId}`, httpOptions);
+  }
+
+
   getRvpsyById(rendezvousId: string): Observable<Rendezvous[]> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -144,5 +154,5 @@ export class DisponibiliteService {
   }
 
 
-  
+
 }

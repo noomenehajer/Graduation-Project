@@ -1,12 +1,12 @@
 .gradient-custom {
   /* fallback for old browsers */
-  background: #37517e;
+  background: #4B49AC ;
 
   /* Chrome 10-25, Safari 5.1-6 */
   background: -webkit-linear-gradient(to right, rgba(55, 81, 126, 1), rgb(56, 89, 146)) !important;
 
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to left, rgba(55, 81, 126, 1), #7d53ab) !important;
+  background: linear-gradient(to left, #4B49AC , #7d53ab) !important;
 }
 
 .bg-glass {

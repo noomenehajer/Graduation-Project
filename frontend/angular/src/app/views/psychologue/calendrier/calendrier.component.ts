@@ -76,36 +76,14 @@ export class CalendrierComponent implements OnInit {
   //   }
   // }
 
-  // getDisponibilite(psyId: string): void {
-  //   this.disponibiliteService.getDisponibilite().subscribe(
-  //     (disponibilites: Disponibilite[]) => {
-  //       const updatedDisponibilites = disponibilites.filter(disponibilite =>
-  //         this.disponibilities.findIndex(d => d._id === disponibilite._id) === -1
-  //       );
-
-  //       this.disponibilities = updatedDisponibilites.map(disponibilite => {
-  //         const seances = disponibilite.seance.map(seance => {
-  //           return {
-  //             jour: new Date(seance.jour),
-  //             debut: new Date(seance.debut),
-  //             fin: new Date(seance.fin)
-  //           };
-  //         });
-  //         return {
-  //           _id: disponibilite._id,
-  //           psy: disponibilite.psy,
-  //           seance: seances
-  //         };
-  //       });
-  //     },
-  //     error => console.log(error)
-  //   );
-  // }
   getDisponibilite(psyId: string): void {
     this.disponibiliteService.getDisponibilite().subscribe(
       (disponibilites: Disponibilite[]) => {
-        const nonDeletedDisponibilites = disponibilites.filter(disponibilite => !disponibilite.deleted);
-        this.disponibilities = nonDeletedDisponibilites.map(disponibilite => {
+        const updatedDisponibilites = disponibilites.filter(disponibilite =>
+          this.disponibilities.findIndex(d => d._id === disponibilite._id) === -1
+        );
+
+        this.disponibilities = updatedDisponibilites.map(disponibilite => {
           const seances = disponibilite.seance.map(seance => {
             return {
               jour: new Date(seance.jour),
@@ -116,17 +94,39 @@ export class CalendrierComponent implements OnInit {
           return {
             _id: disponibilite._id,
             psy: disponibilite.psy,
-            seance: seances,
-            deleted:false
+            seance: seances
           };
         });
-
-        // Store the non-deleted disponibilities in local storage
-        localStorage.setItem('nonDeletedDisponibilites', JSON.stringify(nonDeletedDisponibilites));
       },
       error => console.log(error)
     );
   }
+  // getDisponibilite(psyId: string): void {
+  //   this.disponibiliteService.getDisponibilite().subscribe(
+  //     (disponibilites: Disponibilite[]) => {
+  //       const nonDeletedDisponibilites = disponibilites.filter(disponibilite => !disponibilite.deleted);
+  //       this.disponibilities = nonDeletedDisponibilites.map(disponibilite => {
+  //         const seances = disponibilite.seance.map(seance => {
+  //           return {
+  //             jour: new Date(seance.jour),
+  //             debut: new Date(seance.debut),
+  //             fin: new Date(seance.fin)
+  //           };
+  //         });
+  //         return {
+  //           _id: disponibilite._id,
+  //           psy: disponibilite.psy,
+  //           seance: seances,
+  //           // deleted:false
+  //         };
+  //       });
+
+  //       // Store the non-deleted disponibilities in local storage
+  //       localStorage.setItem('nonDeletedDisponibilites', JSON.stringify(nonDeletedDisponibilites));
+  //     },
+  //     error => console.log(error)
+  //   );
+  // }
   deleteDisponibiliteById(disponibiliteId: string): void {
     const index = this.disponibilities.findIndex(disponibilite => disponibilite._id === disponibiliteId);
     if (index !== -1) {

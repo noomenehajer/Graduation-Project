@@ -36,6 +36,11 @@ export class PsyService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
    getNonValidPsy(): Observable<Psychologue[]> {
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Authorization': 'Bearer ' + localStorage.getItem('token')
+    //   })
+    // };
       const url = `${this.apiUrl}/invalidpsy`;
   return this.http.get<Psychologue[]>(url);
     }
@@ -46,7 +51,7 @@ export class PsyService {
       });
       return this.http.get<any>(`${this.url}/profile`, { headers });
     }
-   
+
     updateProfile(formData: FormData): Observable<any> {
       const headers = new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -67,8 +72,8 @@ export class PsyService {
         nouveauMotDePasse
       };
       return this.http.put<any>(`${this.url}/profile/password`, body, { headers });
-    }  
-    
+    }
+
     uploadImage(photo: File): Observable<any> {
       const formData = new FormData();
       formData.append('photo', photo);

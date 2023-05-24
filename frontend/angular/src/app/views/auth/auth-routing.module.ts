@@ -5,6 +5,7 @@ import { LoginadminComponent } from './loginadmin/loginadmin.component';
 import { LoginuserComponent } from './loginuser/loginuser.component';
 import { SignupPsyComponent } from './signup-psy/signup-psy.component';
 import { SignupUserComponent } from './signup-user/signup-user.component';
+import { LoginRegisterGuard } from '../guards/login-register.guard';
 
 const routes: Routes = [
 {path:'loginadmin',component:LoginadminComponent},

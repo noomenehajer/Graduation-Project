@@ -14,21 +14,29 @@ export class UserLayoutComponent {
   verifyuser:any;
   verifypsy:any
   constructor(private articleService: ArticleService,private authService:AuthService,private router:Router) {
-  if(this.authService.isAuthenticated()==true ){
-    this.verifyuser=true;
-  }else{
-    this.verifyuser=false;
-  }
-  if(this.authService.isAuthenticatedPsy()==true){
-    this.verifypsy=true;
-  }else{
-    this.verifypsy=false;
+
   }
 
+  checkAuthenticationStatus() {
+    if (this.authService.isAuthenticated()) {
+      this.verifyuser = true;
+    } else {
+      this.verifyuser = false;
+    }
 
+    if (this.authService.isAuthenticatedPsy()) {
+      this.verifypsy = true;
+    } else {
+      this.verifypsy = false;
+    }
   }
 
   ngOnInit() {
+    this.checkAuthenticationStatus();
+    window.addEventListener('storage', () => {
+      this.checkAuthenticationStatus(); // Update authentication status when storage changes
+    });
+
     this.articleService.getAllArticles().subscribe((articles: Article[]) => {
       this.articles = articles;
     });

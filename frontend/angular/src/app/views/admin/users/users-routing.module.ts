@@ -5,14 +5,15 @@ import { AdminListStudentsComponent } from './admin-list-students/admin-list-stu
 import { DetailStudentComponent } from './detail-student/detail-student.component';
 import { EditStudentComponent } from './edit-student/edit-student.component';
 import { NonValidStudentComponent } from './non-valid-student/non-valid-student.component';
+import { AuthAdminGuard } from '../../guards/auth-admin.guard';
 
 const routes: Routes = [
-  {path:'add',component:AdminAddStudentComponent},
-  {path:'',component:AdminListStudentsComponent},
-  {path:'detail/:id',component:DetailStudentComponent},
-  {path:'edit/:id',component:EditStudentComponent},
-  {path:'nonvalid',component:NonValidStudentComponent},
-  
+  {path:'add',component:AdminAddStudentComponent,canActivate:[AuthAdminGuard]},
+  {path:'',component:AdminListStudentsComponent,canActivate:[AuthAdminGuard]},
+  {path:'detail/:id',component:DetailStudentComponent,canActivate:[AuthAdminGuard]},
+  {path:'edit/:id',component:EditStudentComponent,canActivate:[AuthAdminGuard]},
+  {path:'nonvalid',component:NonValidStudentComponent,canActivate:[AuthAdminGuard]},
+
 
 ];
 

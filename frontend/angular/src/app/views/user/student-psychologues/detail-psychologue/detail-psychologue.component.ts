@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit ,ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Psychologue } from 'src/app/models/Psychologue';
@@ -8,15 +8,21 @@ import { PsyService } from 'src/app/services/psy.service';
 import Swal from 'sweetalert2';
 import { DemandezRvComponent } from '../demandez-rv/demandez-rv.component';
 import { Rendezvous } from 'src/app/models/rendezvous';
-import { Observable } from 'rxjs';
+import { ListRvComponent } from '../list-rv/list-rv.component';
 @Component({
   selector: 'app-detail-psychologue',
   templateUrl: './detail-psychologue.component.html',
   styleUrls: ['./detail-psychologue.component.css']
 })
 export class DetailPsychologueComponent implements OnInit {
+  @ViewChild(ListRvComponent)
+  set ListRvComponentInstance(component: ListRvComponent) {
+    this.ListRvComponent = component;
+  }
+  ListRvComponent!: ListRvComponent;
+
   etudiantId!: string;
-rendezVous:any;
+  rendezVous:any;
   psy!: Psychologue;
   disponibilities: Disponibilite[] = [];
   selected!: Date | null;
@@ -46,11 +52,6 @@ rendezVous:any;
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === 'success') {
-    //     this.buttonLabel = 'Annuler';
-    //   }
-    // });
   }
   getPsy(): void {
     const psyId = this.route.snapshot.paramMap.get('id');
@@ -77,7 +78,9 @@ rendezVous:any;
     }
   }
 
-
+  showRendezvousConfirme(selectedDate: Date | null): void {
+    this.ListRvComponent.getRendezvousForSelectedDate(selectedDate);
+  }
 
 
     annulerRv(disponibiliteId: string): void {
@@ -97,11 +100,6 @@ rendezVous:any;
         );
       }
     }
-
-
-
-
-
   getDisponibilite(psyId: string): void {
 
     this.disponibiliteService.getDisponibiliteByPsyId(psyId).subscribe(
@@ -118,7 +116,7 @@ rendezVous:any;
             _id: disponibilite._id,
             psy: disponibilite.psy,
             seance: seances,
-            deleted: false
+            // deleted: false
           };
           });
       },
@@ -138,11 +136,6 @@ rendezVous:any;
     });
   }
 
-  // getRendezVousByDisponibilite(disponibiliteId: string) {
-  //   return this.disponibiliteService.getRendezVousByDisponibilite(disponibiliteId);
-  // }
-
-
   sortDisponibilites() {
     this.disponibilities.sort((a, b) => {
       const debutA = new Date(a.seance[0].debut);
@@ -158,36 +151,6 @@ rendezVous:any;
     this.selected = null;
     this.availabilityShown = false;
   }
-
-  // deleteDisponibilite(disponibilite: any) {
-  //   // Find the index of the disponibilite to delete
-  //   const index = this.disponibilities.indexOf(disponibilite);
-
-  //   // Show confirmation dialog
-  //   Swal.fire({
-  //     title: 'Are you sure you want to delete this availability?',
-  //     text: 'This action cannot be undone.',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#dc3545',
-  //     confirmButtonText: 'Yes, delete it!',
-  //     cancelButtonText: 'Cancel'
-  //   }).then((result) => {
-  //     // If user confirms deletion
-  //     if (result.isConfirmed) {
-  //       // Remove the disponibilite from the array
-  //       if (index !== -1) {
-  //         this.disponibilities.splice(index, 1);
-  //       }
-  //       // Show success message
-  //       Swal.fire({
-  //         title: 'Availability deleted',
-  //         icon: 'success'
-  //       });
-  //     }
-  //   });
-  // }
-
 
 }
 

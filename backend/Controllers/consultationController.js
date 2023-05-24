@@ -55,19 +55,22 @@ exports.getDisponibilite = async (req, res) => {
   }
 };
 
+exports.getRvStudent = async (req, res) => {
+  try {
+    const { etudiantId,psyId } = req.query;
 
-// exports.getRvpsy = async (req, res) => {
-//   try {
-//     const { psyId } = req.query;
-
-//     const rendezVous = await RendezVous.find({ psy: psyId });
+    const rendezvous = await RendezVous.find({ etudiant: etudiantId,psy:psyId })
+      .populate('etudiant')
+      .populate('disponibilite');
     
-//     console.log(rendezVous);
-//     res.status(200).json(rendezVous);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+    console.log('rendezvous:', rendezvous);
+    res.json(rendezvous);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve rendezvous' });
+  }
+};
+
+
 exports.getRvpsy = async (req, res) => {
   try {
     const { psyId } = req.query;
