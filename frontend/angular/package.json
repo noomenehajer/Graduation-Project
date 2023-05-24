@@ -33,8 +33,6 @@
     "jquery": "^3.6.4",
     "moment": "^2.29.4",
     "rxjs": "~7.8.0",
-    "simple-peer": "^16.1.0",
-    "socket.io-client": "^4.3.2",
     "sweetalert2": "^11.4.8",
     "tslib": "^2.5.0",
     "zone.js": "~0.12.0"

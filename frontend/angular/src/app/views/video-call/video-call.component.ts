@@ -1,5 +1,10 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { io, Socket } from 'socket.io-client';
+//import { io, Socket } from 'socket.io-client';
+
+ // package.json : //
+/*"simple-peer": "^16.1.0",
+"socket.io-client": "^4.3.2", */
+
 // import SimplePeer from 'simple-peer';
 
 @Component({
