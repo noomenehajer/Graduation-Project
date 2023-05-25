@@ -36,6 +36,8 @@ import { DetailRVComponent } from './views/psychologue/detail-rv/detail-rv.compo
 import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
 import { VideoCallComponent } from './views/video-call/video-call.component';
 import { NotFountComponent } from './views/not-fount/not-fount.component';
+import { SocketIoModule } from 'ngx-socket-io';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +56,9 @@ import { NotFountComponent } from './views/not-fount/not-fount.component';
   ],
   imports: [
 
-
+    SocketIoModule.forRoot({
+      url:'/'
+    }),
     MatDialogModule,
     MatNativeDateModule,
     MatDatepickerModule,

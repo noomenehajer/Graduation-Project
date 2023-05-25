@@ -1,79 +1,121 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-//import { io, Socket } from 'socket.io-client';
+import { ActivatedRoute } from '@angular/router';
+import { Socket } from 'ngx-socket-io';
+import { v4 as uuidv4 } from 'uuid';
+import Peer from 'peerjs';
+// declare const Peer: any;
 
- // package.json : //
-/*"simple-peer": "^16.1.0",
-"socket.io-client": "^4.3.2", */
-
-// import SimplePeer from 'simple-peer';
+interface VideoElement {
+  muted: boolean;
+  srcObject: MediaStream;
+  userId: string;
+}
 
 @Component({
   selector: 'app-video-call',
   templateUrl: './video-call.component.html',
   styleUrls: ['./video-call.component.css']
 })
-export class VideoCallComponent  {
-  @ViewChild('localVideo') localVideo!: ElementRef<HTMLVideoElement>;
-  @ViewChild('remoteVideo') remoteVideo!: ElementRef<HTMLVideoElement>;
+export class VideoCallComponent implements OnInit {
+  currentUserId: string = uuidv4();
+  videos: VideoElement[] = [];
 
-  // private socket: Socket| undefined;;
-  // private isAudioEnabled = true;
-  // private peer: SimplePeer.Instance;
+  constructor(
+    private route: ActivatedRoute,
+    private socket: Socket,
+  ) { }
 
-  // ngOnInit() {
-  //   this.socket = io();
+  ngOnInit() {
+    console.log(`Initialize Peer with id ${this.currentUserId}`);
+    const myPeer: any = new Peer(this.currentUserId, {
+      host: '/',
+      port: 3001,
+    });
 
-  //   this.peer = new SimplePeer({ initiator: true });
+    this.route.params.subscribe((params) => {
+      console.log(params);
 
-  //   navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-  //     .then((stream) => {
-  //       const localVideoElement = this.localVideo.nativeElement;
-  //       localVideoElement.srcObject = stream;
-  //       this.toggleAudioTracks(stream);
-  //       this.peer.addStream(stream);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error accessing media devices:', error);
-  //     });
+      myPeer.on('open', (userId: any) => {
+        this.socket.emit('join-room', params['roomId'], userId);
+      });
+    });
 
-  //   this.socket.on('offer', (offer) => {
-  //     this.peer.signal(offer);
-  //   });
+    navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    })
+      .catch((err) => {
+        console.error('[Error] Not able to retrieve user media:', err);
+        return null;
+      })
+      .then((stream: MediaStream | null) => {
+        if (stream) {
+          this.addMyVideo(stream);
+        }
 
-  //   this.socket.on('answer', (answer) => {
-  //     this.peer.signal(answer);
-  //   });
+        myPeer.on('call', (call: any) => {
+          console.log('receiving call...', call);
+          call.answer(stream);
 
-  //   this.socket.on('iceCandidate', (candidate) => {
-  //     this.peer.signal(candidate);
-  //   });
+          call.on('stream', (otherUserVideoStream: MediaStream) => {
+            console.log('receiving other stream', otherUserVideoStream);
 
-  //   this.peer.on('signal', (data) => {
-  //     if (data.type === 'offer') {
-  //       this.socket.emit('offer', data);
-  //     } else if (data.type === 'answer') {
-  //       this.socket.emit('answer', data);
-  //     } else if (data.type === 'candidate') {
-  //       this.socket.emit('iceCandidate', data);
-  //     }
-  //   });
+            this.addOtherUserVideo(call.metadata.userId, otherUserVideoStream);
+          });
 
-  //   this.peer.on('stream', (stream) => {
-  //     const remoteVideoElement = this.remoteVideo.nativeElement;
-  //     remoteVideoElement.srcObject = stream;
-  //   });
-  // }
+          call.on('error', (err: any) => {
+            console.error(err);
+          })
+        });
 
-  // toggleAudio() {
-  //   this.isAudioEnabled = !this.isAudioEnabled;
-  //   const localVideoElement = this.localVideo.nativeElement;
-  //   const mediaStream = localVideoElement.srcObject;
-  //   this.toggleAudioTracks(mediaStream);
-  // }
+        this.socket.on('user-connected', (userId: any) => {
+          console.log('Receiving user-connected event', `Calling ${userId}`);
 
-  // toggleAudioTracks(stream: MediaStream) {
-  //   stream.getAudioTracks().forEach((track) => {
-  //     track.enabled = this.isAudioEnabled;
-  //   });
-  // }
+          // Let some time for new peers to be able to answer
+          setTimeout(() => {
+            const call = myPeer.call(userId, stream, {
+              metadata: { userId: this.currentUserId },
+            });
+            call.on('stream', (otherUserVideoStream: MediaStream) => {
+              console.log('receiving other user stream after his connection');
+              this.addOtherUserVideo(userId, otherUserVideoStream);
+            });
+
+            call.on('close', () => {
+              this.videos = this.videos.filter((video) => video.userId !== userId);
+            });
+          }, 1000);
+        });
+      });
+
+    this.socket.on('user-disconnected', (userId: any) => {
+      console.log(`receiving user-disconnected event from ${userId}`)
+      this.videos = this.videos.filter(video => video.userId !== userId);
+    });
+  }
+
+  addMyVideo(stream: MediaStream) {
+    this.videos.push({
+      muted: true,
+      srcObject: stream,
+      userId: this.currentUserId,
+    });
+  }
+
+  addOtherUserVideo(userId: string, stream: MediaStream) {
+    const alreadyExisting = this.videos.some(video => video.userId === userId);
+    if (alreadyExisting) {
+      console.log(this.videos, userId);
+      return;
+    }
+    this.videos.push({
+      muted: false,
+      srcObject: stream,
+      userId,
+    });
+  }
+
+  onLoadedMetadata(event: Event) {
+    (event.target as HTMLVideoElement).play();
+  }
 }

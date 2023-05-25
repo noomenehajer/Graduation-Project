@@ -1,7 +1,14 @@
-<h1>Video Call</h1>
-
-<video #localVideo autoplay muted></video>
-<video #remoteVideo autoplay></video>
-
-<!-- <button (click)="toggleAudio()">Toggle Audio</button> -->
-
+<div class="video-grid">
+  <div *ngFor="let video of videos">
+    <span *ngIf="video.userId !== currentUserId; else currentUserVideoLabel">{{ video.userId }}</span>
+    <ng-template #currentUserVideoLabel>
+      <span>You</span>
+    </ng-template>
+    <video
+      [srcObject]="video.srcObject"
+      (loadedmetadata)="onLoadedMetadata($event)"
+      [muted]="video.muted"
+    >
+    </video>
+  </div>
+</div>
