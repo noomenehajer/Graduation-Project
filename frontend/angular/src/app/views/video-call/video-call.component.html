@@ -5,10 +5,12 @@
       <span>You</span>
     </ng-template>
     <video
+      #videoElement
       [srcObject]="video.srcObject"
       (loadedmetadata)="onLoadedMetadata($event)"
       [muted]="video.muted"
-    >
-    </video>
+      autoplay
+      playsinline
+    ></video>
   </div>
 </div>

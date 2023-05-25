@@ -1,9 +1,8 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { v4 as uuidv4 } from 'uuid';
 import Peer from 'peerjs';
-// declare const Peer: any;
 
 interface VideoElement {
   muted: boolean;
@@ -29,7 +28,7 @@ export class VideoCallComponent implements OnInit {
     console.log(`Initialize Peer with id ${this.currentUserId}`);
     const myPeer: any = new Peer(this.currentUserId, {
       host: '/',
-      port: 3001,
+      port: 3002,
     });
 
     this.route.params.subscribe((params) => {
@@ -59,13 +58,12 @@ export class VideoCallComponent implements OnInit {
 
           call.on('stream', (otherUserVideoStream: MediaStream) => {
             console.log('receiving other stream', otherUserVideoStream);
-
             this.addOtherUserVideo(call.metadata.userId, otherUserVideoStream);
           });
 
           call.on('error', (err: any) => {
             console.error(err);
-          })
+          });
         });
 
         this.socket.on('user-connected', (userId: any) => {
@@ -89,8 +87,8 @@ export class VideoCallComponent implements OnInit {
       });
 
     this.socket.on('user-disconnected', (userId: any) => {
-      console.log(`receiving user-disconnected event from ${userId}`)
-      this.videos = this.videos.filter(video => video.userId !== userId);
+      console.log(`receiving user-disconnected event from ${userId}`);
+      this.videos = this.videos.filter((video) => video.userId !== userId);
     });
   }
 
@@ -103,7 +101,7 @@ export class VideoCallComponent implements OnInit {
   }
 
   addOtherUserVideo(userId: string, stream: MediaStream) {
-    const alreadyExisting = this.videos.some(video => video.userId === userId);
+    const alreadyExisting = this.videos.some((video) => video.userId === userId);
     if (alreadyExisting) {
       console.log(this.videos, userId);
       return;
