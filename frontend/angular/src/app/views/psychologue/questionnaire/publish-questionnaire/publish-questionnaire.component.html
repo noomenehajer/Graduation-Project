@@ -33,4 +33,8 @@
   <div style="justify-content: center;display: flex;">
     <button class="btn btn-primary" style="padding-bottom:6px;" (click)="onSubmit()"><h5>Publish</h5></button>
   </div>
+  <div *ngIf="noStudentSelected" style="text-align: center; color: red; margin-top: 10px;">
+     Please select at least one student.
+  </div>
 </div>
+

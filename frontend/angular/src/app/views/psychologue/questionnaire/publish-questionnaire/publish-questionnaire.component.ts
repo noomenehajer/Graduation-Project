@@ -16,6 +16,7 @@ export class PubishQuestionnaireComponent implements OnInit {
   students!: Student[];
   questionnaire!: Questionnaire;
   checkboxes!: FormControl[];
+  noStudentSelected: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -68,16 +69,23 @@ export class PubishQuestionnaireComponent implements OnInit {
 
   onSubmit(): void {
     const etudiantIds: string[] = [];
-
-  // Extract selected student IDs from checkboxes
-  this.checkboxes.forEach((checkbox, i) => {
-    if (checkbox.value) {
-      etudiantIds.push(this.students[i]._id);
+  
+    // Extract selected student IDs from checkboxes
+    this.checkboxes.forEach((checkbox, i) => {
+      if (checkbox.value) {
+        etudiantIds.push(this.students[i]._id);
+      }
+    });
+  
+    if (etudiantIds.length === 0) {
+      this.noStudentSelected = true;
+      return; // Exit the method without proceeding
     }
-  });
-
+  
+    this.noStudentSelected = false;
+  
     const questionnaireId = this.questionnaire._id;
-
+  
     this.questionnaireService.publishQuestionnaire(questionnaireId, etudiantIds).subscribe(questionnaire => {
       this.questionnaire = questionnaire;
       alert('Questionnaire has been published!');
@@ -87,4 +95,5 @@ export class PubishQuestionnaireComponent implements OnInit {
       alert('An error occurred while publishing the questionnaire.');
     });
   }
+  
 }
