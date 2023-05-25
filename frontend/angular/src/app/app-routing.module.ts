@@ -49,7 +49,7 @@ const routes: Routes = [
       {path:'answer',loadChildren:()=>import('./views/user/answer-questionnaire/answer-questionnaire.module').then(m=>m.AnswerQuestionnaireModule)},
       {path:'whoareyou',component:WhoAreYouComponent},
       {path: 'psy/questionnaire', loadChildren:()=>import('./views/psychologue/questionnaire/questionnaire.module').then(m => m.QuestionnaireModule)},
-      {path:'room',component:VideoCallComponent}
+      {path:'room/:roomId',component:VideoCallComponent}
     ]
   },
   {path:'**',component:NotFountComponent},

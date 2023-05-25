@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Rendezvous } from 'src/app/models/rendezvous';
 import { DisponibiliteService } from 'src/app/services/disponibilite.service';
-
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-list-rv',
   templateUrl: './list-rv.component.html',
@@ -19,7 +19,7 @@ export class ListRvComponent implements OnInit {
   selected!: Date | null;
   // modalRef: NgbModalRef | undefined;
 
-  constructor(private disponibiliteService: DisponibiliteService,private route: ActivatedRoute) {}
+  constructor(private disponibiliteService: DisponibiliteService,private route: ActivatedRoute,private router:Router) {}
 
   ngOnInit(): void {
     const etudiantId = localStorage.getItem('userId');
@@ -65,4 +65,12 @@ export class ListRvComponent implements OnInit {
       }
     );
   }
+  
+  createRoom() {
+    const roomId = uuidv4();
+    console.log('create room with roomId:', roomId);
+    this.router.navigate(['/room', roomId]);
+  }
+
+
 }

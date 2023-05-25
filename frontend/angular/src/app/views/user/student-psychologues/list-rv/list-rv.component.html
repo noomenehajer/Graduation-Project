@@ -19,7 +19,7 @@
             <div *ngIf="rendezvous.type=='face to face'" style="background-color: yellow;font-size: 16px;margin-left: 13px;">
               {{ rendezvous.type }}
             </div>
-            <button class="btn btn-danger" *ngIf="rendezvous.type=='online'">
+            <button class="btn btn-danger" *ngIf="rendezvous.type=='online'" (click)="createRoom()">
               {{ rendezvous.type }} &nbsp;<i class="bi bi-camera-video-fill"></i>
             </button>
             <hr />

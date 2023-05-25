@@ -2,8 +2,10 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Rendezvous } from 'src/app/models/rendezvous';
 import { DisponibiliteService } from 'src/app/services/disponibilite.service';
+import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 import { NgbModalRef,NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-rv-confirmee',
   templateUrl: './rv-confirmee.component.html',
@@ -17,7 +19,7 @@ export class RvConfirmeeComponent {
   filteredRendezvousListConfirme: Rendezvous[] = [];
   selected!: Date | null;
   modalRef: NgbModalRef | undefined;
-  constructor(private disponibiliteService: DisponibiliteService, public dialog: MatDialog) {}
+  constructor(private disponibiliteService: DisponibiliteService, public dialog: MatDialog,private router:Router) {}
 
   ngOnInit(): void {
     const psyId = localStorage.getItem('psyId');
@@ -62,6 +64,11 @@ export class RvConfirmeeComponent {
   }
 
 
+  createRoom() {
+    const roomId = uuidv4();
+    console.log('create room with roomId:', roomId);
+    this.router.navigate(['/room', roomId]);
+  }
 
 }
 
