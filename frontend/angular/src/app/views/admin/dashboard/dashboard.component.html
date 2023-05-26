@@ -1,1 +1,52 @@
-<p>dashboard works!</p>
+ <h3 class="font-weight-bold" style="margin-bottom: 40px;text-align: center;margin-top: -40px;">Admin Dashboard: Insights and Analytics</h3>    
+    
+      <div class="row">
+        <div class="col-md-6  stretch-card">
+          <div class="card tale-bg">           
+              <img style="margin-top: 50px;" src="../../../../assets/admin/images/dash.png" >             
+          </div>
+        </div>
+        <div class="col-md-6 grid-margin transparent" style="margin-top: 30px;">
+          <div class="row">
+            <div class="col-md-6 mb-4 stretch-card transparent">
+              <div class="card card-tale">
+                <div class="card-body">
+                  <p style="text-align: center;font-size: 16px;" class="mb-4">Total Articles</p>
+                  <p style="text-align: center;" class="fs-30 mb-2">{{articles.length}}</p>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4 stretch-card transparent">
+              <div class="card card-dark-blue">
+                <div class="card-body">
+                  <p style="text-align: center;font-size: 16px;"class="mb-4">Total Psychologists</p>
+                  <p style="text-align: center;" class="fs-30 mb-2">{{psychologues.length}}</p>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+              <div class="card card-dark-blue">
+                <div style="display: grid; align-items: center; justify-content: center;height: 100%; " class="card-body">
+                  <p style="text-align: center;font-size: 16px; margin-top: 10px;margin-bottom: -20px;" class="mb-4">Total Students</p>
+                  <p style="text-align: center; margin-top: -60px;" class="fs-30 mb-2">{{students.length}}</p>
+                </div>
+              </div>
+            </div>            
+            <div class="col-md-6 stretch-card transparent">
+              <div class="card card-tale">
+                <div class="card-body">                 
+                  <p  style="text-align: center;font-size: 16px;">Student Distribution by Grade Level</p>
+                  <hr style=" border-top: 2px solid #4747a1; margin: 10px 0;">
+                  <p style="text-align: center;font-size: 16px;">◉ 1st year: {{ firstYearPercentage.toFixed(0) }}%</p>
+                  <p style="text-align: center;font-size: 16px;">◉ 2nd year: {{ secondYearPercentage.toFixed(0) }}%</p>
+                  <p style="text-align: center;font-size: 16px;">◉ 3rd year: {{ thirdYearPercentage.toFixed(0) }}%</p>
+                </div>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>       

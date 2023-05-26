@@ -10,7 +10,7 @@ import { AdminPasswordComponent } from './views/admin/admin-password/admin-passw
 import { QuestionnaireRoutingModule } from './views/psychologue/questionnaire/questionnaire-routing.module';
 import { AuthGuard } from './views/guards/auth.guard';
 import { AuthStGuard } from './views/guards/auth-st.guard';
-import { ProfileComponent } from './views/user/profile/profile.component';
+import { DashboardComponent } from './views/admin/dashboard/dashboard.component';
 import { CalendrierComponent } from './views/psychologue/calendrier/calendrier.component';
 import { SetAvailabilityComponent } from './views/psychologue/set-availability/set-availability.component';
 import { AuthPsyGuard } from './views/guards/auth-psy.guard';
@@ -29,6 +29,7 @@ const routes: Routes = [
       { path: 'users', loadChildren: () => import('./views/admin/users/users.module').then(m => m.UsersModule) },
       {path:'psy',loadChildren:()=>import('./views/admin/psy/psy.module').then(m=>m.PsyModule)},
       { path: 'password', component: AdminPasswordComponent },
+      { path: 'dash' , component: DashboardComponent},
     ]
   },
   // { path: 'loginadmin', loadChildren:()=>import('./views/auth/auth.module').then(m => m.AuthModule)},
