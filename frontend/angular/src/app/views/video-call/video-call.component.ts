@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { v4 as uuidv4 } from 'uuid';
 import Peer from 'peerjs';
@@ -18,23 +18,41 @@ interface VideoElement {
 export class VideoCallComponent implements OnInit {
   currentUserId: string = uuidv4();
   videos: VideoElement[] = [];
-
+  incomingCall: any;
   constructor(
     private route: ActivatedRoute,
     private socket: Socket,
+    private router: Router
   ) { }
 
   ngOnInit() {
     console.log(`Initialize Peer with id ${this.currentUserId}`);
-    const myPeer: any = new Peer(this.currentUserId, {
-      host: '/',
-      port: 3002,
+    const myPeer: Peer = new Peer(this.currentUserId, {
+      host: 'localhost',
+      port: 3001,
+      path: '/peerjs',
+      secure: false,
+      debug: 3,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478' },
+          {
+            urls: 'turn:global.turn.twilio.com:3478',
+            username: 'your_username',
+            credential: 'your_password'
+          }
+        ]
+
+      }
     });
 
     this.route.params.subscribe((params) => {
-      console.log(params);
+      console.log('Route params:', params);
+      console.log(`User ${this.currentUserId} is joining room ${params['roomId']}`);
 
-      myPeer.on('open', (userId: any) => {
+      myPeer.on('open', (userId: string) => {
+        console.log('Peer connection open. User ID:', userId);
         this.socket.emit('join-room', params['roomId'], userId);
       });
     });
@@ -53,11 +71,11 @@ export class VideoCallComponent implements OnInit {
         }
 
         myPeer.on('call', (call: any) => {
-          console.log('receiving call...', call);
+          console.log('Receiving call...', call);
           call.answer(stream);
 
           call.on('stream', (otherUserVideoStream: MediaStream) => {
-            console.log('receiving other stream', otherUserVideoStream);
+            console.log('Receiving other stream', otherUserVideoStream);
             this.addOtherUserVideo(call.metadata.userId, otherUserVideoStream);
           });
 
@@ -66,30 +84,53 @@ export class VideoCallComponent implements OnInit {
           });
         });
 
-        this.socket.on('user-connected', (userId: any) => {
+        this.socket.on('user-connected', (userId: string) => {
           console.log('Receiving user-connected event', `Calling ${userId}`);
 
-          // Let some time for new peers to be able to answer
           setTimeout(() => {
-            const call = myPeer.call(userId, stream, {
-              metadata: { userId: this.currentUserId },
-            });
-            call.on('stream', (otherUserVideoStream: MediaStream) => {
-              console.log('receiving other user stream after his connection');
-              this.addOtherUserVideo(userId, otherUserVideoStream);
-            });
+            if (stream) {
+              const call = myPeer.call(userId, stream, {
+                metadata: { userId: this.currentUserId },
+              });
+              call.on('stream', (otherUserVideoStream: MediaStream) => {
+                console.log('Receiving other user stream after his connection');
+                this.addOtherUserVideo(userId, otherUserVideoStream);
+              });
 
-            call.on('close', () => {
-              this.videos = this.videos.filter((video) => video.userId !== userId);
-            });
-          }, 1000);
+              call.on('close', () => {
+                this.videos = this.videos.filter((video) => video.userId !== userId);
+              });
+            }
+          }, 5000);
+        });
+
+        this.socket.on('user-disconnected', (userId: string) => {
+          console.log(`Receiving user-disconnected event from ${userId}`);
+          this.videos = this.videos.filter((video) => video.userId !== userId);
+        });
+
+        // Add all existing users' video streams to the videos array
+        this.socket.on('all-users', (userIds: string[]) => {
+          console.log('Receiving all-users event', userIds);
+          userIds.forEach((userId) => {
+            if (userId !== this.currentUserId) {
+              if (stream) {
+                const call = myPeer.call(userId, stream, {
+                  metadata: { userId: this.currentUserId },
+                });
+                call.on('stream', (otherUserVideoStream: MediaStream) => {
+                  console.log('Receiving other user stream after joining room');
+                  this.addOtherUserVideo(userId, otherUserVideoStream);
+                });
+
+                call.on('close', () => {
+                  this.videos = this.videos.filter((video) => video.userId !== userId);
+                });
+              }
+            }
+          });
         });
       });
-
-    this.socket.on('user-disconnected', (userId: any) => {
-      console.log(`receiving user-disconnected event from ${userId}`);
-      this.videos = this.videos.filter((video) => video.userId !== userId);
-    });
   }
 
   addMyVideo(stream: MediaStream) {
@@ -101,19 +142,56 @@ export class VideoCallComponent implements OnInit {
   }
 
   addOtherUserVideo(userId: string, stream: MediaStream) {
-    const alreadyExisting = this.videos.some((video) => video.userId === userId);
-    if (alreadyExisting) {
-      console.log(this.videos, userId);
-      return;
+    console.log('Adding video for user:', userId);
+    const existingUser = this.videos.find((video) => video.userId === userId);
+    if (!existingUser) {
+      this.videos.push({
+        muted: false,
+        srcObject: stream,
+        userId,
+      });
+      console.log('Videos array:', this.videos);
     }
-    this.videos.push({
-      muted: false,
-      srcObject: stream,
-      userId,
-    });
   }
+
 
   onLoadedMetadata(event: Event) {
     (event.target as HTMLVideoElement).play();
   }
+
+  toggleAudio(userId: string) {
+    const videoElement = this.videos.find((video) => video.userId === userId);
+    if (videoElement) {
+      videoElement.muted = !videoElement.muted;
+    }
+  }
+
+  toggleVideo(userId: string) {
+    const videoElement = this.videos.find((video) => video.userId === userId);
+    if (videoElement && videoElement.srcObject) {
+      const videoTrack = videoElement.srcObject.getVideoTracks()[0];
+      videoTrack.enabled = !videoTrack.enabled;
+    }
+  }
+
+  declineCall(userId: string) {
+    // Find the video element corresponding to the user
+    const videoElement = this.videos.find((video) => video.userId === userId);
+    if (videoElement) {
+      // Stop the video track
+      const videoTrack = videoElement.srcObject.getVideoTracks()[0];
+      videoTrack.stop();
+
+      // Remove the video element from the videos array
+      this.videos = this.videos.filter((video) => video.userId !== userId);
+    }
+    // Perform any additional actions as needed
+    console.log(`Call declined for user: ${userId}`);
+ // Redirect to /psychologues
+ this.router.navigate(['/']);
 }
+
+
+}
+
+

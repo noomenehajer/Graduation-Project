@@ -83,5 +83,5 @@ export class QuestionnaireService {
     const url = `${this.apiUrl}/${studentId}/answeredQuestionnaires`;
     return this.http.get<Questionnaire[]>(url, { headers });
   }
-  
+
 }

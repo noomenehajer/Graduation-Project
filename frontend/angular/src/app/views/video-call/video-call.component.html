@@ -1,16 +1,29 @@
-<div class="video-grid">
-  <div *ngFor="let video of videos">
-    <span *ngIf="video.userId !== currentUserId; else currentUserVideoLabel">{{ video.userId }}</span>
-    <ng-template #currentUserVideoLabel>
-      <span>You</span>
-    </ng-template>
-    <video
-      #videoElement
-      [srcObject]="video.srcObject"
-      (loadedmetadata)="onLoadedMetadata($event)"
-      [muted]="video.muted"
-      autoplay
-      playsinline
-    ></video>
+<div class="main gradient-custom" style="height: 100vh;">
+  <div class="main__left">
+    <div class="videos__group">
+      <div class="video-grid">
+        <div *ngFor="let video of videos" class="video-item">
+          <span *ngIf="video.userId !== currentUserId; else currentUserVideoLabel">{{ video.userId }}</span>
+          <ng-template #currentUserVideoLabel>
+            <span>You</span>
+          </ng-template>
+          <video
+            [srcObject]="video.srcObject"
+            (loadedmetadata)="onLoadedMetadata($event)"
+            [muted]="video.muted"
+            autoplay
+          ></video>
+          <div class="controls" *ngIf="video.userId == currentUserId;">
+            <button class="btn btn-primary" (click)="toggleAudio(video.userId)">{{ video.muted ? 'Unmute' : 'Mute' }}</button>
+            <button class="btn btn-primary" (click)="toggleVideo(video.userId)">{{ video.srcObject.getVideoTracks()[0].enabled ? 'Disable Video' : 'Enable Video' }}</button>
+            <button class="btn btn-danger" (click)="declineCall(video.userId)">Decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+
+
+
