@@ -32,7 +32,7 @@ export class AddQuestionnaireComponent implements OnInit {
   addQuestion() {
     const question = this.fb.group({
       text: ['', Validators.required],
-      type: ['checkbox', Validators.required],
+      type: ['checkboxes', Validators.required],
       options: this.fb.array([
         this.fb.group({
           text: ['', Validators.required]

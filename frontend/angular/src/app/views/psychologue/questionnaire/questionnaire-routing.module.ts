@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'detail/:id', component: DetailQuestionnaireComponent },
   { path: 'publish/:id', component: PubishQuestionnaireComponent },
   { path: 'list/:id', component: ListAnswersComponent },
-  { path: 'answers/:id', component: AnsweredQuestionnaireComponent }
+  { path: ':id/answers/:studentId', component: AnsweredQuestionnaireComponent }
 ];
 
 @NgModule({

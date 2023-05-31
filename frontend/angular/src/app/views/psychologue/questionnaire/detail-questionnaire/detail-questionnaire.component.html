@@ -9,7 +9,7 @@
           <hr>
           <div *ngFor="let question of questionnaire.questions; let i=index">
             <h4>Question {{i+1}}. :{{ question.text }}</h4>
-            <div *ngIf="question.type == 'checkbox'">
+            <div *ngIf="question.type == 'checkboxes'">
               <ul>
                 <li *ngFor="let option of question.options">
                   <input type="checkbox" disabled>
@@ -17,7 +17,7 @@
                 </li>
               </ul>
             </div>
-            <div *ngIf="question.type === 'multipleChoice'">
+            <div *ngIf="question.type === 'multiplechoice'">
               <ul>
                 <li *ngFor="let option of question.options">
                   <input type="radio" disabled>

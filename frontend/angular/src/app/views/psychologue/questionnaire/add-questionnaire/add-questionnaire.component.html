@@ -20,13 +20,13 @@
         <div class="form-group">
           <label for="type">Type:</label>
           <select id="type" class="form-control" formControlName="type">
-            <option value="checkbox">Checkboxes</option>
-            <option value="multipleChoice">Multiple Choice</option>
+            <option value="checkboxes">Checkboxes</option>
+            <option value="multiplechoice">Multiple Choice</option>
             <option value="shortAnswer">Short Answer</option>
             <option value="paragraph">Paragraph</option>
           </select>
         </div>
-        <div *ngIf="question.get('type')?.value === 'checkbox' || question.get('type')?.value === 'multipleChoice'" class="form-group">
+        <div *ngIf="question.get('type')?.value === 'checkboxes' || question.get('type')?.value === 'multiplechoice'" class="form-group">
             <label for="options">Options:</label>
             <div formArrayName="options">
               <div *ngFor="let option of question.get('options')?.value; let j=index">

@@ -32,4 +32,12 @@ export class ListQuizComponent implements OnInit {
       }
     );
   }
+  isQuestionnaireAnswered(questionnaire: Questionnaire): boolean {
+    if (!questionnaire.answers || questionnaire.answers.length === 0) {
+      return false;
+    }
+    const studentAnswers = questionnaire.answers.find((answer) => answer.student === this.currentUser._id);
+    return !!studentAnswers;
+  }
+
 }

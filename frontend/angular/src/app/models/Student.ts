@@ -1,5 +1,16 @@
 import { Question } from './questionnaire';
 import { Questionnaire } from './questionnaire';
+
+
+export interface QuestionAnswer {
+  question:Question['_id'];
+  answer: any;
+}
+export interface Answer {
+  questionnaire: Questionnaire;
+  answers: QuestionAnswer[];
+}
+
 export interface Student {
   _id: string;
   nom: string;
@@ -14,14 +25,4 @@ export interface Student {
   photo?: string;
   answers?: Answer[];
   publishedQuestions?: Questionnaire[];
-}
-
-export interface Answer {
-  questionnaire: Questionnaire['_id'];
-  answers: QuestionAnswer[];
-}
-
-export interface QuestionAnswer {
-  question: Question['_id'];
-  answer: string;
 }

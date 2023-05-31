@@ -1,8 +1,7 @@
 const Etudiant = require('../models/etudiant');
 const bcrypt = require('bcryptjs');
 const Questionnaire = require('../models/questionnaire');
-const Question = require('../models/questionnaire');
-const Answer = require('../models/questionnaire');
+
 
 exports.getProfile = async (req, res) => {
   try {
@@ -128,117 +127,74 @@ exports.getPublishedQuestionnaireById = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-// Submit answers for a questionnaire
-/* exports.submitAnswers = async (req, res) => {
-  const { questionnaireId } = req.params;
-  const { answers } = req.body;
-  try {
-    const etudiant = await Etudiant.findById(req.userId);
-    if (!etudiant) {
-      return res.status(404).json({ message: "L'étudiant n'existe pas" });
-    }
-    const questionnaire = await Questionnaire.findById(questionnaireId);
-    if (!questionnaire) {
-      return res.status(404).json({ error: 'Questionnaire not found' });
-    }
-    if (!questionnaire.published) {
-      return res.status(400).json({ error: 'Questionnaire is not published yet' });
-    }
-    if (!questionnaire.publishedTo.includes(etudiant._id)) {
-      return res.status(400).json({ error: 'You are not authorized to answer this questionnaire' });
-    }
-    const answersArray = [];
-    for (const { questionId, text, selectedOptions } of answers) {
-      const question = questionnaire.questions.id(questionId);
-      if (!question) {
-        return res.status(400).json({ error: `Question ${questionId} not found` });
-      }
-      let answer;
-      if (question.type === 'text' || question.type === 'paragraph') {
-        answer = text;
-      } else if (question.type === 'checkboxes') {
-        const selectedOptionIds = selectedOptions.map(option => option.id);
-        const invalidOptionIds = selectedOptionIds.filter(id => !question.options.some(option => option.id === id));
-        if (invalidOptionIds.length > 0) {
-          return res.status(400).json({ error: `Invalid option IDs: ${invalidOptionIds}` });
-        }
-        answer = selectedOptionIds;
-      } else if (question.type === 'multipleChoice') {
-        const selectedOptionId = selectedOptions[0].id;
-        if (!question.options.some(option => option.id === selectedOptionId)) {
-          return res.status(400).json({ error: `Invalid option ID: ${selectedOptionId}` });
-        }
-        answer = selectedOptionId;
-      }
-    //  answersArray.push({ question: questionId, answer });//
-      answersArray.push({ questionId: questionId, answer: text });
-    }  
-    const reponse = {
-      student: etudiant._id,
-      answers: answersArray,
-    };
-    //const savedAnswer = await Answer.create(answer);
-    //console.log(savedAnswer);
-    await questionnaire.answers.push(reponse);//
-    await questionnaire.answeredBy.push(etudiant._id);
-    await questionnaire.save();
-    await etudiant.answers.push({ questionnaireId, answers });//
-    await etudiant.save();
-    res.status(200).json({ message: 'Answers submitted successfully' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}; */
-
+ // Submit answers for a questionnaire
+ // Submit answers for a questionnaire
 exports.submitAnswers = async (req, res) => {
-  const { questionnaireId } = req.params;
-  const { answers } = req.body;
-
   try {
-    const etudiant = await Etudiant.findById(req.userId);
+    const { questionnaireId } = req.params;
+    const { answers } = req.body;
 
+    const etudiant = await Etudiant.findById(req.userId);
     if (!etudiant) {
       return res.status(404).json({ message: "L'étudiant n'existe pas" });
     }
 
     const questionnaire = await Questionnaire.findById(questionnaireId);
-
     if (!questionnaire) {
       return res.status(404).json({ message: "Le questionnaire n'existe pas" });
     }
 
     if (!etudiant.publishedQuestions.includes(questionnaire._id)) {
-      return res.status(400).json({ message: "Le questionnaire n'est pas accessible à cet étudiant" });
+      return res.status(403).json({ message: "L'étudiant n'est pas autorisé à répondre à ce questionnaire" });
     }
 
-    // Check if the questionnaire is already answered by the student
-    const existingAnswer = questionnaire.answers.find(answer => answer.student.toString() === etudiant._id.toString());
-    if (existingAnswer) {
-      return res.status(400).json({ message: "Le questionnaire a déjà été répondu par cet étudiant" });
+    const submittedAnswers = [];
+
+    for (const answer of answers) {
+      const question = questionnaire.questions.find(q => q._id.toString() === answer.questionId);
+      if (!question) {
+        continue; // Skip answers for non-existent questions
+      }
+
+      let submittedAnswer = '';
+
+      if (question.type === 'text' || question.type === 'paragraph') {
+        submittedAnswer = answer.text;
+      } else if (question.type === 'checkboxes' || question.type === 'multiplechoice') {
+        const selectedOptions = question.options.filter(option =>
+          answer.selectedOptions.includes(option._id.toString())
+        );
+        submittedAnswer = selectedOptions.map(option => option.text);
+      }
+
+      submittedAnswers.push({
+        question: question._id,
+        answer: submittedAnswer,
+      });
     }
-
-    const formattedAnswers = answers.map(answer => ({
-      question: answer.question,
-      answer: answer.answer
-    }));
-
-    questionnaire.answers.push({
-      student: etudiant._id,
-      answers: formattedAnswers
-    });
 
     etudiant.answers.push({
       questionnaire: questionnaire._id,
-      answers: formattedAnswers
+      answers: submittedAnswers,
+    });
+
+    await etudiant.save();
+
+    // Check if the student ID already exists in the answeredBy list
+    if (!questionnaire.answeredBy.includes(etudiant._id)) {
+      questionnaire.answeredBy.push(etudiant._id);
+    }
+
+    questionnaire.answers.push({
+      student: etudiant._id,
+      answers: submittedAnswers,
     });
 
     await questionnaire.save();
-    await etudiant.save();
 
-    res.status(200).json({ message: "Les réponses ont été soumises avec succès" });
+    res.status(200).json({ message: 'Answers submitted successfully' });
   } catch (error) {
+    console.error(error); // Log the error for debugging purposes
     res.status(500).json({ error: 'Internal server error' });
   }
 };

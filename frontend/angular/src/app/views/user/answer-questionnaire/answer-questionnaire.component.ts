@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Questionnaire ,Question, Option} from 'src/app/models/questionnaire';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { StudentService } from 'src/app/services/student.service';
-import { Student } from 'src/app/models/Student';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Questionnaire, Question, Option } from 'src/app/models/questionnaire';
 
 @Component({
   selector: 'app-answer-questionnaire',
@@ -11,64 +13,83 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./answer-questionnaire.component.css']
 })
 export class AnswerQuestionnaireComponent implements OnInit {
-  questionnaireId!: string;
-  questionnaire!: Questionnaire ;
-  questionnaireForm!: FormGroup;
-  isSubmitted = false;
-  errorMessage = '';
+  questionnaireForm: FormGroup;
+  questionnaire!: Questionnaire;
+  errorMessage!: string;
+  successMessage!: string;
+  options!: Option[];
 
   constructor(
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private questionnaireService: StudentService
-  ) { }
+    private studentService: StudentService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.questionnaireForm = this.formBuilder.group({});
+  }
 
   ngOnInit(): void {
-    this.questionnaireForm = new FormGroup({});
-    this.questionnaireId = this.route.snapshot.paramMap.get('id')!;
-          this.questionnaireService.getPublishedQuestionnaireById(this.questionnaireId)
-        .subscribe(
-          questionnaire => {
-            this.questionnaire = questionnaire;
-            this.createForm();
-          },
-          error => this.errorMessage = error
-        );
-      }
-
-  createForm(): void {
-    const formControls: { [key: string]: any } = {};
-    for (const question of this.questionnaire.questions) {
-      const validators = [];
-      if (question.type === 'text' || question.type === 'paragraph') {
-        validators.push(Validators.required);
-      }
-      formControls[question._id] = ['', validators];
-    }
-    this.questionnaireForm = this.formBuilder.group(formControls);
+    this.activatedRoute.params.subscribe(params => {
+      const questionnaireId = params['id'];
+      this.getQuestionnaire(questionnaireId);
+    });
   }
 
+  getQuestionnaire(questionnaireId: string): void {
+    this.studentService.getPublishedQuestionnaireById(questionnaireId).subscribe(
+      (questionnaire: Questionnaire) => {
+        this.questionnaire = questionnaire;
+        this.buildForm();
+      },
+      (error: any) => {
+        this.errorMessage = error.message;
+      }
+    );
+  }
+
+  buildForm(): void {
+    for (const question of this.questionnaire.questions) {
+      const formControl = new FormControl('');
+      this.questionnaireForm.addControl(question._id, formControl);
+    }
+  }
+ 
   onSubmit(): void {
-    this.isSubmitted = true;
-    if (this.questionnaireForm.invalid) {
-      return;
-    }
-    const answers: { questionId: string, text: string }[] = [];
-    for (const question of this.questionnaire.questions) {
-      const answer = {
-        questionId: question._id,
-        text: this.questionnaireForm.get(question._id)?.value
-      };
-      if (question.type === 'checkbox' || question.type === 'multiplechoice') {
-        answer.text = answer.text.join(';');
-      }
-      answers.push(answer);
-    }
-    this.questionnaireService.submitAnswers(this.questionnaire._id, answers)
-      .subscribe(
-        () => this.isSubmitted = false,
-        error => this.errorMessage = error
-      );
-  }
+    const answers = this.questionnaire.questions.map((question: Question) => {
+      const formControl = this.questionnaireForm.get(question._id);
+      let selectedOptions: string[] = [];
 
+      if (question.type === 'checkboxes') {
+        for (const option of question.options) {
+        // Check if the checkbox is selected
+          if (formControl?.value) {
+            selectedOptions.push(option._id);
+          }
+           
+      }
+     } else if (question.type === 'multiplechoice') {
+        const option = question.options.find((o: Option) => o.text === formControl?.value);
+        if (option) {
+          selectedOptions.push(option._id);
+        }
+      }
+  
+      return {
+        questionId: question._id,
+        text: formControl?.value,
+        selectedOptions: selectedOptions
+      };
+    });
+  
+    this.studentService.submitAnswers(this.questionnaire._id, answers).subscribe(
+      () => {
+        this.successMessage = 'Answers submitted successfully';
+        this.router.navigate(['/quiz']);
+      },
+      (error: any) => {
+        this.errorMessage = error.message;
+      }
+    );
+  }
+  
 }

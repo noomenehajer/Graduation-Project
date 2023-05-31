@@ -77,11 +77,35 @@ export class QuestionnaireService {
     const url = `${this.apiUrl}/${questionnaireId}/publish`;
     return this.http.put<Questionnaire>(url, { etudiantIds}, { headers });
   }
-
-  getAnsweredQuestionnaires(studentId: string): Observable<Questionnaire[]> {
+//list student
+  getAnsweredByStudentIDs(questionnaireId: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    const url = `${this.apiUrl}/${studentId}/answeredQuestionnaires`;
-    return this.http.get<Questionnaire[]>(url, { headers });
+    return this.http.get<any>(`${this.apiUrl}/${questionnaireId}/answeredBy`, { headers });
   }
-  
+//list questionnaire+ answers
+  getQuestionnaireByStudentID(studentId: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    return this.http.get<any>(`${this.apiUrl}/${studentId}/answers`, { headers });
+  }
+
+  getAnswers(questionnaireId: string, studentId: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    return this.http.get(`${this.apiUrl}/${questionnaireId}/students/${studentId}/answers`, { headers })
+     ;
+  }
+  getAnswersByIdQuestionnaire(questionnaireId: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    return this.http.get(`${this.apiUrl}/${questionnaireId}/answers`, { headers })
+  }
+  getAnswersByStudentId(studentId: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    const url = `${this.apiUrl}/answers/${studentId}`;
+    return this.http.get(url, { headers });
+  }
+
+  getQuestionText(questionId: string): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    const url = `${this.apiUrl}/question/${questionId}`;
+    return this.http.get<any>(url, { headers });
+  }
 }

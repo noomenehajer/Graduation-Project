@@ -5,10 +5,12 @@ const AnswerSchema = new Schema({
   student: { type: Schema.Types.ObjectId, ref: 'Etudiant' },
   answers: [{
     question: { type: Schema.Types.ObjectId, ref: 'Question' },
-    answer: String
+    answer: {
+      type: Schema.Types.Mixed, 
+      default: null,
+    },
   }]
 });
-
 const QuestionSchema = new Schema({
   text: String,
   type: String,
@@ -26,5 +28,6 @@ const QuestionnaireSchema = new Schema({
   answers: [AnswerSchema],
   answeredBy: [{ type: Schema.Types.ObjectId, ref: 'Etudiant' }]
 });
+
 
 module.exports = mongoose.model('Questionnaire', QuestionnaireSchema);

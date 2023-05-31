@@ -24,6 +24,11 @@ router.delete('/:id/questions/:questionId/options/:optionId', questionnaireContr
 // Route to publish questionnaire to selected students 
 router.put('/:questionnaireId/publish', questionnaireController.publishQuestionnaire);
 // Get answered questionnaire by student ID and questionnaire ID
-router.get("/:studentId/answeredQuestionnaires", questionnaireController.getAnsweredQuestionnaires);
+router.get('/:questionnaireId/answeredBy', questionnaireController.getAnsweredByStudentIDs);
+router.get("/:studentId/answers", questionnaireController.getAnswersByStudentID);
+router.get('/:questionnaireId/students/:studentId/answers', questionnaireController.getAnswers);
+router.get('/:questionnaireId/answers', questionnaireController.getAnswersByIdQuestionnaire);
+router.get('/answers/:studentId', questionnaireController.getAnswersbyStudentId);
+router.get('/question/:questionId', questionnaireController.getQuestionText);
 
 module.exports = router;

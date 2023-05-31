@@ -1,1 +1,29 @@
-<p>answered-questionnaire works!</p>
+<div class="container" style="margin-top: 90px!important;"><br>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header"> <h2 style="text-align: center;">Student Answers</h2></div>
+        <div class="card-body">
+          <div *ngIf="answers && answers.length > 0">
+            <div *ngFor="let answer of answers">
+              <h3  style="text-align: center;">Questionnaire Title: {{ answer.questionnaire }}</h3>
+              <hr>
+              <ul style="list-style-type: none; padding-left: 0; text-align: center;">
+                <li *ngFor="let qa of answer.answers; let i=index">
+                  <h4 style="margin-top:20px ;margin-bottom: 20px;text-align: center;">Answers of Question {{ i+1 }}:  </h4>
+                  <div class="answer-frame">
+                    <h5 style="text-align: center;">{{ qa.answer }}</h5>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div *ngIf="answers && answers.length === 0">
+            <p>No answers found for the student.</p>
+          </div>
+          
+</div>
+</div>
+</div>
+</div>

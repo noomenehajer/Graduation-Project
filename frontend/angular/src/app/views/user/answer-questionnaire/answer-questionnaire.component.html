@@ -1,4 +1,4 @@
- <div class="container" style="margin-top: 90px!important;">
+<div class="container" style="margin-top: 90px!important;">
   <br>
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -16,15 +16,15 @@
               <div *ngIf="question.type === 'text' || question.type === 'paragraph'">
                 <textarea type="text" class="form-control" formControlName="{{ question._id }}"></textarea>
               </div>
-              <div *ngIf="question.type === 'checkbox'">
+              <div *ngIf="question.type === 'checkboxes'">
                 <ul>
                   <li *ngFor="let option of question.options">
-                    <input type="checkbox" [value]="option.text" formControlName="{{ question._id }}">
+                    <input type="checkbox" [value]="option.text" [formControlName]="question._id">
                     {{ option.text }}
                   </li>
                 </ul>
               </div>
-              <div *ngIf="question.type === 'multipleChoice'">
+              <div *ngIf="question.type === 'multiplechoice'">
                 <ul>
                   <li *ngFor="let option of question.options">
                     <input type="radio" [value]="option.text" formControlName="{{ question._id }}" >                    
@@ -34,10 +34,10 @@
               </div>          
               <hr>
             </div>
-             <button type="submit" class="btn btn-primary" [disabled]="isSubmitted">Submit</button>
+             <button type="submit" class="btn btn-primary" >Submit</button>
           </form>
-          <div *ngIf="isSubmitted">Submitting...</div>
-          <div *ngIf="errorMessage">{{ errorMessage }}</div>
+          <div style="margin-top: 20px;color: red;" *ngIf="errorMessage">{{ errorMessage }}</div>
+          <div style="margin-top: 20px;color: green;" *ngIf="successMessage">{{ successMessage }}</div>
         </div>
       </div>
     </div>

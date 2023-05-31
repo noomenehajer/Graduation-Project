@@ -151,14 +151,23 @@ getPublishedQuestionnaireById(questionnaireId: string): Observable<Questionnaire
   );
   }
 
-submitAnswers(questionnaireId: string, answers: { questionId: string, text: string }[]): Observable<Questionnaire[]> {
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-  });
-  return this.http.post<Questionnaire[]>(`${this.url}/questionnaires/${questionnaireId}/submit`, { answers }, { headers }).pipe(
-    catchError((error) => {
-      return throwError(error);
-    })
-  );
-}
-}
+  submitAnswers(questionnaireId: string, answers: { questionId: string, text: string, selectedOptions: string[] }[]): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
+    const requestBody = {
+      answers: answers.map(answer => {
+        return {
+          questionId: answer.questionId,
+          text: answer.text,
+          selectedOptions: answer.selectedOptions
+        };
+      })
+    };
+    return this.http.post<any>(`${this.url}/questionnaires/${questionnaireId}/submit`, requestBody, { headers }).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+}  

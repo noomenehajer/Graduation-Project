@@ -2,11 +2,15 @@ const mongoose = require("mongoose");
 saltRounds=12;
 const { Schema } = mongoose;
 const validator = require('validator');
+
 const AnswerSchema = new Schema({
   questionnaire: { type: Schema.Types.ObjectId, ref: 'Questionnaire' },
   answers: [{
     question: { type: Schema.Types.ObjectId, ref: 'Question' },
-    answer: String
+    answer:  {
+      type: Schema.Types.Mixed, 
+      default: null,
+    },
   }]
 });
 
@@ -35,7 +39,6 @@ const etudiantSchema = new mongoose.Schema({
   estValide: { type: Boolean, default: false },
   estSuspendu: { type: Boolean, default: false },
   publishedQuestions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Questionnaire' }],
-  answers: [AnswerSchema]
-});
+  answers: [AnswerSchema]});
 
 module.exports = mongoose.model("Etudiant", etudiantSchema);
