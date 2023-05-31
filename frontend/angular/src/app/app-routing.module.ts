@@ -16,7 +16,7 @@ import { SetAvailabilityComponent } from './views/psychologue/set-availability/s
 import { AuthPsyGuard } from './views/guards/auth-psy.guard';
 import { RvConfirmeeComponent } from './views/psychologue/rv-confirmee/rv-confirmee.component';
 import { LoginRegisterGuard } from './views/guards/login-register.guard';
-import { NotFountComponent } from './views/not-fount/not-fount.component';
+import { NotFountComponent } from './views/not-found/not-found.component';
 import { VideoCallComponent } from './views/video-call/video-call.component';
 
 const routes: Routes = [

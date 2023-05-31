@@ -1,4 +1,4 @@
-<div class="main gradient-custom" style="height: 100vh;">
+<!-- <div class="main gradient-custom" style="height: 100vh;">
   <div class="main__left">
     <div class="videos__group">
       <div class="video-grid">
@@ -22,8 +22,42 @@
       </div>
     </div>
   </div>
+</div> -->
+
+
+
+<div class="video-chat-container gradient-custom">
+  <div class="video-grid">
+    <ng-container *ngFor="let video of videos">
+      <div class="video-wrapper" *ngIf="!video.declined">
+        <span *ngIf="video.userId !== currentUserId; else currentUserVideoLabel">{{ video.userId }}</span>
+        <ng-template #currentUserVideoLabel>
+          <span>You</span>
+        </ng-template>
+        <video
+          [srcObject]="video.srcObject"
+          (loadedmetadata)="onLoadedMetadata($event)"
+          [muted]="video.muted"
+          autoplay
+        ></video>
+        <div class="controls" *ngIf="video.userId === currentUserId">
+          <button class="btn btn-primary" (click)="toggleAudio(video.userId)">
+            <i *ngIf="video.muted; else unmutedIcon" class="bi bi-mic-mute-fill"></i>
+            <ng-template #unmutedIcon>
+              <i class="bi bi-mic-fill"></i>
+            </ng-template>
+          </button>
+          <button class="btn btn-primary" (click)="toggleVideo(video.userId)">
+            <i *ngIf="video.srcObject.getVideoTracks()[0].enabled; else enableVideoIcon" class="bi bi-camera-video-off-fill"></i>
+            <ng-template #enableVideoIcon>
+              <i class="bi bi-camera-video-fill"></i>
+            </ng-template>
+          </button>
+          <button class="btn btn-danger" (click)="declineCall(video.userId)">
+            <i class="bi bi-telephone-x-fill"></i>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 </div>
-
-
-
-

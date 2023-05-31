@@ -8,6 +8,7 @@ interface VideoElement {
   muted: boolean;
   srcObject: MediaStream;
   userId: string;
+  declined?: boolean;
 }
 
 @Component({
@@ -175,19 +176,16 @@ export class VideoCallComponent implements OnInit {
   }
 
   declineCall(userId: string) {
-    // Find the video element corresponding to the user
     const videoElement = this.videos.find((video) => video.userId === userId);
     if (videoElement) {
       // Stop the video track
       const videoTrack = videoElement.srcObject.getVideoTracks()[0];
       videoTrack.stop();
-
+      videoElement.declined = true;
       // Remove the video element from the videos array
       this.videos = this.videos.filter((video) => video.userId !== userId);
     }
-    // Perform any additional actions as needed
     console.log(`Call declined for user: ${userId}`);
- // Redirect to /psychologues
  this.router.navigate(['/']);
 }
 
