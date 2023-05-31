@@ -57,7 +57,7 @@ import { SocketIoModule } from 'ngx-socket-io';
   imports: [
 
     SocketIoModule.forRoot({
-      url:'/'
+      url:'http://localhost:3001'
     }),
     MatDialogModule,
     MatNativeDateModule,

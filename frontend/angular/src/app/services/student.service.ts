@@ -70,7 +70,7 @@ export class StudentService {
   }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//****** student profile *******// 
+//****** student profile *******//
 getProfile(): Observable<any> {
   const headers = new HttpHeaders({
     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -134,11 +134,11 @@ uploadImage(photo: File): Observable<any> {
     Authorization: `Bearer ${localStorage.getItem('token')}`
   });
   return this.http.get<Questionnaire[]>(`${this.url}/questionnaires`, { headers }).pipe (catchError((error) => {
-    console.error(error); 
+    console.error(error);
     return throwError(error);
   })
 );
-} 
+}
 
 getPublishedQuestionnaireById(questionnaireId: string): Observable<Questionnaire> {
   const headers = new HttpHeaders({

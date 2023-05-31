@@ -1,38 +1,32 @@
-
 <section id="team" class="team section-bg" style="height: 100vh !important;background-color:  #e1dede;margin-top: 50px;">
-  <div class="container" data-aos="fade-up" >
+  <div class="container" data-aos="fade-up">
 
+      <form (ngSubmit)="submitSearch()"  >
+      <div  class="search-box"  >
+          <input type="text" [(ngModel)]="searchText" name="searchText" class="search-txt" placeholder="Search" />
+          <button type="submit" class="search-btn btn-dark">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
     <div class="section-title">
       <h2>Psychologists</h2>
       <p>Meet our dedicated roster of experienced psychologists who are here to provide personalized guidance and support through our user-friendly app.</p>
     </div>
 
-    <div class="row" >
-
-      <a class="col-lg-6" data-aos="zoom-in" data-aos-delay="100" *ngFor="let psy of Psychologues" style="margin-top: 8px;text-decoration: none;"  [routerLink]="['psy/detail', psy._id]">
+    <div class="row" style="">
+      <a class="col-lg-6" data-aos="zoom-in" data-aos-delay="100" *ngFor="let psy of filteredPsychologues" style="margin-top: 70px;text-decoration: none;" [routerLink]="['psy/detail', psy._id]">
         <div class="member d-flex align-items-start" style="background-color: #eee;color: rgba(0, 0, 0, 0.751);">
           <div class="pic"><img style="width: 160px;height:160px;border-radius: 100%;" [src]="psy.photo ? 'http://localhost:3000/uploads/' + psy.photo : '../../../../../assets/user/img/profile.jpg'" class="img-fluid" alt=""></div>
-
           <div class="member-info">
             <h4 style="color: black !important;">{{psy.nom}} {{psy.prenom}}</h4>
-            <!-- <span></span> -->
             <p>{{psy.description}}</p>
             <p>{{psy.adresse}}</p>
             <p>{{psy.telephone}}</p>
-            <!-- <div class="social">
-              <a href=""><i class="ri-twitter-fill"></i></a>
-              <a href=""><i class="ri-facebook-fill"></i></a>
-              <a href=""><i class="ri-instagram-fill"></i></a>
-              <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-            </div> -->
           </div>
         </div>
       </a>
-
-
-
     </div>
-
   </div>
 </section>
 
