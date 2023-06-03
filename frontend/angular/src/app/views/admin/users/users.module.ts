@@ -10,7 +10,6 @@ import { EditStudentComponent } from './edit-student/edit-student.component';
 import { NonValidStudentComponent } from './non-valid-student/non-valid-student.component';
 import { MatCommonModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +18,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatExpansionModule} from '@angular/material/expansion'
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 import { NotificationComponent } from '../../../layouts/notification/notification.component';
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NotificationComponent } from '../../../layouts/notification/notificatio
     UsersRoutingModule,
     FormsModule,
     RouterModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
     MatCommonModule,
     MatTabsModule,

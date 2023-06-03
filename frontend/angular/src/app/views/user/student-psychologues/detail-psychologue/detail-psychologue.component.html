@@ -3,7 +3,7 @@
           <div class="firstinfo">   <img [src]="psy?.photo ? 'http://localhost:3000/uploads/' + psy.photo : '../../../../../assets/user/img/profile.jpg'" class="img-fluid" alt="">
             <div class="profileinfo">
                 <h1>{{psy?.nom}}  {{psy?.prenom}}</h1>
-                <p class="bio">{{psy?.description}}Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui tenetur saepe reprehenderit, iste aspernatur, facilis modi aliquid illo omnis, quasi perferendis ex quo dolor exercitationem? Ex repellendus magnam expedita enim?
+                <p class="bio">{{psy?.description}}
                 </p>
                 <section class="call-buton" style="margin-left: 40px;margin-top: 4px;"><a class="cc-calto-action-ripple" ><i class="fa fa-phone"></i><h3>{{psy?.telephone}}</h3></a>
                 </section>
@@ -42,8 +42,8 @@
                     {{ seance.debut | date : "HH:mm" }} to
                     {{ seance.fin | date : "HH:mm" }}
                     <div class="disponibilite-btn-overlay" >
-                        <button class="btn btn-success" (click)="openDialog(disponibilite._id)">Request a consultation</button>
-                        <button class="btn btn-danger"
+                        <button class="btn btn-success" *ngIf="!demandeEnCours" (click)="openDialog(disponibilite._id)">Request a consultation</button>
+                        <button class="btn btn-danger" *ngIf="demandeEnCours"
                         (click)="annulerRv(disponibilite._id)"
                         >Cancel a consultation</button>
                     </div>

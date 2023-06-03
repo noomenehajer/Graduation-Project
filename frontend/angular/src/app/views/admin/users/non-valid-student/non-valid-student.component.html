@@ -1,38 +1,29 @@
+<div style="overflow: hidden;">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Last name</th>
+        <th>First name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of pagedStudents">
+        <td>{{ student._id }}</td>
+        <td>{{ student.nom }}</td>
+        <td>{{ student.prenom }}</td>
+        <td>{{ student.email }}</td>
+        <td style="justify-content: center ;display: flex;">
+          <button class="btn btn-primary" (click)="validateStudent(student)">
+            Validate
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <div style="overflow: hidden;">
-      <!-- <div class="col-md-12" > -->
-        <!-- <div class="mat-elevation-z8"> -->
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Last name</th>
-                <th>First name</th>
-                <th>Email</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let student of students">
-                <td>{{ student._id }}</td>
-                <td>{{ student.nom }}</td>
-                <td>{{ student.prenom }}</td>
-                <td>{{ student.email }}</td>
-                <td style="justify-content: center ;display: flex;">
-                  <button
-                    class="btn btn-primary"
-                    (click)="validateStudent(student)"
-                  >
-                    Validate
-                  </button>
-                  <!-- <button class="btn btn-danger" (click)="deleteStudent(student)">Supprimer</button> -->
-                </td>
-              </tr>
-              <tr>
-
-              </tr>
-            </tbody>
-          </table>
-        <!-- </div> -->
-      <!-- </div> -->
-    </div>
+  <mat-paginator [length]="students.length" [pageSize]="currentPageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)" [showFirstLastButtons]="true"></mat-paginator>
+</div>

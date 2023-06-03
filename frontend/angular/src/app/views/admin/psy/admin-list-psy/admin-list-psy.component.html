@@ -1,15 +1,12 @@
-<div  style="margin-top: -50px;">
-  <mat-toolbar color="primary" >
+<div style="margin-top: -50px;">
+  <mat-toolbar color="primary">
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <!-- <mat-icon>menu</mat-icon> -->
     </button>
     <span style="text-align: center;">List of Psychologists</span>
     <span class="example-spacer"></span>
-    <button
-      [routerLink]="['/admin/psy/add']"
-      class="btn btn-primary  example-icon ml-auto"
-      style="background-color: #ffffffdd; color:blueviolet;font-weight: 700px;"
-    >
+    <button [routerLink]="['/admin/psy/add']" class="btn btn-primary  example-icon ml-auto"
+      style="background-color: #ffffffdd; color:blueviolet;font-weight: 700px;">
       Add
     </button>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
@@ -17,62 +14,46 @@
     </button>
   </mat-toolbar>
 
-
-  <!-- <h2>Liste des étudiants</h2> -->
-  <mat-tab-group animationDuration="200ms" class="mat-tab-group" >
-    <mat-tab class="mat-tab-label-active" label="Valid" >
+  <mat-tab-group animationDuration="200ms" class="mat-tab-group">
+    <mat-tab class="mat-tab-label-active" label="Valid">
       <div style="overflow: hidden;">
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Last name</th>
-            <th>First name</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let psy of Psychologues">
-            <td>{{ psy._id }}</td>
-            <td>{{ psy.nom }}</td>
-            <td>{{ psy.prenom }}</td>
-            <td>{{ psy.email }}</td>
-            <td style="justify-content: center ;display: flex;">
-              <!-- <a [routerLink]="['/admin/psy/detail-psy', psy._id]" class="btn btn-primary mr-1">Détails</a> -->
-              <!-- <a [routerLink]="['/admin/psy/edit', psy._id]" class="btn btn-secondary">Modifier</a> -->
-              <!-- <a   (click)="onDeletePsy(psy._id)" class="btn btn-secondary">Supprimer</a> -->
-
-              <div
-                    class="btn-group"
-                    role="group"
-                    aria-label="Basic example"
-                    
-                  >
-                    <button
-                    [routerLink]="['/admin/psy/detail-psy', psy._id]"
-                      type="button"
-                      class="btn btn-outline-secondary"
-                    >
-                      <i class="bi bi-chat-right-quote-fill"></i>
-                    </button>
-                    <a
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      (click)="onDeletePsy(psy._id)"
-                    >
-                      <i class="bi bi-trash-fill"></i>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Last name</th>
+              <th>First name</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let psy of pagedPsychologues">
+              <td>{{ psy._id }}</td>
+              <td>{{ psy.nom }}</td>
+              <td>{{ psy.prenom }}</td>
+              <td>{{ psy.email }}</td>
+              <td style="justify-content: center; display: flex;">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button [routerLink]="['/admin/psy/detail-psy', psy._id]" type="button"
+                    class="btn btn-outline-secondary">
+                    <i class="bi bi-chat-right-quote-fill"></i>
+                  </button>
+                  <a type="button" class="btn btn-outline-secondary" (click)="onDeletePsy(psy._id)">
+                    <i class="bi bi-trash-fill"></i>
                   </a>
-                   </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- </div> -->
-  </mat-tab>
-  <mat-tab label="Invalid">
-    <app-psy-non-valide></app-psy-non-valide>
-  </mat-tab>
-</mat-tab-group>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <mat-paginator [length]="Psychologues.length" [pageSize]="currentPageSize" [pageSizeOptions]="pageSizeOptions"
+          (page)="onPageChange($event)" [showFirstLastButtons]="true"></mat-paginator>
+      </div>
+    </mat-tab>
+    <mat-tab label="Invalid">
+      <app-psy-non-valide></app-psy-non-valide>
+    </mat-tab>
+  </mat-tab-group>
 </div>

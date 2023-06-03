@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Article } from 'src/app/models/Article';
 import { ArticleService } from 'src/app/services/article.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-article-list',
@@ -11,7 +12,10 @@ import { ArticleService } from 'src/app/services/article.service';
 export class ArticleListComponent implements OnInit{
   Articles: Article[]=[];
   editMode: boolean = false;
-
+  pageSizeOptions: number[] = [5, 10, 20];
+  pagedArticle: Article[] = [];
+  currentPageSize: number = this.pageSizeOptions[0];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private articleService: ArticleService) { }
 
   ngOnInit(): void {
@@ -23,6 +27,23 @@ export class ArticleListComponent implements OnInit{
 
 
 }
+ngAfterViewInit(): void {
+  this.paginator.page.subscribe(() => {
+    this.updatePagedArticle();
+  });
+}
+
+updatePagedArticle(): void {
+  const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+  const endIndex = startIndex + this.paginator.pageSize;
+  this.pagedArticle = this.Articles.slice(startIndex, endIndex);
+}
+
+onPageChange(event: PageEvent): void {
+  this.currentPageSize = event.pageSize;
+  this.updatePagedArticle();
+}
+
 shortenText(text: string, maxChars: number): string {
   if (text.length <= maxChars) {
     return text;
@@ -36,6 +57,7 @@ getAllArticles(): void {
     .subscribe(
       (Articles: Article[])=>{
         this.Articles=Articles;
+        this.updatePagedArticle();
       },
       (error) => {
         console.log(error);

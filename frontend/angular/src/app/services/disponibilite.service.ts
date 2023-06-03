@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Disponibilite } from '../models/disponibilite';
 import { Rendezvous } from '../models/rendezvous';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,7 @@ export class DisponibiliteService {
   constructor(private http: HttpClient) { }
   private apiUrl = 'http://localhost:3000/psy';
 
-
+  
   definirDisponibilite(psyId: string, jour: Date, debut: Date, fin: Date): Observable<Disponibilite> {
     const httpOptions = {
       headers: new HttpHeaders({

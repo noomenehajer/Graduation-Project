@@ -7,11 +7,11 @@ const notificationSchema = new mongoose.Schema({
   },
   receiverId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Admin' // référence vers le modèle Admin
+    ref: 'Admin' 
   },
   senderId: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Etudiant' // référence vers le modèle Etudiant
+    ref: 'Etudiant' 
   },
   message: { 
     type: String, 

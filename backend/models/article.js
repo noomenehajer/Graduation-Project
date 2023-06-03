@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Etudiant =require('../models/etudiant');
 const articleSchema = new mongoose.Schema({
   title: {
     type: String,

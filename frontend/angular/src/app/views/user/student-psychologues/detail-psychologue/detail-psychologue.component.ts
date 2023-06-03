@@ -20,7 +20,7 @@ export class DetailPsychologueComponent implements OnInit {
     this.ListRvComponent = component;
   }
   ListRvComponent!: ListRvComponent;
-
+  demandeEnCours = false;
   etudiantId!: string;
   rendezVous:any;
   psy!: Psychologue;
@@ -90,7 +90,7 @@ export class DetailPsychologueComponent implements OnInit {
         this.reservationDisponibiliteId = disponibiliteId; // Assign the clicked disponibiliteId to reservationDisponibiliteId
         this.disponibiliteService.annulerRendezVous(etudiantId, this.reservationDisponibiliteId).subscribe(
           () => {
-            // this.isReservationMade;
+            this.demandeEnCours = false;
             this.buttonLabel = 'Demandez un Rendez vous';
             console.log('Rendez-vous annulé avec succès');
           },

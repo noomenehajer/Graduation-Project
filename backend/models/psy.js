@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const ObjectId = mongoose.Types.ObjectId;
 const psychologueSchema = new mongoose.Schema({
  
   nom: { type: String, required: true },

@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class DemandezRvComponent {
   etudiantId: string | null = localStorage.getItem('userId');
-
+  demandeEnCours = false;
   type!: string;
   commentaire!: string;
 
@@ -42,7 +42,8 @@ export class DemandezRvComponent {
             confirmButtonText: 'OK'
           }).then((result) => {
             if (result.isConfirmed) {
-              this.router.navigate(['/psychologues/psy/detail/:id']);
+              this.demandeEnCours = true;
+              this.router.navigate(['/psychologues']);
             }
           });
         },

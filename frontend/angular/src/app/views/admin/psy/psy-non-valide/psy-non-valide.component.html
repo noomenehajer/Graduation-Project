@@ -1,37 +1,30 @@
+<div style="overflow: hidden;">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Last name</th>
+        <th>First name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let psy of pagedPsychologues">
+        <td>{{ psy._id }}</td>
+        <td>{{ psy.nom }}</td>
+        <td>{{ psy.prenom }}</td>
+        <td>{{ psy.email }}</td>
+        <td style="justify-content: center; display: flex;">
+          <button class="btn btn-primary" (click)="validatePsy(psy)">
+            Valider
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<div  style="overflow: hidden;">
-
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Last name</th>
-            <th>First name</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let psy of psychologues">
-            <td>{{ psy._id }}</td>
-            <td>{{ psy.nom }}</td>
-            <td>{{ psy.prenom }}</td>
-            <td>{{ psy.email }}</td>
-
-            <td style="justify-content: center ;display: flex;">
-              <button
-                class="btn btn-primary"
-                (click)="validatePsy(psy)"
-              >
-                Valider
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-
-          </tr>
-        </tbody>
-      </table>
-
+  <mat-paginator [length]="psychologues.length" [pageSize]="currentPageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)" [showFirstLastButtons]="true"></mat-paginator>
 </div>
+

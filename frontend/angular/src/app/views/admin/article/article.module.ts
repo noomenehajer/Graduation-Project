@@ -7,6 +7,7 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { EditArticleComponent } from './edit-article/edit-article.component';
 import { AddArticleComponent } from './add-article/add-article.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 // import { AddArticleComponent } from './add-article/add-article.component';
 // import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
@@ -23,6 +24,7 @@ import { AddArticleComponent } from './add-article/add-article.component';
   ],
   imports: [
     CommonModule,
+    MatPaginatorModule,
     ArticleRoutingModule,
     FormsModule,
     RouterModule,
