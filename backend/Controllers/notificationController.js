@@ -10,7 +10,6 @@ exports.getNotifications = async (req, res) => {
   }
 };
 
-
   exports.authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {

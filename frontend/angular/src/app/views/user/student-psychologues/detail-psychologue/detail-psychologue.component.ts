@@ -82,24 +82,50 @@ export class DetailPsychologueComponent implements OnInit {
     this.ListRvComponent.getRendezvousForSelectedDate(selectedDate);
   }
 
+  annulerRv(disponibiliteId: string): void {
+    const etudiantId = localStorage.getItem('userId');
+    console.log(etudiantId + ' ' + disponibiliteId);
+    if (disponibiliteId && etudiantId !== null) {
+      this.reservationDisponibiliteId = disponibiliteId; // Assign the clicked disponibiliteId to reservationDisponibiliteId
 
-    annulerRv(disponibiliteId: string): void {
-      const etudiantId = localStorage.getItem('userId');
-      console.log(etudiantId + ' ' + disponibiliteId);
-      if (disponibiliteId && etudiantId !== null) {
-        this.reservationDisponibiliteId = disponibiliteId; // Assign the clicked disponibiliteId to reservationDisponibiliteId
-        this.disponibiliteService.annulerRendezVous(etudiantId, this.reservationDisponibiliteId).subscribe(
-          () => {
-            this.demandeEnCours = false;
-            this.buttonLabel = 'Demandez un Rendez vous';
-            console.log('Rendez-vous annulé avec succès');
-          },
-          (error) => {
-            console.error('Erreur lors de l\'annulation du rendez-vous:', error);
-          }
-        );
-      }
+      // Display SweetAlert confirmation dialog
+      Swal.fire({
+        title: 'Confirmation',
+        text: 'Are you sure you want to cancel this appointment?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+      }).then(result => {
+        if (result.isConfirmed) {
+          // User clicked "Yes" in the confirmation dialog
+          this.disponibiliteService.annulerRendezVous(etudiantId, disponibiliteId).subscribe(
+            () => {
+              this.demandeEnCours = true; // Set demandeEnCours to true
+              this.buttonLabel = 'Demandez un Rendez vous';
+              console.log('Rendez-vous annulé avec succès');
+
+              // Show success alert
+              Swal.fire({
+                title: 'Success',
+                text: 'Appointment canceled successfully',
+                icon: 'success'
+              });
+            },
+            error => {
+              console.error('Erreur lors de l\'annulation du rendez-vous:', error);
+              // Show error alert
+              Swal.fire({
+                title: 'Error',
+                text: "There's no demand yet",
+                icon: 'error'
+              });
+            }
+          );
+        }
+      });
     }
+  }
   getDisponibilite(psyId: string): void {
 
     this.disponibiliteService.getDisponibiliteByPsyId(psyId).subscribe(
@@ -153,4 +179,3 @@ export class DetailPsychologueComponent implements OnInit {
   }
 
 }
-

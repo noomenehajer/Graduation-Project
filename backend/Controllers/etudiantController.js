@@ -102,8 +102,12 @@ exports.getPublishedQuestionnaires = async (req, res) => {
       return res.status(404).json({ message: "L'étudiant n'existe pas" });
     }
 
-    const questionnaires = etudiant.publishedQuestions.filter(q => q.published);
-    res.status(200).json(questionnaires);
+    const unansweredQuestionnaires = etudiant.publishedQuestions.filter((q) => {
+      // Check if the questionnaire is published and not answered by the current student
+      return q.published && !q.answeredBy.includes(etudiant._id);
+    });
+
+    res.status(200).json(unansweredQuestionnaires);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -127,7 +131,7 @@ exports.getPublishedQuestionnaireById = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
- // Submit answers for a questionnaire
+
  // Submit answers for a questionnaire
 exports.submitAnswers = async (req, res) => {
   try {
@@ -195,6 +199,46 @@ exports.submitAnswers = async (req, res) => {
     res.status(200).json({ message: 'Answers submitted successfully' });
   } catch (error) {
     console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+//get answered questionnaire
+exports.getAnsweredQuestionnaires = async (req, res) => {
+  try {
+    const etudiant = await Etudiant.findById(req.userId).populate('publishedQuestions');
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+
+    const answeredQuestionnaires = etudiant.publishedQuestions.filter((q) => {
+      // Check if the questionnaire is published and answered by the current student
+      return q.published && q.answeredBy.includes(etudiant._id);
+    });
+
+    res.status(200).json(answeredQuestionnaires);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+//get answered questionnaire by id 
+exports.getAnsweredQuestionsById = async (req, res) => {
+  try {
+    const etudiant = await Etudiant.findById(req.userId).populate('publishedQuestions');
+    if (!etudiant) {
+      return res.status(404).json({ message: "L'étudiant n'existe pas" });
+    }
+
+    const answeredQuestionnaires = etudiant.publishedQuestions.filter((q) => {
+      // Check if the questionnaire is published and answered by the current student
+      return q.published && q.answeredBy.includes(etudiant._id);
+    });
+
+    res.status(200).json(answeredQuestionnaires);
+  } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };

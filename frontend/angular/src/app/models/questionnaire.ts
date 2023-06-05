@@ -2,7 +2,7 @@ import { Student } from './Student';
 export interface Answer {
   student: Student['_id'];
   answers: {
-    question: Question['_id'];
+    question: Question;
     answer:  any;
   }[];
 }

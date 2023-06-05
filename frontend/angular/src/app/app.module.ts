@@ -52,7 +52,6 @@ import { SocketIoModule } from 'ngx-socket-io';
     VideoCallComponent,
     NotFountComponent,
 
-
   ],
   imports: [
 

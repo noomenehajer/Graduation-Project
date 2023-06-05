@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthStGuard } from '../../guards/auth-st.guard';
 
 const routes: Routes = [
-  { path: '', component:ListQuizComponent , canActivate: [AuthStGuard] }
+  { path: '', component:ListQuizComponent , canActivate: [AuthStGuard] },
 ];
 
 @NgModule({

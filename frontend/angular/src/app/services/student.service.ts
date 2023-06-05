@@ -170,4 +170,19 @@ getPublishedQuestionnaireById(questionnaireId: string): Observable<Questionnaire
       })
     );
   }
+
+  getAnsweredQuestionnaires(): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.get<any>(`${this.url}/answered`, { headers });
+  }
+
+  getAnsweredQuestionsById(id: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.get<any>(`${this.url}/answered/${id}`, { headers });
+  }
+
 }  

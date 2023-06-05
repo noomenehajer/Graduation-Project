@@ -24,4 +24,7 @@ router.post('/profile/anonyme',authController.isAuthenticated,protect,etudiantCo
 router.get('/questionnaires', authController.isAuthenticated, protect, etudiantController.getPublishedQuestionnaires);
 router.get('/questionnaires/:id', authController.isAuthenticated, protect, etudiantController.getPublishedQuestionnaireById);
 router.post('/questionnaires/:questionnaireId/submit', authController.isAuthenticated, protect, etudiantController.submitAnswers);
+//get answered questionnaires
+router.get('/answered', authController.isAuthenticated, protect,etudiantController.getAnsweredQuestionnaires )
+router.get('/answered/:id', authController.isAuthenticated, protect,etudiantController.getAnsweredQuestionsById )
 module.exports = router;

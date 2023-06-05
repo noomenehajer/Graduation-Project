@@ -42,8 +42,8 @@
                     {{ seance.debut | date : "HH:mm" }} to
                     {{ seance.fin | date : "HH:mm" }}
                     <div class="disponibilite-btn-overlay" >
-                        <button class="btn btn-success" *ngIf="!demandeEnCours" (click)="openDialog(disponibilite._id)">Request a consultation</button>
-                        <button class="btn btn-danger" *ngIf="demandeEnCours"
+                        <button class="btn btn-success"  (click)="openDialog(disponibilite._id)">Request a consultation</button>
+                        <button class="btn btn-danger" 
                         (click)="annulerRv(disponibilite._id)"
                         >Cancel a consultation</button>
                     </div>

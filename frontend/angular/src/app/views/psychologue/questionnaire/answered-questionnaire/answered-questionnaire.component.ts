@@ -35,7 +35,7 @@ export class AnsweredQuestionnaireComponent implements OnInit {
               questionnaire: answer.questionnaire.title,
               answers: answer.answers.map((qa: QuestionAnswer) => {
                 return {
-                  question: this.getQuestionText(qa.question),
+                  question: qa.question,
                   answer: qa.answer
                 };
               })
@@ -48,7 +48,5 @@ export class AnsweredQuestionnaireComponent implements OnInit {
       );
   }
 
-  getQuestionText(questionId: string): Observable<Question> {
-    return this.questionnaireService.getQuestionText(questionId);
-  }
+ 
 }

@@ -2,7 +2,7 @@ import { StudentService } from 'src/app/services/student.service';
 import { Component, OnInit } from '@angular/core';
 import { Questionnaire } from 'src/app/models/questionnaire';
 import { AuthService } from 'src/app/services/auth.service';
-import { Student } from 'src/app/models/Student';
+import { Student,Answer,QuestionAnswer } from 'src/app/models/Student';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ListQuizComponent implements OnInit {
   currentUser!: Student;
   questionnaires!: Questionnaire[];
+  answeredQuestionnaires!: Questionnaire[];
+  selectedQuestionnaire: Questionnaire | null = null;
 
   constructor(
     private authService: AuthService,
@@ -31,7 +33,17 @@ export class ListQuizComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.studentService.getAnsweredQuestionnaires().subscribe(
+      (answeredQuestionnaires: Questionnaire[]) => {
+        this.answeredQuestionnaires = answeredQuestionnaires;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
+
   isQuestionnaireAnswered(questionnaire: Questionnaire): boolean {
     if (!questionnaire.answers || questionnaire.answers.length === 0) {
       return false;
@@ -40,4 +52,14 @@ export class ListQuizComponent implements OnInit {
     return !!studentAnswers;
   }
 
+  showAnswers(questionnaire: Questionnaire) {
+    this.selectedQuestionnaire = questionnaire;
+  }
+  getAnswerText(answer: any, questionId: string): string {
+    const questionAnswer = answer.answers.find((qa: any) => qa.question === questionId);
+    if (questionAnswer) {
+      return questionAnswer.answer;
+    }
+    return '';
+  }
 }
