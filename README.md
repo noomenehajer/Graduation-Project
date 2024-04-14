@@ -1,10 +1,8 @@
-"Student Mindspace" is an Online Psychological Support Platform tailored for students of ISET Bizerte.
+**Student Mindspace** 
+**Description:** A web development project aimed at providing psychological support for students of ISET Bizerte.
+**Technology Stack:** Utilizes the MEAN stack (MongoDB, Express.js, Angular, and Node.js) for development.
 
-Description: A web development project aimed at providing psychological support for students of ISET Bizerte.
-
-Technology Stack: Utilizes the MEAN stack (MongoDB, Express.js, Angular, and Node.js) for development.
-
-Key Features:
+**Key Features:**
 •User management
 •Online consultation management
 •Online appointment scheduling
