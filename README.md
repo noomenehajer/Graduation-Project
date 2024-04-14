@@ -1,4 +1,4 @@
-"Student Mindspace" is an Online Psychological Support Platform tailored for students of ISET Bizerte. 
+**"Student Mindspace" is an Online Psychological Support Platform tailored for students of ISET Bizerte. **
 
 Description: A web development project aimed at providing psychological support for students of ISET Bizerte.
 
